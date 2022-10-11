@@ -11,8 +11,6 @@ type LoaderData = {
 export async function loader({ params }: LoaderArgs) {
   const data = await getPokemon(params.id);
 
-  console.log("🚀 ~ file: $id.tsx ~ line 13 ~ loader ~ data", data);
-
   if (!data) {
     throw new Response("Not Found", { status: 404 });
   }
