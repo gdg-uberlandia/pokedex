@@ -5,6 +5,7 @@ node_modules
 /.netlify
 .env
 .cache
+ui-debug.log
 
 /cypress/screenshots
 /cypress/videos
