@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import { getUser } from "~/models/user.server";
 import { Button, Card, Image, Logo, Tags } from '~/components'
-import pokeball from '~/assets/images/pokeball.png'
+import pokeball from '~/assets/images/pokeball.svg'
 import clock from '~/assets/images/clock.svg'
 
 type LoaderData = {
