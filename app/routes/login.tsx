@@ -6,6 +6,7 @@ import {
   commitSession,
   createUserSession,
 } from "~/sessions";
+import { Button } from "~/components";
 
 export async function loader({ request }: any) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -57,9 +58,9 @@ export default function Index() {
   return (
     <main className="flex min-h-screen items-center justify-center">
       <Form onSubmit={signIn}>
-        <button className="rounded bg-cyan-900 p-1 text-white" type="submit">
-          Login with Github
-        </button>
+        <Button type="submit">
+          Entrar com Github
+        </Button>
       </Form>
     </main>
   );
