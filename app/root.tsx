@@ -15,6 +15,11 @@ export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: tailwindStylesheetUrl },
     { rel: "stylesheet", href: globalStylesheetUrl },
+    {
+      rel: "icon",
+      href: "/favicon.svg",
+      type: "image/svg+xml"
+    },
   ];
 };
 
