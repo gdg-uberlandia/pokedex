@@ -1,0 +1,13 @@
+@font-face {
+  font-family: "PressStart";
+  src: url("/fonts/press-start-2p.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "CodersCrux";
+  src: url("/fonts/coders-crux.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}

@@ -1,8 +1,16 @@
 /** @type {import('tailwindcss').Config} */
+
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   content: ["./app/**/*.{ts,tsx,jsx,js}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        press: ["PressStart", ...defaultTheme.fontFamily.mono],
+        crux: ["CodersCrux", ...defaultTheme.fontFamily.mono],
+      },
+    },
   },
   plugins: [],
 };
