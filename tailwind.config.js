@@ -10,6 +10,9 @@ module.exports = {
         press: ["PressStart", ...defaultTheme.fontFamily.mono],
         crux: ["CodersCrux", ...defaultTheme.fontFamily.mono],
       },
+      backgroundImage: {
+        "game-pattern": "url('/images/background.svg')"
+      },
     },
   },
   plugins: [],

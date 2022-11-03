@@ -25,7 +25,7 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Remix Notes",
+  title: "Pokédex",
   viewport: "width=device-width,initial-scale=1",
 });
 
@@ -37,6 +37,7 @@ export default function App() {
         <Links />
       </head>
       <body className="h-full">
+        <span className="fixed inset-0 z-[-1] bg-blue-800 bg-game-pattern mix-blend-multiply"></span>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
