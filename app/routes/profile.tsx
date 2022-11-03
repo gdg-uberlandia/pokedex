@@ -1,8 +1,10 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
-
 import { getUser } from "~/models/user.server";
+import { Button, Card, Image, Logo, Tags } from '~/components'
+import pokeball from '~/assets/images/pokeball.png'
+import clock from '~/assets/images/clock.svg'
 
 type LoaderData = {
   data: Awaited<ReturnType<typeof getUser>>;
@@ -26,23 +28,49 @@ export default function Profile() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center">
-      <div className="mx-auto flex max-w-7xl flex-col items-center sm:px-6 lg:px-8">
-        <img
-          className="mb-2 w-28 rounded-full"
-          src={data.picture}
-          alt={data.name}
-        />
-        <h1 className="mb-2 text-center text-lg font-extrabold uppercase tracking-tight text-cyan-700 drop-shadow-md">
+    <main className="relative m-auto min-h-screen max-w-[320px] pt-7">
+      <Logo />
+
+      <Card title="Seu perfil" className="mb-4">
+        <figure className="mb-2 flex justify-center">
+          <img
+            className="w-[90px] rounded-full"
+            src={data.picture}
+            alt={data.name}
+          />
+        </figure>
+        <h1 className="font-press text-center text-xs font-normal text-black">
           {data.name}
         </h1>
+        <Tags className="mb-4" tags={['#flutter', '#leadership']} />
 
-        <Form method="post" action="/logout">
-          <button className="rounded bg-cyan-700 p-1 text-white" type="submit">
-            Logout
-          </button>
-        </Form>
-      </div>
+        <Button className="mb-4" full>
+          Ver selos
+        </Button>
+        <Button full>Ver missões</Button>
+      </Card>
+
+      <Button
+        className="mb-4"
+        img={<Image src={pokeball} alt="Ver Pokédex" />}
+        primary
+        full
+        >
+        Ver Pokédex
+      </Button>
+      <Button
+        img={<Image src={clock} alt="Agenda do evento" />}
+        primary
+        full
+      >
+        Agenda do evento
+      </Button>
+
+      <Form method="post" action="/logout" className="absolute inset-x-0 bottom-4">
+        <Button className="rounded bg-cyan-700 p-1 text-white" type="submit" full>
+          Sair
+        </Button>
+      </Form>
     </main>
   );
 }
