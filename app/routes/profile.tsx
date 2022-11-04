@@ -13,10 +13,6 @@ type LoaderData = {
 export async function loader({ request }: LoaderArgs) {
   const data = await getUser(request);
 
-  if (!data) {
-    throw new Response("Not Found", { status: 404 });
-  }
-
   return json<LoaderData>({ data });
 }
 

@@ -1,13 +1,13 @@
 import { redirect, createCookieSessionStorage } from "@remix-run/node";
 import { getSessionToken } from "~/models/auth.server";
 
-export let rootStorage = createCookieSessionStorage({
+export let storage = createCookieSessionStorage({
   cookie: {
-    name: "__session"
+    name: "__session",
   },
 });
 
-const { getSession, commitSession, destroySession } = rootStorage;
+export const { getSession, commitSession, destroySession } = storage;
 
 export async function createUserSession(_: Request, idToken: string) {
   const token = await getSessionToken(idToken);
@@ -22,8 +22,12 @@ export async function createUserSession(_: Request, idToken: string) {
   });
 }
 
-export {
-  getSession,
-  commitSession,
-  destroySession
+export async function getUserSession(request: Request) {
+  const session = await getSession(request.headers.get("Cookie"));
+
+  if (!session.has("token")) {
+    throw redirect(process.env.LOGIN_URL || '/login');
+  }
+
+  return session;
 }

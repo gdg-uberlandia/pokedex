@@ -2,10 +2,11 @@ import {json, redirect } from "@remix-run/node";
 import { Form, useSubmit } from "@remix-run/react";
 import { signInWithGitHub, getIdToken } from "~/models/auth.client";
 import {
-  getSession,
   commitSession,
   createUserSession,
-} from "~/sessions";
+  destroySession,
+  getSession
+} from "~/models/session.server";
 import { Button } from "~/components";
 
 export async function loader({ request }: any) {
@@ -15,11 +16,10 @@ export async function loader({ request }: any) {
     return redirect(process.env.PROFILE_URL || '/profile');
   }
 
-  const data = { error: session.get("error") };
-
-  return json(data, {
+  return json(
+    { error: session.get("error") }, {
     headers: {
-      "Set-Cookie": await commitSession(session),
+      "Set-Cookie": await destroySession(session),
     },
   });
 }
