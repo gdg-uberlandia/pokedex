@@ -19,7 +19,7 @@ export async function getUser(request: Request) {
 export async function logout(request: Request) {
   const session = await getUserSession(request);
 
-  throw redirect(process.env.LOGIN_URL || "/login", {
+  throw redirect(process.env.LOGIN_URL, {
     headers: {
       "Set-Cookie": await destroySession(session),
     },

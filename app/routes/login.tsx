@@ -13,7 +13,7 @@ export async function loader({ request }: any) {
   const session = await getSession(request.headers.get("Cookie"));
 
   if (session.has("token")) {
-    return redirect(process.env.PROFILE_URL || '/profile');
+    return redirect(process.env.PROFILE_URL);
   }
 
   return json(
@@ -36,7 +36,7 @@ export async function action({ request }: { request: Request }) {
       session.flash("error", e.message);
     }
 
-    return redirect(process.env.LOGIN_URL || '/login', {
+    return redirect(process.env.LOGIN_URL, {
       headers: {
         "Set-Cookie": await commitSession(session),
       },

@@ -17,7 +17,7 @@ export async function createUserSession(_: Request, idToken: string) {
 
   const cookie = await commitSession(session, { maxAge: 604_800 });
 
-  return redirect(process.env.PROFILE_URL || "/profile", {
+  return redirect(process.env.PROFILE_URL, {
     headers: { "Set-Cookie": cookie },
   });
 }
@@ -26,7 +26,7 @@ export async function getUserSession(request: Request) {
   const session = await getSession(request.headers.get("Cookie"));
 
   if (!session.has("token")) {
-    throw redirect(process.env.LOGIN_URL || '/login');
+    throw redirect(process.env.LOGIN_URL);
   }
 
   return session;

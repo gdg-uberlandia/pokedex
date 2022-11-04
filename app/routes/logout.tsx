@@ -6,5 +6,5 @@ export const action = async ({ request }: { request: Request }) => {
 };
 
 export const loader = async () => {
-  return redirect(process.env.LOGIN_URL || "/profile");
+  return redirect(process.env.LOGIN_URL);
 };
