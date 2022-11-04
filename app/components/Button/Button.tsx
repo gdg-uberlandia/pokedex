@@ -17,10 +17,10 @@ function setClasses ({ primary, full, className = "", hasImg } : SetClassesParam
     "bg-black text-[25px] text-white font-crux"
 
     return `
-      h-[45px] rounded-md py-2 px-4
+      h-[45px] flex items-center justify-center py-2 px-4 rounded-md
       ${full && "w-full"}
       ${colorClasses}
-      ${hasImg && 'flex justify-between items-center'}
+      ${hasImg && "flex justify-between items-center"}
       ${className}
     `;
 }
