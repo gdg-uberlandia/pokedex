@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import { getUser } from "~/models/user.server";
 import { Button, Card, Image, Logo, Tags } from '~/components'
-import pokeball from '~/assets/images/pokeball.svg'
+import pokeball from '~/assets/images/pokeball.png'
 import clock from '~/assets/images/clock.svg'
 
 type LoaderData = {
@@ -33,7 +33,7 @@ export default function Profile() {
 
       <Card title="Seu perfil" className="mb-4">
         <figure className="mb-2 flex justify-center">
-          <img
+          <Image
             className="w-[90px] rounded-full"
             src={data.picture}
             alt={data.name}
@@ -67,7 +67,7 @@ export default function Profile() {
       </Button>
 
       <Form method="post" action="/logout" className="absolute inset-x-0 bottom-4">
-        <Button className="rounded bg-cyan-700 p-1 text-white" type="submit" full>
+        <Button type="submit" full>
           Sair
         </Button>
       </Form>
