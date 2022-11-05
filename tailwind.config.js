@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
-const defaultTheme = require('tailwindcss/defaultTheme')
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
   content: ["./app/**/*.{ts,tsx,jsx,js}"],
@@ -11,7 +11,7 @@ module.exports = {
         crux: ["CodersCrux", ...defaultTheme.fontFamily.mono],
       },
       backgroundImage: {
-        "game-pattern": "url('/images/background.svg')"
+        "game-pattern": "url('/images/background.svg')",
       },
     },
   },

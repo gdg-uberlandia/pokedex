@@ -10,6 +10,7 @@ import {
 
 import tailwindStylesheetUrl from "~/styles/tailwind.css";
 import globalStylesheetUrl from "~/styles/globals.css";
+import { Logo } from "./components";
 
 export const links: LinksFunction = () => {
   return [
@@ -18,7 +19,7 @@ export const links: LinksFunction = () => {
     {
       rel: "icon",
       href: "/favicon.svg",
-      type: "image/svg+xml"
+      type: "image/svg+xml",
     },
   ];
 };
@@ -38,10 +39,13 @@ export default function App() {
       </head>
       <body className="h-full">
         <span className="fixed inset-0 z-[-1] bg-blue-800 bg-game-pattern mix-blend-multiply"></span>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
+        <main className="relative m-auto min-h-screen max-w-[320px] pt-7">
+          <Logo />
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </main>
       </body>
     </html>
   );

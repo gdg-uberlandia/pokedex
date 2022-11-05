@@ -5,13 +5,6 @@ interface Props {
   className?: string;
 }
 
-export function Image({ alt, title, src, className = '' }: Props) {
-  return (
-    <img
-      className={`h-full ${className}`}
-      src={src}
-      alt={alt}
-      title={title || alt}
-    />
-  )
+export function Image({ alt, title, src, className = "" }: Props) {
+  return <img className={className} src={src} alt={alt} title={title || alt} />;
 }
