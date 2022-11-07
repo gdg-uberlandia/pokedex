@@ -1,5 +1,5 @@
 import { redirect } from "@remix-run/node";
-import { logout } from "~/models/user.server";
+import { logout } from "~/features/users/user.server";
 
 export const action = async ({ request }: { request: Request }) => {
   return logout(request);

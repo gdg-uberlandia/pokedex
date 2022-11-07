@@ -1,10 +1,10 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
-import { getAuth, signInWithPopup, GithubAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAxe__BU2qGJVd1C3HDGoLIwCs0Fmx4_0U",
-  projectId: "pokedex-f279c",
-  authDomain: "pokedex-f279c.firebaseapp.com",
+  apiKey: window.ENV.FIREBASE_API_KEY,
+  projectId: window.ENV.FIREBASE_PROJECT_ID,
+  authDomain: window.ENV.FIREBASE_AUTH_DOMAIN,
 };
 
 if (getApps().length === 0) {
@@ -20,3 +20,8 @@ export async function getIdToken() {
 export function signInWithGitHub() {
   return signInWithPopup(auth, new GithubAuthProvider());
 }
+
+export function signInWithGoogle() {
+  return signInWithPopup(auth, new GoogleAuthProvider());
+}
+

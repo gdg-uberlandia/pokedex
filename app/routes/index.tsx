@@ -2,10 +2,11 @@ import type { LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, useLoaderData, Link } from "@remix-run/react";
-import { getUser } from "~/models/user.server";
+import { getUser } from "~/features/users/user.server";
 import { Button, Card, Image, Profile, Tags } from "~/components";
 import pokeball from "~/assets/images/pokeball.png";
 import clock from "~/assets/images/clock.svg";
+import { ROUTES } from "~/utils/routes";
 
 type LoaderData = {
   data: Awaited<ReturnType<typeof getUser>>;
@@ -13,7 +14,6 @@ type LoaderData = {
 
 export async function loader({ request }: LoaderArgs) {
   const data = await getUser(request);
-
   return json<LoaderData>({ data });
 }
 
@@ -21,7 +21,7 @@ export default function Index() {
   const { data } = useLoaderData<typeof loader>();
 
   if (!data) {
-    throw redirect(process.env.LOGIN_URL);
+    throw redirect(ROUTES.LOGIN);
   }
 
   return (
@@ -36,7 +36,7 @@ export default function Index() {
         <Button full>Ver missões</Button>
       </Card>
 
-      <Link to={process.env.POKEDEX_PEOPLE_URL}>
+      <Link to={ROUTES.POKEDEX_PEOPLE}>
         <Button
           className="mb-4"
           img={<Image src={pokeball} alt="Ver Pokédex" className="h-full" />}

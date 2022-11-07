@@ -2,6 +2,9 @@
 /// <reference types="@remix-run/node/globals" />
 
 declare global {
+  interface Window {
+    ENV: any;
+  }
   namespace NodeJS {
     interface ProcessEnv {
       HOME_URL: string;
@@ -14,4 +17,4 @@ declare global {
   }
 }
 
-export {};
+export { };

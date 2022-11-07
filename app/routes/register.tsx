@@ -8,6 +8,7 @@ import {
   destroySession,
 } from "~/features/users/session.server";
 import { Button } from "~/components";
+import { syncProfile } from "~/features/users/user.server";
 import { ROUTES } from "~/utils/routes";
 
 export async function loader({ request }: any) {
@@ -33,8 +34,8 @@ export async function action({ request }: { request: Request }) {
   const idToken = params.get("idToken") || "";
 
   try {
-
-    //TODO verificar se conta esta vinculada a perfil caso contrario retornar
+    console.log('========', session.data);
+    await syncProfile(request, idToken as string)
     return createUserSession(request, idToken as string);
   } catch (e) {
     if (e instanceof Error) {
@@ -74,10 +75,10 @@ export default function Index() {
       <div className="row-auto ">
 
         <Form onSubmit={_signInWithGitHub}>
-          <Button type="submit">Entrar com Github</Button>
+          <Button type="submit">Registrar com Github</Button>
         </Form>
         <Form onSubmit={_signInWithGoogle} style={{ marginTop: '10px' }}>
-          <Button type="submit">Entrar com Google</Button>
+          <Button type="submit">Registrar com Google</Button>
         </Form>
       </div>
     </main>

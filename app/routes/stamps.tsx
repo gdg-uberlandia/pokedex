@@ -1,5 +1,6 @@
 import { redirect } from "@remix-run/node";
+import { ROUTES } from "~/utils/routes";
 
 export function loader() {
-  return redirect(process.env.LOGIN_URL);
+  return redirect(ROUTES.LOGIN);
 }
