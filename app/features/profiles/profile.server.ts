@@ -2,7 +2,7 @@ import { db } from "~/services/firebase.server";
 import { COLLECTIONS } from "~/utils/collections";
 import type { Profile } from "./types";
 
-export const getAllProfiles = () => {};
+export const getAllProfiles = () => { };
 
 export const getById = async (id: string): Promise<Profile> => {
   const docSnapshot = await db.collection(COLLECTIONS.PROFILES).doc(id).get();

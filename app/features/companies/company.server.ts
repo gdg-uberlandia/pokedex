@@ -1,1 +1,1 @@
-export const getAllCompanies = () => {};
+export const getAllCompanies = () => { };
