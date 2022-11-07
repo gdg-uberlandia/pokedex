@@ -34,7 +34,6 @@ export async function action({ request }: { request: Request }) {
   const idToken = params.get("idToken") || "";
 
   try {
-    console.log('========', session.data);
     await syncProfile(request, idToken as string)
     return createUserSession(request, idToken as string);
   } catch (e) {

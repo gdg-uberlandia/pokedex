@@ -44,5 +44,4 @@ export async function syncProfile(request: Request, idToken: String) {
   const profile: Profile | null = await getProfileByCode(code);
   // 2. Update Profile with session idToken
 
-  console.log(url, profile)
 }
