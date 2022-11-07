@@ -89,6 +89,6 @@ export default function Index() {
           <Button type="submit">Entrar com Google</Button>
         </Form>
       </div>
-    </main>
+    </main >
   );
 }

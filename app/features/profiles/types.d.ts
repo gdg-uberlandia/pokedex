@@ -1,15 +1,17 @@
 import type { User } from "../users/types";
 
+
 export interface Profile {
   id: string;
   user: User;
-  code: String;
-  url: String;
-  linkedinUrl: String;
-  skills: Array<String>;
-  registrationId: String;
+  code: string;
+  url: string;
+  linkedinUrl: string;
+  skills: Array<string>
+  regitrationId: string;
   contents: {
     companies: Array<Company>;
-    profiles: Array<Partial<Profile>>;
-  };
+    profiles: Array<Partial<Profile>>
+  }
+
 }

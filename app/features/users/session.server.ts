@@ -22,6 +22,7 @@ export async function createUserSession(
   idToken: string,
   userId: string
 ) {
+
   const token = await getSessionToken(idToken);
   const session = await getSession();
 

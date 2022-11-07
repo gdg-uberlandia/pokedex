@@ -1,5 +1,5 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
+
+import { json, LinksFunction, MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -56,7 +56,9 @@ export default function App() {
       <body className="h-full">
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+            __html: `window.ENV = ${JSON.stringify(
+              data.ENV
+            )}`,
           }}
         />
         <span className="fixed inset-0 z-[-1] bg-blue-800 bg-game-pattern mix-blend-multiply"></span>

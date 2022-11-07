@@ -7,6 +7,8 @@ import { getProfileByCode, updateProfile } from "../profiles/profile.server";
 import type { Profile } from "../profiles/types";
 import type { User } from "./types";
 
+
+
 export async function getUser(request: Request) {
   const session = await getUserSession(request);
   const token = session.get("token");
