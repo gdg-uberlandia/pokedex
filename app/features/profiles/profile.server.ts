@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import { collection, query, where, getDocs } from "firebase/firestore";
+>>>>>>> 57f2677 (Register user (#1))
 import { db } from "~/services/firebase.server"
 import { COLLECTIONS } from "~/utils/collections";
 import type { Profile } from "./types";

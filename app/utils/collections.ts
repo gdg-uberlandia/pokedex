@@ -1,4 +1,4 @@
 export const COLLECTIONS = {
-    PROFILES: 'profiles',
-    AWARDS: 'awards',
+  PROFILES: 'profiles',
+  AWARDS: 'awards',
 }
