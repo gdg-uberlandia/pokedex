@@ -36,8 +36,6 @@ export async function action({ request }: { request: Request }) {
   const user: User = JSON.parse(params.get("user") as string) || {};
 
   try {
-
-    console.log(session.data)
     await syncProfile(request, {
       userId: user.uid,
       email: user.email,
