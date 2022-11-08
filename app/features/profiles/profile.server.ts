@@ -19,31 +19,26 @@ export const getById = async (id: string): Promise<Profile> => {
 };
 
 //https://github.com/ianlenehan/my-remix-app/blob/master/app/post.js
-export const getProfileByCode = async (
-  code: string
-): Promise<Profile | null> => {
-  const querySnapshot = await db
-    .collection(COLLECTIONS.PROFILES)
-    .where("code", "==", code)
-    .get();
+export const getProfileByCode = async (code: string): Promise<Profile | null> => {
+
+  const querySnapshot = await db.collection(COLLECTIONS.PROFILES).where("code", "==", code).get();
 
   const data: Array<Profile> = [];
   querySnapshot.forEach((doc: any) => {
-    data.push({ ...doc.data(), id: doc.id });
+    data.push({ ...doc.data(), id: doc.id })
   });
 
-  if (data.length < 0) return null;
+  if (data.length < 0)
+    return null;
 
   return data[0];
-};
+}
 
-export const updateProfile = async (
-  id: string,
-  profile: Profile
-): Promise<Profile> => {
+
+export const updateProfile = async (id: string, profile: Profile): Promise<Profile> => {
   const docRef = db.collection(COLLECTIONS.PROFILES).doc(id);
 
   await docRef.update({ ...profile });
 
   return getById(id);
-};
+}
