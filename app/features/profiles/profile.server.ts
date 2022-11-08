@@ -1,4 +1,5 @@
-import { db } from "~/services/firebase.server";
+
+import { db } from "~/services/firebase.server"
 import { COLLECTIONS } from "~/utils/collections";
 import type { Profile } from "./types";
 
