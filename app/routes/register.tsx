@@ -8,8 +8,9 @@ import {
   destroySession,
 } from "~/features/users/session.server";
 import { Button } from "~/components";
+import { syncProfile } from "~/features/users/user.server";
 import { ROUTES } from "~/utils/routes";
-import { User } from "firebase/auth";
+import type { User } from "firebase/auth";
 
 export async function loader({ request }: any) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -35,8 +36,12 @@ export async function action({ request }: { request: Request }) {
   const user: User = JSON.parse(params.get("user") as string) || {};
 
   try {
-
-    //TODO verificar se conta esta vinculada a perfil caso contrario retornar
+    await syncProfile(request, {
+      userId: user.uid,
+      email: user.email,
+      photoUrl: user.photoURL,
+      name: user.displayName,
+    })
     return createUserSession(request, idToken as string, user.uid);
   } catch (e) {
     if (e instanceof Error) {
@@ -59,7 +64,7 @@ export default function Index() {
 
     const idToken = (await getIdToken()) as string;
 
-    submit({ idToken: idToken, user: JSON.stringify(user.user) }, { method: "post" });
+    submit({ idToken, user: JSON.stringify(user.user) }, { method: "post" });
   };
 
   const _signInWithGoogle = async () => {
@@ -67,7 +72,7 @@ export default function Index() {
 
     const idToken = (await getIdToken()) as string;
 
-    submit({ idToken: idToken, user: JSON.stringify(user.user) }, { method: "post" });
+    submit({ idToken, user: JSON.stringify(user.user) }, { method: "post" });
   };
 
 
@@ -76,10 +81,10 @@ export default function Index() {
       <div className="row-auto ">
 
         <Form onSubmit={_signInWithGitHub}>
-          <Button type="submit">Entrar com Github</Button>
+          <Button type="submit">Registrar com Github</Button>
         </Form>
         <Form onSubmit={_signInWithGoogle} style={{ marginTop: '10px' }}>
-          <Button type="submit">Entrar com Google</Button>
+          <Button type="submit">Registrar com Google</Button>
         </Form>
       </div>
     </main>
