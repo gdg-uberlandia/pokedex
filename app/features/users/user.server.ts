@@ -3,11 +3,6 @@ import firebaseAdmin from "firebase-admin";
 import { destroySession } from "~/features/users/session.server";
 import { getUserSession } from "~/features/users/session.server";
 import { ROUTES } from "~/utils/routes";
-import { getProfileByCode, updateProfile } from "../profiles/profile.server";
-import type { Profile } from "../profiles/types";
-import type { User } from "./types";
-
-
 
 export async function getUser(request: Request) {
   const session = await getUserSession(request);

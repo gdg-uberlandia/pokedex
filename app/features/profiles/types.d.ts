@@ -1,6 +1,5 @@
 import type { User } from "../users/types";
 
-
 export interface Profile {
   id?: string;
   user: User;

@@ -53,13 +53,9 @@ export const getProfileByCode = async (
   return data[0];
 }
 
-
 export const updateProfile = async (id: string, profile: Profile): Promise<Profile> => {
   const docRef = db.collection(COLLECTIONS.PROFILES).doc(id);
-  console.info('atualizndo perfil')
   await docRef.update({ ...profile });
-  console.info('perfil atualizado');
-
   return getById(id);
 }
 
@@ -74,9 +70,7 @@ export const createProfile = async (profile: Profile) => {
 
 export const registerProfile = async (profile: Profile) => {
 
-  const _existedProfile = await getByEmail(profile.user.email)
-  console.log(_existedProfile);
-
+  const _existedProfile = await getByEmail(profile.user.email);
   if (_existedProfile) {
     return await updateProfile(_existedProfile.id!, profile);
   } else {
