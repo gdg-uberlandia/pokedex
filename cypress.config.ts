@@ -15,7 +15,6 @@ export default defineConfig({
       // cy.task('log', whateverYouWantInTheTerminal)
       on("task", {
         log: (message) => {
-
           return null;
         },
       });

@@ -1,6 +1,10 @@
 import { json, redirect } from "@remix-run/node";
 import { Form, useSubmit } from "@remix-run/react";
-import { signInWithGitHub, signInWithGoogle, getIdToken } from "~/models/auth.client";
+import {
+  signInWithGitHub,
+  signInWithGoogle,
+  getIdToken,
+} from "~/models/auth.client";
 import {
   commitSession,
   createUserSession,
@@ -9,7 +13,7 @@ import {
 } from "~/features/users/session.server";
 import { Button } from "~/components";
 import { ROUTES } from "~/utils/routes";
-import { User } from "firebase/auth";
+import type { User } from "firebase/auth";
 
 export async function loader({ request }: any) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -35,7 +39,6 @@ export async function action({ request }: { request: Request }) {
   const user: User = JSON.parse(params.get("user") as string) || {};
 
   try {
-
     //TODO verificar se conta esta vinculada a perfil caso contrario retornar
     return createUserSession(request, idToken as string, user.uid);
   } catch (e) {
@@ -59,7 +62,10 @@ export default function Index() {
 
     const idToken = (await getIdToken()) as string;
 
-    submit({ idToken: idToken, user: JSON.stringify(user.user) }, { method: "post" });
+    submit(
+      { idToken: idToken, user: JSON.stringify(user.user) },
+      { method: "post" }
+    );
   };
 
   const _signInWithGoogle = async () => {
@@ -67,18 +73,19 @@ export default function Index() {
 
     const idToken = (await getIdToken()) as string;
 
-    submit({ idToken: idToken, user: JSON.stringify(user.user) }, { method: "post" });
+    submit(
+      { idToken: idToken, user: JSON.stringify(user.user) },
+      { method: "post" }
+    );
   };
-
 
   return (
     <main className="flex min-h-screen items-center justify-center">
       <div className="row-auto ">
-
         <Form onSubmit={_signInWithGitHub}>
           <Button type="submit">Entrar com Github</Button>
         </Form>
-        <Form onSubmit={_signInWithGoogle} style={{ marginTop: '10px' }}>
+        <Form onSubmit={_signInWithGoogle} style={{ marginTop: "10px" }}>
           <Button type="submit">Entrar com Google</Button>
         </Form>
       </div>

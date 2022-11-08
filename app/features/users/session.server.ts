@@ -2,7 +2,6 @@ import { redirect, createCookieSessionStorage } from "@remix-run/node";
 import { getSessionToken, signOutFirebase } from "~/services/firebase.server";
 import { ROUTES } from "~/utils/routes";
 
-
 const sessionSecret = process.env.SESSION_SECRET;
 if (!sessionSecret) {
   throw new Error("SESSION_SECRET must be set!");
@@ -18,8 +17,11 @@ export let storage = createCookieSessionStorage({
 
 export const { getSession, commitSession, destroySession } = storage;
 
-
-export async function createUserSession(_: Request, idToken: string, userId: string) {
+export async function createUserSession(
+  _: Request,
+  idToken: string,
+  userId: string
+) {
   const token = await getSessionToken(idToken);
   const session = await getSession();
 

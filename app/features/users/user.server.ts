@@ -1,4 +1,3 @@
-
 import { redirect } from "@remix-run/node";
 import firebaseAdmin from "firebase-admin";
 import { destroySession } from "~/features/users/session.server";
@@ -7,8 +6,6 @@ import { ROUTES } from "~/utils/routes";
 import { getProfileByCode, updateProfile } from "../profiles/profile.server";
 import type { Profile } from "../profiles/types";
 import type { User } from "./types";
-
-
 
 export async function getUser(request: Request) {
   const session = await getUserSession(request);
@@ -31,10 +28,9 @@ export async function logout(request: Request) {
   });
 }
 
-
 export async function syncProfile(request: Request, user: User) {
   const url = new URL(request.url);
-  const code = url.searchParams.get('code');
+  const code = url.searchParams.get("code");
   if (!code) {
     //TODO redirecionar com erro
     return;

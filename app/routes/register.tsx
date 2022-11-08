@@ -1,6 +1,10 @@
 import { json, redirect } from "@remix-run/node";
 import { Form, useSubmit } from "@remix-run/react";
-import { signInWithGitHub, signInWithGoogle, getIdToken } from "~/models/auth.client";
+import {
+  signInWithGitHub,
+  signInWithGoogle,
+  getIdToken,
+} from "~/models/auth.client";
 import {
   commitSession,
   createUserSession,
@@ -41,7 +45,7 @@ export async function action({ request }: { request: Request }) {
       email: user.email,
       photoUrl: user.photoURL,
       name: user.displayName,
-    })
+    });
     return createUserSession(request, idToken as string, user.uid);
   } catch (e) {
     if (e instanceof Error) {
@@ -79,15 +83,13 @@ export default function Index() {
     submit({ idToken, user: JSON.stringify(user.user) }, { method: "post" });
   };
 
-
   return (
     <main className="flex min-h-screen items-center justify-center">
       <div className="row-auto ">
-
         <Form onSubmit={_signInWithGitHub}>
           <Button type="submit">Registrar com Github</Button>
         </Form>
-        <Form onSubmit={_signInWithGoogle} style={{ marginTop: '10px' }}>
+        <Form onSubmit={_signInWithGoogle} style={{ marginTop: "10px" }}>
           <Button type="submit">Registrar com Google</Button>
         </Form>
       </div>
