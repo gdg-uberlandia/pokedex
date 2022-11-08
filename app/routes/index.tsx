@@ -26,14 +26,9 @@ export default function Index() {
 
   return (
     <>
-      <Card title="Seu perfil" className="mb-4">
+      <Card title="Seu perfil" className="mb-7">
         <Profile image={data.picture} name={data.name} isAvatar />
-        <Tags className="mb-4" tags={["#flutter", "#leadership"]} />
-
-        <Button className="mb-4" full>
-          Ver selos
-        </Button>
-        <Button full>Ver missões</Button>
+        <Tags tags={["#flutter", "#leadership"]} />
       </Card>
 
       <Link to={ROUTES.POKEDEX_PEOPLE}>
@@ -46,9 +41,6 @@ export default function Index() {
           Ver Pokédex
         </Button>
       </Link>
-      <Button img={<Image src={clock} alt="Agenda do evento" />} primary full>
-        Agenda do evento
-      </Button>
 
       <Form
         method="post"
