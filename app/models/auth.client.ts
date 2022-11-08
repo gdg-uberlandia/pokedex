@@ -1,5 +1,10 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
-import { getAuth, signInWithPopup, GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  GithubAuthProvider,
+  GoogleAuthProvider,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: window.ENV.FIREBASE_API_KEY,
@@ -24,4 +29,3 @@ export function signInWithGitHub() {
 export function signInWithGoogle() {
   return signInWithPopup(auth, new GoogleAuthProvider());
 }
-

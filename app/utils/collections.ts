@@ -1,3 +1,3 @@
 export const COLLECTIONS = {
-    PROFILES: 'profiles',
-}
+  PROFILES: "profiles",
+};
