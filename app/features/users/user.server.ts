@@ -29,16 +29,3 @@ export async function logout(request: Request) {
     },
   });
 }
-
-export async function syncProfile(request: Request, user: User) {
-  const url = new URL(request.url);
-  const code = url.searchParams.get("code");
-  if (!code) {
-    //TODO redirecionar com erro
-    return;
-  }
-  // 1. Get Profile with this code
-  const profile: Profile | null = await getProfileByCode(code);
-
-  await updateProfile(profile!.id, { ...profile!, user });
-}

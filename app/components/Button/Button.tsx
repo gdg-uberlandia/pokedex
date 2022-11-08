@@ -1,3 +1,5 @@
+import { MouseEventHandler } from "react";
+
 interface Props {
   active?: boolean;
   children?: React.ReactNode;
@@ -6,6 +8,7 @@ interface Props {
   full?: boolean;
   img?: React.ReactNode;
   primary?: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   type?: "submit" | "reset" | "button";
 }
 
@@ -15,7 +18,7 @@ function setClasses({
   full,
   hasImg,
   primary,
-}: Omit<Props, "children"> & {
+}: Omit<Props, "children" | "onClick"> & {
   hasImg: boolean;
 }) {
   const colorClasses = primary
@@ -39,6 +42,7 @@ function setClasses({
 }
 
 export function Button({
+  onClick = () => { },
   active = false,
   children,
   className,
@@ -59,6 +63,7 @@ export function Button({
       })}
       disabled={disabled}
       type={type}
+      onClick={onClick}
     >
       {children}
       {img}

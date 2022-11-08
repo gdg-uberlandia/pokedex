@@ -14,6 +14,8 @@ import {
 import { Button } from "~/components";
 import { ROUTES } from "~/utils/routes";
 import type { User } from "firebase/auth";
+import { registerProfile } from "~/features/profiles/profile.server";
+import { toast } from 'react-toastify';
 
 export async function loader({ request }: any) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -39,7 +41,15 @@ export async function action({ request }: { request: Request }) {
   const user: User = JSON.parse(params.get("user") as string) || {};
 
   try {
-    //TODO verificar se conta esta vinculada a perfil caso contrario retornar
+    await registerProfile({
+      user: {
+        userId: user.uid,
+        email: user.email!,
+        photoUrl: user.photoURL,
+        name: user.displayName!
+      }
+
+    });
     return createUserSession(request, idToken as string, user.uid);
   } catch (e) {
     if (e instanceof Error) {
@@ -58,25 +68,31 @@ export default function Index() {
   const submit = useSubmit();
 
   const _signInWithGitHub = async () => {
-    const user = await signInWithGitHub();
+    try {
+      const user = await signInWithGitHub();
+      const idToken = (await getIdToken()) as string;
 
-    const idToken = (await getIdToken()) as string;
+      submit({ idToken, user: JSON.stringify(user.user) }, { method: "post" });
 
-    submit(
-      { idToken: idToken, user: JSON.stringify(user.user) },
-      { method: "post" }
-    );
+    } catch (error) {
+      const parsedError = error as Error;
+      if (parsedError?.message != null && parsedError.message.includes('account-exists-with-different-credential)')) {
+        toast.error("Você fez login com outro provedor neste mesmo e-mail");
+      }
+    }
   };
 
   const _signInWithGoogle = async () => {
-    const user = await signInWithGoogle();
-
-    const idToken = (await getIdToken()) as string;
-
-    submit(
-      { idToken: idToken, user: JSON.stringify(user.user) },
-      { method: "post" }
-    );
+    try {
+      const user = await signInWithGoogle();
+      const idToken = (await getIdToken()) as string;
+      submit({ idToken, user: JSON.stringify(user.user) }, { method: "post" });
+    } catch (error) {
+      const parsedError = error as Error;
+      if (parsedError?.message != null && parsedError.message.includes('account-exists-with-different-credential)')) {
+        toast.error("Você fez login com outro provedor neste mesmo e-mail");
+      }
+    }
   };
 
   return (
@@ -89,6 +105,6 @@ export default function Index() {
           <Button type="submit">Entrar com Google</Button>
         </Form>
       </div>
-    </main >
+    </main>
   );
 }
