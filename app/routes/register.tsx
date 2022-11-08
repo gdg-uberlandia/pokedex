@@ -10,6 +10,7 @@ import {
 import { Button } from "~/components";
 import { syncProfile } from "~/features/users/user.server";
 import { ROUTES } from "~/utils/routes";
+import type { User } from "firebase/auth";
 
 export async function loader({ request }: any) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -32,10 +33,18 @@ export async function action({ request }: { request: Request }) {
   const session = await getSession(request.headers.get("Cookie"));
   const params = await request.formData();
   const idToken = params.get("idToken") || "";
+  const user: User = JSON.parse(params.get("user") as string) || {};
 
   try {
-    await syncProfile(request, idToken as string)
-    return createUserSession(request, idToken as string);
+
+    console.log(session.data)
+    await syncProfile(request, {
+      userId: user.uid,
+      email: user.email,
+      photoUrl: user.photoURL,
+      name: user.displayName,
+    })
+    return createUserSession(request, idToken as string, user.uid);
   } catch (e) {
     if (e instanceof Error) {
       session.flash("error", e.message);
@@ -53,19 +62,19 @@ export default function Index() {
   const submit = useSubmit();
 
   const _signInWithGitHub = async () => {
-    await signInWithGitHub();
+    const user = await signInWithGitHub();
 
     const idToken = (await getIdToken()) as string;
 
-    submit({ idToken: idToken }, { method: "post" });
+    submit({ idToken, user: JSON.stringify(user.user) }, { method: "post" });
   };
 
   const _signInWithGoogle = async () => {
-    await signInWithGoogle();
+    const user = await signInWithGoogle();
 
     const idToken = (await getIdToken()) as string;
 
-    submit({ idToken: idToken }, { method: "post" });
+    submit({ idToken, user: JSON.stringify(user.user) }, { method: "post" });
   };
 
 

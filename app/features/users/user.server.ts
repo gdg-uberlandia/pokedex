@@ -4,8 +4,9 @@ import firebaseAdmin from "firebase-admin";
 import { destroySession } from "~/features/users/session.server";
 import { getUserSession } from "~/features/users/session.server";
 import { ROUTES } from "~/utils/routes";
-import { getProfileByCode } from "../profiles/profile.server";
+import { getProfileByCode, updateProfile } from "../profiles/profile.server";
 import type { Profile } from "../profiles/types";
+import type { User } from "./types";
 
 
 
@@ -31,17 +32,15 @@ export async function logout(request: Request) {
 }
 
 
-export async function syncProfile(request: Request, idToken: String) {
+export async function syncProfile(request: Request, user: User) {
   const url = new URL(request.url);
   const code = url.searchParams.get('code');
   if (!code) {
     //TODO redirecionar com erro
     return;
   }
-
-
   // 1. Get Profile with this code
   const profile: Profile | null = await getProfileByCode(code);
-  // 2. Update Profile with session idToken
 
+  await updateProfile(profile!.id, { ...profile!, user });
 }

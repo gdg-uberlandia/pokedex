@@ -19,11 +19,12 @@ export let storage = createCookieSessionStorage({
 export const { getSession, commitSession, destroySession } = storage;
 
 
-export async function createUserSession(_: Request, idToken: string) {
+export async function createUserSession(_: Request, idToken: string, userId: string) {
   const token = await getSessionToken(idToken);
   const session = await getSession();
 
   session.set("token", token);
+  session.set("userId", userId);
 
   const cookie = await commitSession(session, { maxAge: 604_800 });
 
