@@ -8,7 +8,7 @@ export interface Profile {
     url: String;
     linkedinUrl: String;
     skills: Array<String>
-    regitrationId: String;
+    registrationId: String;
     contents: {
         companies: Array<Company>;
         profiles: Array<Partial<Profile>>
