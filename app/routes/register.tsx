@@ -64,6 +64,7 @@ export default function Index() {
   const submit = useSubmit();
 
   const _signInWithGitHub = async () => {
+    //TODO: verificar se ja tem um codigo na Url caso não abrir poup-up
     const user = await signInWithGitHub();
 
     const idToken = (await getIdToken()) as string;
