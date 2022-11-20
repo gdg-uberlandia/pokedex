@@ -1,4 +1,3 @@
-import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "~/services/firebase.server"
 import { COLLECTIONS } from "~/utils/collections";
 import type { Profile } from "./types";
