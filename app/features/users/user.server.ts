@@ -4,8 +4,6 @@ import { destroySession } from "~/features/users/session.server";
 import { getUserSession } from "~/features/users/session.server";
 import { ROUTES } from "~/utils/routes";
 
-
-
 export async function getUser(request: Request) {
   const session = await getUserSession(request);
   const token = session.get("token");
