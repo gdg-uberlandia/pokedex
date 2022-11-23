@@ -47,8 +47,13 @@ export async function action({ request }: { request: Request }) {
         email: user.email!,
         photoUrl: user.photoURL,
         name: user.displayName!
+      },
+      shine: false,
+      contents: {
+        companies: [],
+        profiles: [],
+        tags: []
       }
-
     });
     return createUserSession(request, idToken as string, user.uid);
   } catch (e) {
