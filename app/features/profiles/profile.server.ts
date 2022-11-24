@@ -1,9 +1,9 @@
 import { find, random } from 'lodash';
-import { e } from 'vitest/dist/index-6e18a03a';
 import { db } from "~/services/firebase.server"
 import { COLLECTIONS } from "~/utils/collections";
 import ShowableError from '~/utils/errors';
-import type { Profile } from "./types";
+import { SCORES } from '~/utils/scores';
+import type { Company, Profile } from "./types";
 
 
 export const getAllProfiles = () => { };
@@ -126,6 +126,73 @@ export const addProfile = async (email?: string, profileToAdd?: Profile | null) 
     profileToAdd,
   ]
 
+  const scoreToAdd = (profileToAdd.shine) ? SCORES.PROFILE_SHINE : SCORES.PROFILE;
+  _profile.score = _profile.score! + scoreToAdd;
+
   return await updateProfile(_profile.id!, _profile);
 
 }
+
+
+export const addCompany = async (email?: string, companyToAdd?: Company | null) => {
+
+  if (!email) {
+    throw new ShowableError('Perfil não associado. Logue novamente para conseguir adicionar');
+  }
+  const _profile = await getProfileByEmail(email);
+
+  if (!_profile)
+    throw new ShowableError('Perfil não associado. Logue novamente para conseguir adicionar');
+
+  if (!companyToAdd) {
+    throw new ShowableError(' Empresa buscada inválido!');
+  }
+
+  const _result = find(_profile.contents?.companies, ['id', companyToAdd.id])
+  if (_result) {
+    throw new ShowableError('Empresa já adicionado!');
+  }
+
+  _profile.contents.companies = [
+    ..._profile.contents.companies,
+    companyToAdd,
+  ]
+
+  _profile.score = _profile.score! + SCORES.COMPANY;
+
+  return await updateProfile(_profile.id!, _profile);
+
+}
+
+
+export const addTag = async (email?: string, tagToAdd?: Company | null) => {
+
+  if (!email) {
+    throw new ShowableError('Perfil não associado. Logue novamente para conseguir adicionar');
+  }
+  const _profile = await getProfileByEmail(email);
+
+  if (!_profile)
+    throw new ShowableError('Perfil não associado. Logue novamente para conseguir adicionar');
+
+  if (!tagToAdd) {
+    throw new ShowableError('Tag buscada inválida!');
+  }
+
+  const _result = find(_profile.contents?.tags, ['id', tagToAdd.id])
+  if (_result) {
+    throw new ShowableError('Empresa já adicionado!');
+  }
+
+  _profile.contents.tags = [
+    ..._profile.contents.tags,
+    tagToAdd,
+  ]
+
+  _profile.score = _profile.score! + SCORES.TAG;
+
+  return await updateProfile(_profile.id!, _profile);
+
+}
+
+
