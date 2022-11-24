@@ -88,6 +88,6 @@ export function Button({
     >
       {children}
       {img}
-    </button>
+    </button >
   );
 }

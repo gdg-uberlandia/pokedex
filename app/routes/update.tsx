@@ -5,13 +5,16 @@ import { Form, useLoaderData } from "@remix-run/react";
 import { useRef, useEffect, useState } from "react";
 
 import { getSession } from "~/features/users/session.server";
-import { getById, updateProfile } from "~/features/profiles/profile.server";
+import {
+  getProfileById,
+  updateProfile,
+} from "~/features/profiles/profile.server";
 import { Button, Card, Input, Label, InputGroup } from "~/components";
 import { ROUTES } from "~/utils/routes";
 
 export async function loader({ request }: LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
-  const data = await getById(session.get("userId"));
+  const data = await getProfileById(session.get("userId"));
 
   return json(data);
 }
@@ -25,7 +28,7 @@ export async function action({ request }: { request: Request }) {
 
   updateProfile(id, { url, skills: !skills ? [] : skills.split(",") });
 
-  return redirect(ROUTES.PROFILE);
+  return redirect(ROUTES.UPDATE_PROFILE);
 }
 
 export default function Profile() {

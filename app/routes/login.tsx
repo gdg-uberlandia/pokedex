@@ -15,7 +15,7 @@ import { Button } from "~/components";
 import { ROUTES } from "~/utils/routes";
 import type { User } from "firebase/auth";
 import { registerProfile } from "~/features/profiles/profile.server";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 export async function loader({ request }: any) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -48,6 +48,12 @@ export async function action({ request }: { request: Request }) {
         photoUrl: user.photoURL,
         name: user.displayName!,
       },
+      shine: false,
+      contents: {
+        companies: [],
+        profiles: [],
+        tags: [],
+      },
       skills: [],
       url: "",
     });
@@ -78,10 +84,14 @@ export default function Index() {
       const idToken = (await getIdToken()) as string;
 
       submit({ idToken, user: JSON.stringify(user.user) }, { method: "post" });
-
     } catch (error) {
       const parsedError = error as Error;
-      if (parsedError?.message != null && parsedError.message.includes('account-exists-with-different-credential)')) {
+      if (
+        parsedError?.message != null &&
+        parsedError.message.includes(
+          "account-exists-with-different-credential)"
+        )
+      ) {
         toast.error("Você fez login com outro provedor neste mesmo e-mail");
       }
     }
@@ -94,7 +104,12 @@ export default function Index() {
       submit({ idToken, user: JSON.stringify(user.user) }, { method: "post" });
     } catch (error) {
       const parsedError = error as Error;
-      if (parsedError?.message != null && parsedError.message.includes('account-exists-with-different-credential)')) {
+      if (
+        parsedError?.message != null &&
+        parsedError.message.includes(
+          "account-exists-with-different-credential)"
+        )
+      ) {
         toast.error("Você fez login com outro provedor neste mesmo e-mail");
       }
     }
@@ -110,6 +125,6 @@ export default function Index() {
           <Button type="submit">Entrar com Google</Button>
         </Form>
       </div>
-    </main >
+    </main>
   );
 }

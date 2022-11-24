@@ -1,14 +1,29 @@
 import type { User } from "../users/types";
 
 
+export interface Tag {
+  name: string,
+  image: string,
+}
+
+export interface Company {
+  id: string,
+  name: string,
+  image: string,
+  url: string,
+}
+
 export interface Profile {
   id?: string;
   user: User;
   url?: string;
+  shine: boolean;
   skills?: Array<string>
-  contents?: {
+  score?: number
+  contents: {
     companies: Array<Company>;
     profiles: Array<Partial<Profile>>
+    tags: Array<Tag>
   }
 
 }

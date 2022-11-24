@@ -5,33 +5,50 @@ import { Form, useLoaderData, Link } from "@remix-run/react";
 import { Button, Card, Image, Profile, Skills } from "~/components";
 import pokeball from "~/assets/images/pokeball.png";
 import { ROUTES } from "~/utils/routes";
-import { getSession } from "~/features/users/session.server";
-import { getById } from "~/features/profiles/profile.server";
+import QrCodeImage from "~/assets/images/qr-code.png";
+import { getProfileByEmail } from "~/features/profiles/profile.server";
+import { getUser } from "~/features/users/user.server";
+
+type LoaderData = {
+  data: Awaited<ReturnType<typeof getUser>>;
+  profile: Awaited<ReturnType<typeof getProfileByEmail>>;
+};
 
 export async function loader({ request }: LoaderArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  const data = await getById(session.get("userId"));
-
-  return json(data);
+  const data = await getUser(request);
+  const profile = await getProfileByEmail(data.email || "");
+  return json<LoaderData>({ data, profile });
 }
 
 export default function Index() {
-  const { user, skills } = useLoaderData();
+  const { profile } = useLoaderData<typeof loader>();
 
-  if (!user) {
+  if (!profile) {
     throw redirect(ROUTES.LOGIN);
   }
+
+  const QrButton = (
+    <div
+      style={{
+        backgroundColor: "#FFF",
+        backgroundSize: "40px 40px",
+        border: "5px",
+      }}
+    >
+      <Image className={`w-[30px]`} src={QrCodeImage} alt="Abrir QR Code" />
+    </div>
+  );
 
   return (
     <>
       <Card className="mb-7" title="Seu perfil">
         <Profile
           className="mb-1"
-          image={user.photoUrl}
+          image={profile.user.photoUrl ?? ""}
           isAvatar
-          name={user.name}
+          name={profile.user.name}
         />
-        <Skills content={skills} className="mb-2" />
+        <Skills content={profile.skills} className="mb-2" />
 
         <Link to={ROUTES.UPDATE_PROFILE}>
           <Button full>Atualizar perfil</Button>
@@ -49,6 +66,17 @@ export default function Index() {
         </Button>
       </Link>
 
+      <Link to={ROUTES.QR_CODE}>
+        <Button
+          className="mb-4 block"
+          img={QrButton}
+          primary
+          full
+          type="button"
+        >
+          Abrir meu QR
+        </Button>
+      </Link>
       <Form
         action="/logout"
         className="absolute inset-x-0 bottom-4"
