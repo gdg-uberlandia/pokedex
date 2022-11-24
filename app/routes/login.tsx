@@ -41,16 +41,21 @@ export async function action({ request }: { request: Request }) {
   const user: User = JSON.parse(params.get("user") as string) || {};
 
   try {
-    await registerProfile({
+    const _profile: any = await registerProfile({
       user: {
         userId: user.uid,
         email: user.email!,
         photoUrl: user.photoURL,
-        name: user.displayName!
-      }
-
+        name: user.displayName!,
+      },
+      skills: [],
+      url: "",
     });
-    return createUserSession(request, idToken as string, user.uid);
+
+    return createUserSession({
+      idToken: idToken as string,
+      userId: _profile.id,
+    });
   } catch (e) {
     if (e instanceof Error) {
       session.flash("error", e.message);

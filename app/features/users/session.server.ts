@@ -17,12 +17,13 @@ export let storage = createCookieSessionStorage({
 
 export const { getSession, commitSession, destroySession } = storage;
 
-export async function createUserSession(
-  _: Request,
-  idToken: string,
-  userId: string
-) {
-
+export async function createUserSession({
+  idToken,
+  userId,
+}: {
+  idToken: string;
+  userId: string;
+}) {
   const token = await getSessionToken(idToken);
   const session = await getSession();
 
