@@ -4,7 +4,7 @@ module.exports = {
   server: process.env.NODE_ENV === "development" ? undefined : "./server.js",
   ignoredRouteFiles: ["**/.*"],
   // appDirectory: "app",
-  assetsBuildDirectory: "public/build",
-  //serverBuildPath: ".netlify/functions-internal/server.js",
-  publicPath: "/build/",
+  assetsBuildDirectory: "public/build/",
+  serverBuildPath: "public/build/",
+  publicPath: "public/",
 };
