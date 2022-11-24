@@ -6,4 +6,4 @@ export * from "./InputGroup";
 export * from "./Label";
 export { Logo } from "./Logo";
 export { Profile } from "./Profile";
-export { Tags } from "./Tags";
+export * from "./Skills";
