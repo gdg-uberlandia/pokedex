@@ -1,8 +1,8 @@
-import { db } from "~/services/firebase.server"
+import { db } from "~/services/firebase.server";
 import { COLLECTIONS } from "~/utils/collections";
 import type { Profile } from "./types";
 
-export const getAllProfiles = () => { };
+export const getAllProfiles = () => {};
 
 export const getById = async (id: string): Promise<Profile> => {
   const docSnapshot = await db.collection(COLLECTIONS.PROFILES).doc(id).get();
@@ -19,11 +19,14 @@ export const getById = async (id: string): Promise<Profile> => {
 };
 
 export const getByEmail = async (email: string): Promise<Profile | null> => {
-  const querySnapshot = await db.collection(COLLECTIONS.PROFILES).where("user.email", "==", email).get();
+  const querySnapshot = await db
+    .collection(COLLECTIONS.PROFILES)
+    .where("user.email", "==", email)
+    .get();
 
   const data: Array<Profile> = [];
   querySnapshot.forEach((doc: any) => {
-    data.push({ ...doc.data(), id: doc.id })
+    data.push({ ...doc.data(), id: doc.id });
   });
 
   if (data.length < 0) {
@@ -44,20 +47,22 @@ export const getProfileByCode = async (
 
   const data: Array<Profile> = [];
   querySnapshot.forEach((doc: any) => {
-    data.push({ ...doc.data(), id: doc.id })
+    data.push({ ...doc.data(), id: doc.id });
   });
 
-  if (data.length < 0)
-    return null;
+  if (data.length < 0) return null;
 
   return data[0];
-}
+};
 
-export const updateProfile = async (id: string, profile: Profile): Promise<Profile> => {
+export const updateProfile = async (
+  id: string,
+  profile: Partial<Profile>
+): Promise<Profile> => {
   const docRef = db.collection(COLLECTIONS.PROFILES).doc(id);
   await docRef.update({ ...profile });
   return getById(id);
-}
+};
 
 export const createProfile = async (profile: Profile) => {
   const profileRef = await db.collection(COLLECTIONS.PROFILES).add(profile);
@@ -66,14 +71,13 @@ export const createProfile = async (profile: Profile) => {
     ..._profile.data(),
     key: profile.id,
   };
-}
+};
 
 export const registerProfile = async (profile: Profile) => {
-
   const _existedProfile = await getByEmail(profile.user.email);
   if (_existedProfile) {
     return await updateProfile(_existedProfile.id!, profile);
   } else {
     return createProfile(profile);
   }
-}
+};
