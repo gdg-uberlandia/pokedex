@@ -13,13 +13,13 @@ export const action: ActionFunction = async ({
     const payload = await request.json();
 
     if (payload.code == null) {
-        return await cors(request, json({ message: "Invalid Code" }, 400));
+        return await cors(request, json({ message: "Invalid Code" }, 400), { origin: '*' });
     }
 
     const award = await getAwardById(payload.code)
 
     if (!award) {
-        return await cors(request, json({ message: "Invalid Code" }, 400));
+        return await cors(request, json({ message: "Invalid Code" }, 400), { origin: '*' });
     }
 
     await consumeAward(payload.code);
@@ -28,7 +28,7 @@ export const action: ActionFunction = async ({
             return await cors(request, json({
                 success: !award.consumed,
                 code: payload.code,
-            }, 200));
+            }, 200), { origin: '*' });
         }
     }
 };
