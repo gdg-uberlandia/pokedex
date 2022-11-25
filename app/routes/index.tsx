@@ -8,6 +8,7 @@ import { ROUTES } from "~/utils/routes";
 import QrCodeImage from "~/assets/images/qr-code.png";
 import { getProfileByEmail } from "~/features/profiles/profile.server";
 import { getUser } from "~/features/users/user.server";
+import { getLevelByScore } from "~/utils/levels";
 
 type LoaderData = {
   data: Awaited<ReturnType<typeof getUser>>;
@@ -50,9 +51,12 @@ export default function Index() {
         />
         <Skills content={profile.skills} className="mb-2" />
 
-        <Link to={ROUTES.UPDATE_PROFILE}>
-          <Button full>Atualizar perfil</Button>
-        </Link>
+        <hr />
+        <div style={{ margin: '0 auto', paddingTop: '30px' }}>
+          <p style={{ fontFamily: 'PressStart' }}>Level: {getLevelByScore(profile!.score!)}</p>
+
+          <p style={{ fontFamily: 'PressStart' }}>{profile.score}</p>
+        </div>
       </Card>
 
       <Link to={ROUTES.POKEDEX_PEOPLE}>
@@ -77,6 +81,12 @@ export default function Index() {
           Abrir meu QR
         </Button>
       </Link>
+
+      <div>
+        <Link to={ROUTES.UPDATE_PROFILE}>
+          <Button full>Atualizar perfil</Button>
+        </Link>
+      </div>
       <Form
         action="/logout"
         className="absolute inset-x-0 bottom-4"

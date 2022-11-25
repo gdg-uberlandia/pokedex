@@ -4,31 +4,31 @@ import { json } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
 import { useRef, useEffect, useState } from "react";
 
-import { getSession } from "~/features/users/session.server";
 import {
-  getProfileById,
+  getProfileByEmail,
   updateProfile,
 } from "~/features/profiles/profile.server";
 import { Button, Card, Input, Label, InputGroup } from "~/components";
 import { ROUTES } from "~/utils/routes";
+import { getUser } from "~/features/users/user.server";
 
 export async function loader({ request }: LoaderArgs) {
-  const session = await getSession(request.headers.get("Cookie"));
-  const data = await getProfileById(session.get("userId"));
+  const data = await getUser(request);
+  const profile = await getProfileByEmail(data.email || "");
 
-  return json(data);
+  return json(profile);
 }
 
 export async function action({ request }: { request: Request }) {
-  const session = await getSession(request.headers.get("Cookie"));
-  const id = session.get("userId");
+  const user = await getUser(request);
+  const profile = await getProfileByEmail(user.email || "");
   const formData = await request.formData();
   const url = formData.get("url") as string;
   const skills = formData.get("skills") as string;
 
-  updateProfile(id, { url, skills: !skills ? [] : skills.split(",") });
+  await updateProfile(profile!.id!, { url, skills: !skills ? [] : skills.split(",") });
 
-  return redirect(ROUTES.UPDATE_PROFILE);
+  return redirect(ROUTES.HOME);
 }
 
 export default function Profile() {
@@ -58,7 +58,7 @@ export default function Profile() {
     <Card title="Sobre você">
       <Label>Sua habilidades</Label>
       <ul className="mb-2">
-        {skills.map((skill: string, key: number) => (
+        {skills?.map((skill: string, key: number) => (
           <li className="mb-2 flex justify-between gap-2" key={key}>
             <Input defaultValue={skill} disabled />
             <input name="skillToRemove" type="hidden" value={skill} />
