@@ -20,24 +20,30 @@ export async function loader({ request }: LoaderArgs) {
 export default function People() {
   const { profile } = useLoaderData<typeof loader>();
 
-  console.log("HEREE profile: " + JSON.stringify(profile))
-
   if (!profile) {
     return null;
   }
 
   return (
-    <div className="grid grid-cols-2 gap-4">
-      {profile?.contents?.profiles.map((data, key) => (
-        <a key={key} href={data.url} target="_blank" rel="noreferrer">
-          <Profile
-            image={data?.user?.photoUrl}
-            name={data?.user?.name}
-            className="h-full"
-            isAvatar
-          />
-        </a>
-      ))}
-    </div>
+    <>
+      {profile?.contents?.profiles.length ? (
+        <div className="grid grid-cols-2 gap-4">
+          {profile?.contents?.profiles.map((data, key) => (
+            <a key={key} href={data.url} target="_blank" rel="noreferrer">
+              <Profile
+                image={data?.user?.photoUrl}
+                name={data?.user?.name}
+                className="h-full"
+                isAvatar
+              />
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div style={{ fontFamily: "PressStart", padding: 10 }}>
+          Nenhum pessoa na sua Pokédex.
+        </div>
+      )}
+    </>
   );
 }

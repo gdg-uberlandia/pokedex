@@ -25,12 +25,20 @@ export default function Companies() {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-4">
-      {profile?.contents?.companies.map((data, key) => (
-        <a key={key} href={data.url} target="_blank" rel="noreferrer">
-          <Profile image={data.image} name={data.name} className="h-full" />
-        </a>
-      ))}
-    </div>
+    <>
+      {profile?.contents?.companies?.length ? (
+        <div className="grid grid-cols-2 gap-4">
+          {profile?.contents?.companies?.map((data, key) => (
+            <a key={key} href={data.url} target="_blank" rel="noreferrer">
+              <Profile image={data.image} name={data.name} className="h-full" />
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p style={{ fontFamily: "PressStart", padding: 10 }}>
+          Nenhum empresa na sua Pokédex.
+        </p>
+      )}
+    </>
   );
 }
