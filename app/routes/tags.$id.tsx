@@ -2,18 +2,19 @@ import { json } from "@remix-run/node";
 import { Button, Card, } from "~/components";
 import { ROUTES } from "~/utils/routes";
 import type { LoaderArgs } from "@remix-run/node";
-import { addCompany } from "~/features/profiles/profile.server";
+import { addTag } from "~/features/profiles/profile.server";
 import { getUser } from "~/features/users/user.server";
 import { Link, useLoaderData } from "@remix-run/react";
 import { Profile } from "~/components/Profile";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import ShowableError from "~/utils/errors";
-import { getCompanyById } from "~/features/companies/company.server";
+import { getTagById } from "~/features/tags/tags.server";
+import { image } from "remix-utils";
 
 type LoaderData = {
     user: Awaited<ReturnType<typeof getUser>>;
-    company?: Awaited<ReturnType<typeof getCompanyById>>;
+    tag?: Awaited<ReturnType<typeof getTagById>>;
     errorMessage?: string;
     successMessage?: string;
 };
@@ -21,25 +22,24 @@ type LoaderData = {
 
 export async function loader({ request, params }: LoaderArgs) {
     const user = await getUser(request);
-    const company = await getCompanyById(params.id || '')
+    const tag = await getTagById(params.id || '')
 
     try {
-        await addCompany(user.email!, company)
+        await addTag(user.email!, tag)
 
     } catch (error) {
 
         if (error instanceof ShowableError)
-            return json<LoaderData>({ user, company, errorMessage: error?.message });
+            return json<LoaderData>({ user, tag, errorMessage: error?.message });
         else
-            return json<LoaderData>({ user, company, errorMessage: 'Houve um erro ao adicionar empresa' });
+            return json<LoaderData>({ user, tag, errorMessage: 'Houve um erro ao adicionar tag' });
     }
-    return json<LoaderData>({ user, company, successMessage: 'Empresa adicionada com sucesso!' });
+    return json<LoaderData>({ user, tag, successMessage: 'Tag adicionada com sucesso!' });
 }
 
 
-export default function OtherCompanyProfile() {
-    const { company, errorMessage, successMessage } = useLoaderData<typeof loader>();
-
+export default function OtherTag() {
+    const { tag, errorMessage, successMessage } = useLoaderData<typeof loader>();
 
     useEffect(() => {
         if (errorMessage) toast.error(errorMessage)
@@ -48,8 +48,13 @@ export default function OtherCompanyProfile() {
 
     return (
         <>
-            <Card title={`Empresa ${successMessage ? 'adicionada' : ''}`} className="mb-7">
-                <Profile image={company!.image} name={company!.name} isAvatar />
+            <Card title={`Tag ${successMessage ? 'adicionada' : ''}`} className="mb-7">
+                <div className="flex justify-center">
+
+                    <img src={tag!.image} width="200" alt={tag!.name} />
+                    <br />
+                    {(successMessage) ? <p>A tag {tag!.name} foi adicionada ao seu perfil</p> : null}
+                </div>
             </Card>
 
             <Link to={ROUTES.HOME}>

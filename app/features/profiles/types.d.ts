@@ -2,6 +2,7 @@ import type { User } from "../users/types";
 
 
 export interface Tag {
+  id?: string,
   name: string,
   image: string,
 }

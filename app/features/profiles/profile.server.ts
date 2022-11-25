@@ -3,7 +3,7 @@ import { db } from "~/services/firebase.server"
 import { COLLECTIONS } from "~/utils/collections";
 import ShowableError from '~/utils/errors';
 import { SCORES } from '~/utils/scores';
-import type { Company, Profile } from "./types";
+import type { Company, Profile, Tag } from "./types";
 
 
 export const getAllProfiles = () => { };
@@ -100,13 +100,7 @@ export const registerProfile = async (profile: Profile) => {
 
 export const addProfile = async (email?: string, profileToAdd?: Profile | null) => {
 
-  if (!email) {
-    throw new ShowableError('Perfil não associado. Logue novamente para conseguir adicionar');
-  }
-  const _profile = await getProfileByEmail(email);
-
-  if (!_profile)
-    throw new ShowableError('Perfil não associado. Logue novamente para conseguir adicionar');
+  const _profile = await getAndCheckProfileByEmail(email);
 
   if (!profileToAdd) {
     throw new ShowableError(' Perfil buscado inválido!');
@@ -133,9 +127,7 @@ export const addProfile = async (email?: string, profileToAdd?: Profile | null) 
 
 }
 
-
-export const addCompany = async (email?: string, companyToAdd?: Company | null) => {
-
+const getAndCheckProfileByEmail = async (email?: string): Promise<Profile> => {
   if (!email) {
     throw new ShowableError('Perfil não associado. Logue novamente para conseguir adicionar');
   }
@@ -143,6 +135,14 @@ export const addCompany = async (email?: string, companyToAdd?: Company | null) 
 
   if (!_profile)
     throw new ShowableError('Perfil não associado. Logue novamente para conseguir adicionar');
+
+  return _profile;
+}
+
+
+export const addCompany = async (email?: string, companyToAdd?: Company | null) => {
+
+  const _profile = await getAndCheckProfileByEmail(email);
 
   if (!companyToAdd) {
     throw new ShowableError(' Empresa buscada inválido!');
@@ -165,15 +165,9 @@ export const addCompany = async (email?: string, companyToAdd?: Company | null) 
 }
 
 
-export const addTag = async (email?: string, tagToAdd?: Company | null) => {
+export const addTag = async (email?: string, tagToAdd?: Tag | null) => {
 
-  if (!email) {
-    throw new ShowableError('Perfil não associado. Logue novamente para conseguir adicionar');
-  }
-  const _profile = await getProfileByEmail(email);
-
-  if (!_profile)
-    throw new ShowableError('Perfil não associado. Logue novamente para conseguir adicionar');
+  const _profile = await getAndCheckProfileByEmail(email);
 
   if (!tagToAdd) {
     throw new ShowableError('Tag buscada inválida!');
@@ -181,7 +175,7 @@ export const addTag = async (email?: string, tagToAdd?: Company | null) => {
 
   const _result = find(_profile.contents?.tags, ['id', tagToAdd.id])
   if (_result) {
-    throw new ShowableError('Empresa já adicionado!');
+    throw new ShowableError('Tag já adicionada!');
   }
 
   _profile.contents.tags = [
