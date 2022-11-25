@@ -1,4 +1,4 @@
-import { MouseEventHandler } from "react";
+import type { MouseEventHandler } from "react";
 
 interface Props {
   active?: boolean;
@@ -7,17 +7,22 @@ interface Props {
   disabled?: boolean;
   full?: boolean;
   img?: React.ReactNode;
-  primary?: boolean;
+  name?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
+  primary?: boolean;
   type?: "submit" | "reset" | "button";
+  value?: string;
+  small?: boolean;
 }
 
 function setClasses({
   active,
   className = "",
+  disabled,
   full,
   hasImg,
   primary,
+  small,
 }: Omit<Props, "children" | "onClick"> & {
   hasImg: boolean;
 }) {
@@ -30,40 +35,56 @@ function setClasses({
   const activeColorClasses = primary
     ? "bg-black text-white"
     : "bg-white text-black";
+  const disabledColorClasses =
+    "bg-black text-white opacity-50 hover:bg-black hover:text-white opacity-50";
 
   return `
-      h-[45px] flex items-center justify-center py-2 px-4 border-2 border-black rounded-md transition-colors
+      flex items-center justify-center py-2 px-4 border-2 border-black rounded-md transition-colors
       ${full && "w-full"}
+      ${small ? "h-[30px]" : "h-[45px]"}
       ${textClasses}
-      ${active ? activeColorClasses : colorClasses}
+      ${
+        disabled
+          ? disabledColorClasses
+          : active
+          ? activeColorClasses
+          : colorClasses
+      }
       ${hasImg && "justify-between"}
       ${className}
     `;
 }
 
 export function Button({
-  onClick = () => { },
+  onClick = () => {},
   active = false,
   children,
   className,
   disabled = false,
   full,
   img,
+  name,
   primary,
+  small = false,
   type = "button",
+  value,
 }: Props) {
   return (
     <button
       className={setClasses({
         active,
         className,
+        disabled,
         full,
         hasImg: !!img,
         primary,
+        small,
       })}
       disabled={disabled}
-      type={type}
+      name={name}
       onClick={onClick}
+      type={type}
+      value={value}
     >
       {children}
       {img}

@@ -1,15 +1,13 @@
-import { find, random } from 'lodash';
-import { db } from "~/services/firebase.server"
+import { find, random } from "lodash";
+import { db } from "~/services/firebase.server";
 import { COLLECTIONS } from "~/utils/collections";
-import ShowableError from '~/utils/errors';
 import { SCORES } from '~/utils/scores';
 import type { Company, Profile, Tag } from "./types";
-
+import ShowableError from "~/utils/errors";
 
 export const getAllProfiles = () => { };
 
 export const getProfileById = async (id?: string): Promise<Profile | null> => {
-
   if (!id) {
     return null;
   }
@@ -26,16 +24,20 @@ export const getProfileById = async (id?: string): Promise<Profile | null> => {
   }
 };
 
-export const getProfileByEmail = async (email: string): Promise<Profile | null> => {
-
+export const getProfileByEmail = async (
+  email: string
+): Promise<Profile | null> => {
   if (!email) {
     return null;
   }
-  const querySnapshot = await db.collection(COLLECTIONS.PROFILES).where("user.email", "==", email).get();
+  const querySnapshot = await db
+    .collection(COLLECTIONS.PROFILES)
+    .where("user.email", "==", email)
+    .get();
 
   const data: Array<Profile> = [];
   querySnapshot.forEach((doc: any) => {
-    data.push({ ...doc.data(), id: doc.id })
+    data.push({ ...doc.data(), id: doc.id });
   });
 
   if (data.length < 0) {
@@ -56,20 +58,23 @@ export const getProfileByCode = async (
 
   const data: Array<Profile> = [];
   querySnapshot.forEach((doc: any) => {
-    data.push({ ...doc.data(), id: doc.id })
+    data.push({ ...doc.data(), id: doc.id });
   });
 
-  if (data.length < 0)
-    return null;
+  if (data.length < 0) return null;
 
   return data[0];
-}
+};
 
-export const updateProfile = async (id: string, profile: Profile): Promise<Profile | null> => {
+export const updateProfile = async (
+  id: string,
+  profile: Partial<Profile>
+): Promise<Profile | null> => {
   const docRef = db.collection(COLLECTIONS.PROFILES).doc(id);
   await docRef.update({ ...profile });
+
   return getProfileById(id);
-}
+};
 
 export const createProfile = async (profile: Profile) => {
   const profileRef = await db.collection(COLLECTIONS.PROFILES).add(profile);
@@ -78,66 +83,72 @@ export const createProfile = async (profile: Profile) => {
     ..._profile.data(),
     key: profile.id,
   };
-}
+};
 
 export const registerProfile = async (profile: Profile) => {
-
   const _existedProfile = await getProfileByEmail(profile.user.email);
   if (_existedProfile) {
     return await updateProfile(_existedProfile.id!, profile);
   } else {
-    const _randomProbabilityShine = random(0, 1000)
+    const _randomProbabilityShine = random(0, 1000);
     profile.score = 0;
-    profile.shine = _randomProbabilityShine < 150
+    profile.shine = _randomProbabilityShine < 150;
     profile.contents = {
       profiles: [],
       companies: [],
-      tags: []
-    }
+      tags: [],
+    };
     return createProfile(profile);
   }
-}
-
-export const addProfile = async (email?: string, profileToAdd?: Profile | null) => {
-
-  const _profile = await getAndCheckProfileByEmail(email);
-
-  if (!profileToAdd) {
-    throw new ShowableError(' Perfil buscado inválido!');
-  }
-
-  if (profileToAdd.id == _profile.id) {
-    throw new ShowableError(' Não seria legal se pudesse adicionar seu próprio perfil!');
-  }
-
-  const _result = find(_profile.contents?.profiles, ['id', profileToAdd.id])
-  if (_result) {
-    throw new ShowableError('Perfil já adicionado!');
-  }
-
-  _profile.contents.profiles = [
-    ..._profile.contents.profiles,
-    profileToAdd,
-  ]
-
-  const scoreToAdd = (profileToAdd.shine) ? SCORES.PROFILE_SHINE : SCORES.PROFILE;
-  _profile.score = _profile.score! + scoreToAdd;
-
-  return await updateProfile(_profile.id!, _profile);
-
-}
+};
 
 const getAndCheckProfileByEmail = async (email?: string): Promise<Profile> => {
   if (!email) {
-    throw new ShowableError('Perfil não associado. Logue novamente para conseguir adicionar');
+    throw new ShowableError(
+      "Perfil não associado. Logue novamente para conseguir adicionar"
+    );
   }
   const _profile = await getProfileByEmail(email);
 
   if (!_profile)
-    throw new ShowableError('Perfil não associado. Logue novamente para conseguir adicionar');
+    throw new ShowableError(
+      "Perfil não associado. Logue novamente para conseguir adicionar"
+    );
 
   return _profile;
 }
+
+
+export const addProfile = async (
+  email?: string,
+  profileToAdd?: Profile | null
+) => {
+  const _profile = await getAndCheckProfileByEmail(email);
+
+  if (!profileToAdd) {
+    throw new ShowableError(" Perfil buscado inválido!");
+  }
+
+  if (profileToAdd.id == _profile.id) {
+    throw new ShowableError(
+      " Não seria legal se pudesse adicionar seu próprio perfil!"
+    );
+  }
+
+  const _result = find(_profile.contents?.profiles, ["id", profileToAdd.id]);
+  if (_result) {
+    throw new ShowableError("Perfil já adicionado!");
+  }
+
+  _profile.contents.profiles = [..._profile.contents.profiles, profileToAdd];
+
+  const scoreToAdd = profileToAdd.shine ? SCORES.PROFILE_SHINE : SCORES.PROFILE;
+  _profile.score = _profile.score! + scoreToAdd;
+
+  return await updateProfile(_profile.id!, _profile);
+};
+
+
 
 
 export const addCompany = async (email?: string, companyToAdd?: Company | null) => {
@@ -145,48 +156,37 @@ export const addCompany = async (email?: string, companyToAdd?: Company | null) 
   const _profile = await getAndCheckProfileByEmail(email);
 
   if (!companyToAdd) {
-    throw new ShowableError(' Empresa buscada inválido!');
+    throw new ShowableError(" Empresa buscada inválido!");
   }
 
-  const _result = find(_profile.contents?.companies, ['id', companyToAdd.id])
+  const _result = find(_profile.contents?.companies, ["id", companyToAdd.id]);
   if (_result) {
-    throw new ShowableError('Empresa já adicionado!');
+    throw new ShowableError("Empresa já adicionado!");
   }
 
-  _profile.contents.companies = [
-    ..._profile.contents.companies,
-    companyToAdd,
-  ]
+  _profile.contents.companies = [..._profile.contents.companies, companyToAdd];
 
   _profile.score = _profile.score! + SCORES.COMPANY;
 
   return await updateProfile(_profile.id!, _profile);
-
-}
-
+};
 
 export const addTag = async (email?: string, tagToAdd?: Tag | null) => {
 
   const _profile = await getAndCheckProfileByEmail(email);
 
   if (!tagToAdd) {
-    throw new ShowableError('Tag buscada inválida!');
+    throw new ShowableError("Tag buscada inválida!");
   }
 
-  const _result = find(_profile.contents?.tags, ['id', tagToAdd.id])
+  const _result = find(_profile.contents?.tags, ["id", tagToAdd.id]);
   if (_result) {
     throw new ShowableError('Tag já adicionada!');
   }
 
-  _profile.contents.tags = [
-    ..._profile.contents.tags,
-    tagToAdd,
-  ]
+  _profile.contents.tags = [..._profile.contents.tags, tagToAdd];
 
   _profile.score = _profile.score! + SCORES.TAG;
 
   return await updateProfile(_profile.id!, _profile);
-
-}
-
-
+};

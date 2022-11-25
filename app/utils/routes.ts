@@ -1,7 +1,7 @@
 export const ROUTES = {
   HOME: "/",
-  REGISTER: "/register",
   LOGIN: "/login",
   POKEDEX_PEOPLE: "/pokedex/people",
-  QR_CODE: '/qr-code'
+  QR_CODE: "/qr-code",
+  UPDATE_PROFILE: "/update",
 };
