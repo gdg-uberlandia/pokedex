@@ -1,5 +1,6 @@
 import { db } from "~/services/firebase.server"
 import { COLLECTIONS } from "~/utils/collections";
+import { Profile } from "../profiles/types";
 import type { Award } from "./types";
 
 
@@ -19,9 +20,21 @@ export const getAwardById = async (id: string): Promise<Award> => {
 
 export const consumeAward = async (id: string): Promise<Award> => {
     const docRef = db.collection(COLLECTIONS.AWARDS).doc(id);
-
     const award = await getAwardById(id);
-    await docRef.update({ ...award, consumed: true });
+    const awardToUpdate = { ...award, consumed: true };
+
+    const profileRef = await db.collection(COLLECTIONS.PROFILES).doc(award.user_id);
+    const profileSnapshot = await profileRef.get();
+    if (profileSnapshot.exists) {
+        const _profile: Profile = {
+          ...(profileSnapshot.data() as Profile),
+          id: profileSnapshot.id,
+        };
+        _profile.contents.awards = [awardToUpdate];
+        await profileRef.update({ ..._profile }); 
+    }
+
+    await docRef.update(awardToUpdate);
 
     return getAwardById(id);
 }

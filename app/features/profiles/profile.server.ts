@@ -2,7 +2,8 @@ import { find, random } from "lodash";
 import { db } from "~/services/firebase.server";
 import { COLLECTIONS } from "~/utils/collections";
 import { SCORES } from '~/utils/scores';
-import type { Company, Profile, Tag } from "./types";
+import { LEVELS } from '~/utils/levels'
+import type { Award, Company, Profile, Tag } from "./types";
 import ShowableError from "~/utils/errors";
 
 export const getAllProfiles = () => { };
@@ -71,6 +72,7 @@ export const updateProfile = async (
   profile: Partial<Profile>
 ): Promise<Profile | null> => {
   const docRef = db.collection(COLLECTIONS.PROFILES).doc(id);
+
   await docRef.update({ ...profile });
 
   return getProfileById(id);
@@ -97,6 +99,7 @@ export const registerProfile = async (profile: Profile) => {
       profiles: [],
       companies: [],
       tags: [],
+      awards: []
     };
     return createProfile(profile);
   }
@@ -145,6 +148,8 @@ export const addProfile = async (
   const scoreToAdd = profileToAdd.shine ? SCORES.PROFILE_SHINE : SCORES.PROFILE;
   _profile.score = _profile.score! + scoreToAdd;
 
+  await checkAndCreateAwards(_profile);
+
   return await updateProfile(_profile.id!, _profile);
 };
 
@@ -168,6 +173,8 @@ export const addCompany = async (email?: string, companyToAdd?: Company | null) 
 
   _profile.score = _profile.score! + SCORES.COMPANY;
 
+  await checkAndCreateAwards(_profile);
+
   return await updateProfile(_profile.id!, _profile);
 };
 
@@ -188,5 +195,22 @@ export const addTag = async (email?: string, tagToAdd?: Tag | null) => {
 
   _profile.score = _profile.score! + SCORES.TAG;
 
+  await checkAndCreateAwards(_profile);
+
   return await updateProfile(_profile.id!, _profile);
+};
+
+export const checkAndCreateAwards = async (profile: Profile) => {
+  if(profile && profile.score >= LEVELS[3] && (!profile.contents.awards || profile.contents.awards?.length <=0)){
+    const award = {consumed:false, user_id: profile.id};
+    const awardRef = await db.collection(COLLECTIONS.AWARDS).add(award);
+    const _award = await awardRef.get();
+    const awardFinal: Award = {..._award.data(), id: _award.id};
+    await awardRef.update({...awardFinal});
+    if(profile.contents?.awards?.length){
+      profile.contents.awards = [...profile.contents.awards, awardFinal];
+    } else {
+      profile.contents.awards = [awardFinal]
+    }
+  }
 };
