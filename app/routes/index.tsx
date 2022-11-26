@@ -11,6 +11,8 @@ import Coin from "~/assets/images/coin_.png";
 import { getProfileByEmail } from "~/features/profiles/profile.server";
 import { getUser } from "~/features/users/user.server";
 import { getLevelByScore } from "~/utils/levels";
+import QRCode from "react-qr-code";
+import { useState } from "react";
 
 type LoaderData = {
   data: Awaited<ReturnType<typeof getUser>>;
@@ -28,6 +30,48 @@ export default function Index() {
 
   if (!profile) {
     throw redirect(ROUTES.LOGIN);
+  }
+
+  const parseAward = () => {
+    const consumed = profile?.contents?.awards[0].consumed;
+
+    if (consumed) {
+      return 'Prêmio Retirado'
+    }
+    else {
+      return (
+        <Link to={`/awards/${profile?.contents?.awards[0].id}`}>
+          <div>Prêmio Disponível <br />
+            <span style={{ fontSize: '10px' }}>
+              (Clique aqui para visualizar)
+            </span>
+          </div>
+        </Link>
+      );
+    }
+
+  }
+  const parseStatusAward = () => {
+    if (profile.contents?.awards?.length) {
+
+      return (<div
+        style={{
+          marginTop: '10px',
+          padding: '10px',
+          width: '100%',
+          fontFamily: 'PressStart',
+          backgroundColor: 'black',
+          color: 'white',
+          display: 'flex',
+          cursor: 'pointer'
+        }}>
+        <Image src={trofeu} style={{ height: 25 }} alt="Ver Pokédex" className="h-full" />
+        <div style={{ marginLeft: 10, fontSize: 14 }}>
+          {parseAward()}
+        </div>
+      </div>);
+
+    } else return "";
   }
 
   const QrButton = (
@@ -65,20 +109,10 @@ export default function Index() {
 
           </div>
         </div>
-        {profile.contents?.awards?.length ? (<div style={{
-          padding: '10px',
-          width: '100%',
-          fontFamily: 'PressStart',
-          backgroundColor: 'black',
-          color: 'white',
-          left: '0px',
-          position: 'absolute',
-          display: 'flex'
-        }}>
-          <Image src={trofeu} style={{ height: 25 }} alt="Ver Pokédex" className="h-full" />
-          <div style={{ marginLeft: 10, fontSize: 14, padding: "3px 0px" }}>{profile.contents?.awards[0].consumed ? 'Prêmio Retirado' : 'Prêmio Disponível'}</div>
-        </div>) : ""}
+        {parseStatusAward()}
       </Card>
+
+
 
       <Link to={ROUTES.POKEDEX_PEOPLE}>
         <Button
