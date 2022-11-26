@@ -71,7 +71,7 @@ export const updateProfile = async (
   id: string,
   profile: Partial<Profile>
 ): Promise<Profile | null> => {
-  const docRef = db.collection(COLLECTIONS.PROFILES).doc(id);
+  const docRef = await db.collection(COLLECTIONS.PROFILES).doc(id);
 
   await docRef.update({ ...profile });
 
