@@ -4,6 +4,7 @@ import { json } from "@remix-run/node";
 import { Form, useLoaderData, Link } from "@remix-run/react";
 import { Button, Card, Image, Profile, Skills } from "~/components";
 import pokeball from "~/assets/images/pokeball.png";
+import trofeu from "~/assets/images/trofeu-pixel.png"
 import { ROUTES } from "~/utils/routes";
 import QrCodeImage from "~/assets/images/qr-code.png";
 import { getProfileByEmail } from "~/features/profiles/profile.server";
@@ -42,7 +43,7 @@ export default function Index() {
 
   return (
     <>
-      <Card className="mb-7" title="Seu perfil">
+      <Card style={{paddingBottom: '30px'}} className="mb-7" title="Seu perfil">
         <Profile
           className="mb-1"
           image={profile.user.photoUrl ?? ""}
@@ -57,6 +58,19 @@ export default function Index() {
 
           <p style={{ fontFamily: 'PressStart' }}>{profile.score}</p>
         </div>
+        {profile.contents?.awards?.length ? (<div style={{  
+          padding: '10px',
+          width: '100%',
+          fontFamily: 'PressStart', 
+          backgroundColor: 'black',
+          color: 'white',
+          left: '0px',
+          position: 'absolute' ,
+          display: 'flex' 
+          }}>
+            <Image src={trofeu} style={{height: 25}} alt="Ver Pokédex" className="h-full" />
+            <div style={{marginLeft: 10, fontSize:14, padding: "3px 0px"}}>{profile.contents?.awards[0].consumed?'Prêmio Retirado':'Prêmio Disponível'}</div>
+          </div>):""}
       </Card>
 
       <Link to={ROUTES.POKEDEX_PEOPLE}>
