@@ -157,7 +157,7 @@ export const addProfile = async (
   try {
     return await updateProfile(_profile.id!, _profile);
   } catch (error) {
-    throw new ShowableError("updateProfile: " + JSON.stringify(error));
+    throw new ShowableError("updateProfile: " + profileToAdd.id);
   }
 };
 
