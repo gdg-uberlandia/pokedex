@@ -2,11 +2,12 @@ interface Props {
   children?: React.ReactNode;
   title: string;
   className?: string;
+  style?: any;
 }
 
-export function Card({ children, title, className = "" }: Props) {
+export function Card({ children, title, style, className = "" }: Props) {
   return (
-    <section className={`w-full overflow-hidden rounded-t ${className}`}>
+    <section style={style} className={`w-full overflow-hidden rounded-t ${className}`}>
       <h3 className="flex h-9 items-center justify-center border-2 border-black bg-black text-center font-press text-sm font-normal text-white">
         {title}
       </h3>

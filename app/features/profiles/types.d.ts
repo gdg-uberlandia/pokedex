@@ -14,6 +14,12 @@ export interface Company {
   url: string,
 }
 
+export interface Award {
+  id?: string,
+  user_id?: string,
+  consumed?: boolean
+}
+
 export interface Profile {
   id?: string;
   user: User;
@@ -23,8 +29,9 @@ export interface Profile {
   score?: number
   contents: {
     companies: Array<Company>;
-    profiles: Array<Partial<Profile>>
-    tags: Array<Tag>
+    profiles: Array<Partial<Profile>>;
+    tags: Array<Tag>;
+    awards: Array<Award>;
   }
 
 }

@@ -3,8 +3,9 @@ interface Props {
   title?: string;
   src?: string;
   className?: string;
+  style?: any;
 }
 
-export function Image({ alt, title, src, className = "" }: Props) {
-  return <img className={className} src={src} alt={alt} title={title || alt} />;
+export function Image({ alt, title, src, style, className = "" }: Props) {
+  return <img className={className} style={style} src={src} alt={alt} title={title || alt} />;
 }

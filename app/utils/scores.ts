@@ -1,6 +1,6 @@
 export const SCORES = {
-    PROFILE: 10,
-    PROFILE_SHINE: 15,
-    COMPANY: 20,
-    TAG: 30
+    PROFILE: 30,
+    PROFILE_SHINE: 150,
+    COMPANY: 500,
+    TAG: 175
 };
