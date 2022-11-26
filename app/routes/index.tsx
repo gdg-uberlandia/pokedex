@@ -6,6 +6,7 @@ import { Button, Card, Image, Profile, Skills } from "~/components";
 import pokeball from "~/assets/images/pokeball.png";
 import { ROUTES } from "~/utils/routes";
 import QrCodeImage from "~/assets/images/qr-code.png";
+import Coin from "~/assets/images/coin_.png";
 import { getProfileByEmail } from "~/features/profiles/profile.server";
 import { getUser } from "~/features/users/user.server";
 import { getLevelByScore } from "~/utils/levels";
@@ -55,9 +56,15 @@ export default function Index() {
         <div style={{ margin: '0 auto', paddingTop: '30px' }}>
           <p style={{ fontFamily: 'PressStart' }}>Level: {getLevelByScore(profile!.score!)}</p>
 
-          <p style={{ fontFamily: 'PressStart' }}>{profile.score}</p>
+          <div className="grid grid-flow-col auto-cols-max">
+
+            <Image className={`w-[20px]`} src={Coin} alt="coin" />
+            <span style={{ fontFamily: 'PressStart', marginLeft: '10px', paddingTop: '5px' }}>{profile.score} points</span>
+
+
+          </div>
         </div>
-      </Card>
+      </Card >
 
       <Link to={ROUTES.POKEDEX_PEOPLE}>
         <Button
