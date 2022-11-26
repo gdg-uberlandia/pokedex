@@ -143,6 +143,8 @@ export const addProfile = async (
     throw new ShowableError("Perfil já adicionado!");
   }
 
+  profileToAdd.contents = []
+
   _profile.contents.profiles = [..._profile.contents.profiles, profileToAdd];
 
   const scoreToAdd = profileToAdd.shine ? SCORES.PROFILE_SHINE : SCORES.PROFILE;
