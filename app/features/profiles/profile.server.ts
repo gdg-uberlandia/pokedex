@@ -148,9 +148,17 @@ export const addProfile = async (
   const scoreToAdd = profileToAdd.shine ? SCORES.PROFILE_SHINE : SCORES.PROFILE;
   _profile.score = _profile.score! + scoreToAdd;
 
-  await checkAndCreateAwards(_profile);
+  try {
+    await checkAndCreateAwards(_profile);
+  } catch (error) {
+    throw new ShowableError("checkAndCreateAwards: " + JSON.stringify(error));
+  }
 
-  return await updateProfile(_profile.id!, _profile);
+  try {
+    return await updateProfile(_profile.id!, _profile);
+  } catch (error) {
+    throw new ShowableError("updateProfile: " + JSON.stringify(error));
+  }
 };
 
 
