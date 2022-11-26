@@ -157,6 +157,7 @@ export const addProfile = async (
   try {
     return await updateProfile(_profile.id!, _profile);
   } catch (error) {
+    console.log("error", error);
     throw new ShowableError("updateProfile: " + profileToAdd.id);
   }
 };
