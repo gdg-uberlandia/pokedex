@@ -28,15 +28,7 @@ export default function Index() {
         throw redirect(ROUTES.LOGIN);
     }
 
-    return (
-        <>
-            <Card title="Seu QR Code" className="mb-7">
-                <div className="flex items-center justify-center">
-                    <QRCode value={`${url}/profiles/${profile.id!}`} />
-                </div>
-            </Card>
-
-
+      <Card title="Seu QR Code">
 
             <Link to={ROUTES.HOME}>
                 <Button

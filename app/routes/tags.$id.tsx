@@ -46,16 +46,7 @@ export default function OtherTag() {
         if (successMessage) toast.success(successMessage)
     }, [])
 
-    return (
-        <>
-            <Card title={`Tag ${successMessage ? 'adicionada' : ''}`} className="mb-7">
-                <div className="flex justify-center">
-
-                    <img src={tag!.image} width="200" alt={tag!.name} />
-                    <br />
-                    {(successMessage) ? <p>A tag {tag!.name} foi adicionada ao seu perfil</p> : null}
-                </div>
-            </Card>
+      <Card title={`Tag ${successMessage ? "adicionada" : ""}`}>
 
             <Link to={ROUTES.HOME}>
                 <Button

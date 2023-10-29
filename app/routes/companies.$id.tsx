@@ -48,7 +48,7 @@ export default function OtherCompanyProfile() {
 
     return (
         <>
-            <Card title={`Empresa ${successMessage ? 'adicionada' : ''}`} className="mb-7">
+      <Card title={`Empresa ${successMessage ? "adicionada" : ""}`}>
                 <Profile image={company!.image} name={company!.name} isAvatar />
             </Card>
 
