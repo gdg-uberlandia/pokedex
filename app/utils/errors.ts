@@ -1,6 +1,1 @@
-
-
-export default class ShowableError extends Error {
-}
-
-
+export default class ShowableError extends Error {}

@@ -1,12 +1,12 @@
 import { find, random } from "lodash";
 import { db } from "~/services/firebase.server";
 import { COLLECTIONS } from "~/utils/collections";
-import { SCORES } from '~/utils/scores';
-import { LEVELS } from '~/utils/levels'
+import { SCORES } from "~/utils/scores";
+import { LEVELS } from "~/utils/levels";
 import type { Award, Company, Profile, Tag } from "./types";
 import ShowableError from "~/utils/errors";
 
-export const getAllProfiles = () => { };
+export const getAllProfiles = () => {};
 
 export const getProfileById = async (id?: string): Promise<Profile | null> => {
   if (!id) {
@@ -99,7 +99,7 @@ export const registerProfile = async (profile: Profile) => {
       profiles: [],
       companies: [],
       tags: [],
-      awards: []
+      awards: [],
     };
     return createProfile(profile);
   }
@@ -119,8 +119,7 @@ const getAndCheckProfileByEmail = async (email?: string): Promise<Profile> => {
     );
 
   return _profile;
-}
-
+};
 
 export const addProfile = async (
   email?: string,
@@ -143,7 +142,7 @@ export const addProfile = async (
     throw new ShowableError("Perfil já adicionado!");
   }
 
-  profileToAdd.contents = []
+  profileToAdd.contents = [];
 
   _profile.contents.profiles = [..._profile.contents.profiles, profileToAdd];
 
@@ -164,11 +163,10 @@ export const addProfile = async (
   }
 };
 
-
-
-
-export const addCompany = async (email?: string, companyToAdd?: Company | null) => {
-
+export const addCompany = async (
+  email?: string,
+  companyToAdd?: Company | null
+) => {
   const _profile = await getAndCheckProfileByEmail(email);
 
   if (!companyToAdd) {
@@ -190,7 +188,6 @@ export const addCompany = async (email?: string, companyToAdd?: Company | null) 
 };
 
 export const addTag = async (email?: string, tagToAdd?: Tag | null) => {
-
   const _profile = await getAndCheckProfileByEmail(email);
 
   if (!tagToAdd) {
@@ -199,7 +196,7 @@ export const addTag = async (email?: string, tagToAdd?: Tag | null) => {
 
   const _result = find(_profile.contents?.tags, ["id", tagToAdd.id]);
   if (_result) {
-    throw new ShowableError('Tag já adicionada!');
+    throw new ShowableError("Tag já adicionada!");
   }
 
   _profile.contents.tags = [..._profile.contents.tags, tagToAdd];
@@ -212,16 +209,20 @@ export const addTag = async (email?: string, tagToAdd?: Tag | null) => {
 };
 
 export const checkAndCreateAwards = async (profile: Profile) => {
-  if(profile && profile.score >= LEVELS[3] && (!profile.contents.awards || profile.contents.awards?.length <=0)){
-    const award = {consumed:false, user_id: profile.id};
+  if (
+    profile &&
+    profile.score >= LEVELS[3] &&
+    (!profile.contents.awards || profile.contents.awards?.length <= 0)
+  ) {
+    const award = { consumed: false, user_id: profile.id };
     const awardRef = await db.collection(COLLECTIONS.AWARDS).add(award);
     const _award = await awardRef.get();
-    const awardFinal: Award = {..._award.data(), id: _award.id};
-    await awardRef.update({...awardFinal});
-    if(profile.contents?.awards?.length){
+    const awardFinal: Award = { ..._award.data(), id: _award.id };
+    await awardRef.update({ ...awardFinal });
+    if (profile.contents?.awards?.length) {
       profile.contents.awards = [...profile.contents.awards, awardFinal];
     } else {
-      profile.contents.awards = [awardFinal]
+      profile.contents.awards = [awardFinal];
     }
   }
 };

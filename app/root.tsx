@@ -1,5 +1,6 @@
-import { json, LinksFunction, MetaFunction } from "@remix-run/node";
-import { ToastContainer } from 'react-toastify';
+import { json } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
+import { ToastContainer } from "react-toastify";
 
 import {
   Links,
@@ -13,7 +14,7 @@ import {
 
 import tailwindStylesheetUrl from "~/styles/tailwind.css";
 import globalStylesheetUrl from "~/styles/globals.css";
-import reactTostifyStylsheetUrl from 'react-toastify/dist/ReactToastify.css';
+import reactTostifyStylsheetUrl from "react-toastify/dist/ReactToastify.css";
 import { Logo } from "./components";
 
 // Explicacao transmissão variaveis para o FRONT
@@ -59,9 +60,7 @@ export default function App() {
       <body className="h-full">
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(
-              data.ENV
-            )}`,
+            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
           }}
         />
         <span className="fixed inset-0 z-[-1] bg-blue-800 bg-game-pattern mix-blend-multiply"></span>
