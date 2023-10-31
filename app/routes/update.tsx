@@ -26,7 +26,10 @@ export async function action({ request }: { request: Request }) {
   const url = formData.get("url") as string;
   const skills = formData.get("skills") as string;
 
-  await updateProfile(profile!.id!, { url, skills: !skills ? [] : skills.split(",") });
+  await updateProfile(profile!.id!, {
+    url,
+    skills: !skills ? [] : skills.split(","),
+  });
 
   return redirect(ROUTES.HOME);
 }

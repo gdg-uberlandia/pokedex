@@ -4,15 +4,13 @@ import { json } from "@remix-run/node";
 import { Form, useLoaderData, Link } from "@remix-run/react";
 import { Button, Card, Image, Profile, Skills } from "~/components";
 import pokeball from "~/assets/images/pokeball.png";
-import trofeu from "~/assets/images/trofeu-pixel.png"
+import trofeu from "~/assets/images/trofeu-pixel.png";
 import { ROUTES } from "~/utils/routes";
 import QrCodeImage from "~/assets/images/qr-code.png";
 import Coin from "~/assets/images/coin_.png";
 import { getProfileByEmail } from "~/features/profiles/profile.server";
 import { getUser } from "~/features/users/user.server";
 import { getLevelByScore } from "~/utils/levels";
-import QRCode from "react-qr-code";
-import { useState } from "react";
 
 type LoaderData = {
   data: Awaited<ReturnType<typeof getUser>>;
@@ -36,43 +34,46 @@ export default function Index() {
     const consumed = profile?.contents?.awards[0].consumed;
 
     if (consumed) {
-      return 'Prêmio Retirado'
-    }
-    else {
+      return "Prêmio Retirado";
+    } else {
       return (
         <Link to={`/awards/${profile?.contents?.awards[0].id}`}>
-          <div>Prêmio Disponível <br />
-            <span style={{ fontSize: '10px' }}>
+          <div>
+            Prêmio Disponível <br />
+            <span style={{ fontSize: "10px" }}>
               (Clique aqui para visualizar)
             </span>
           </div>
         </Link>
       );
     }
-
-  }
+  };
   const parseStatusAward = () => {
     if (profile.contents?.awards?.length) {
-
-      return (<div
-        style={{
-          marginTop: '10px',
-          padding: '10px',
-          width: '100%',
-          fontFamily: 'PressStart',
-          backgroundColor: 'black',
-          color: 'white',
-          display: 'flex',
-          cursor: 'pointer'
-        }}>
-        <Image src={trofeu} style={{ height: 25 }} alt="Ver Pokédex" className="h-full" />
-        <div style={{ marginLeft: 10, fontSize: 14 }}>
-          {parseAward()}
+      return (
+        <div
+          style={{
+            marginTop: "10px",
+            padding: "10px",
+            width: "100%",
+            fontFamily: "PressStart",
+            backgroundColor: "black",
+            color: "white",
+            display: "flex",
+            cursor: "pointer",
+          }}
+        >
+          <Image
+            src={trofeu}
+            style={{ height: 25 }}
+            alt="Ver Pokédex"
+            className="h-full"
+          />
+          <div style={{ marginLeft: 10, fontSize: 14 }}>{parseAward()}</div>
         </div>
-      </div>);
-
+      );
     } else return "";
-  }
+  };
 
   const QrButton = (
     <div
@@ -88,7 +89,11 @@ export default function Index() {
 
   return (
     <>
-      <Card style={{ paddingBottom: '30px' }} className="mb-7" title="Seu perfil">
+      <Card
+        style={{ paddingBottom: "30px" }}
+        className="mb-7"
+        title="Seu perfil"
+      >
         <Profile
           className="mb-1"
           image={profile.user.photoUrl ?? ""}
@@ -98,21 +103,26 @@ export default function Index() {
         <Skills content={profile.skills} className="mb-2" />
 
         <hr />
-        <div style={{ margin: '0 auto', paddingTop: '30px' }}>
-          <p style={{ fontFamily: 'PressStart' }}>Level: {getLevelByScore(profile!.score!)}</p>
+        <div style={{ margin: "0 auto", paddingTop: "30px" }}>
+          <p style={{ fontFamily: "PressStart" }}>
+            Level: {getLevelByScore(profile!.score!)}
+          </p>
 
-          <div className="grid grid-flow-col auto-cols-max">
-
+          <div className="grid auto-cols-max grid-flow-col">
             <Image className={`w-[20px]`} src={Coin} alt="coin" />
-            <span style={{ fontFamily: 'PressStart', marginLeft: '10px', paddingTop: '5px' }}>{profile.score} points</span>
-
-
+            <span
+              style={{
+                fontFamily: "PressStart",
+                marginLeft: "10px",
+                paddingTop: "5px",
+              }}
+            >
+              {profile.score} points
+            </span>
           </div>
         </div>
         {parseStatusAward()}
       </Card>
-
-
 
       <Link to={ROUTES.POKEDEX_PEOPLE}>
         <Button
