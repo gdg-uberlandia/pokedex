@@ -26,7 +26,7 @@ export default function Awards() {
 
   return (
     <>
-      <Card title={`Prémio disponível`} className="mb-7">
+      <Card title="Prêmio disponível">
         <div className="flex items-center justify-center">
           <QRCode value={`${profile?.contents?.awards[0].id}`} />
         </div>

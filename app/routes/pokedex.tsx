@@ -5,7 +5,7 @@ import { ROUTES } from "~/utils/routes";
 export default function Pokedex() {
   return (
     <>
-      <Card style={{ paddingBottom: "30px" }} title="Pokédex">
+      <Card className="mb-16" title="Pokédex">
         <div className="mb-4 flex w-full">
           <NavLink className="w-full" to="/pokedex/people">
             {({ isActive }) => (

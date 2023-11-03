@@ -89,11 +89,7 @@ export default function Index() {
 
   return (
     <>
-      <Card
-        style={{ paddingBottom: "30px" }}
-        className="mb-7"
-        title="Seu perfil"
-      >
+      <Card className="mb-16" title="Seu perfil">
         <Profile
           className="mb-1"
           image={profile.user.photoUrl ?? ""}

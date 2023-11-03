@@ -27,8 +27,8 @@ function setClasses({
   hasImg: boolean;
 }) {
   const colorClasses = primary
-    ? "bg-white text-black hover:bg-black hover:text-slate-100"
-    : "bg-black text-white hover:bg-slate-100 hover:text-black";
+    ? "bg-white text-black hover:bg-black hover:text-slate-50"
+    : "bg-black text-white hover:bg-slate-50 hover:text-black";
   const textClasses = primary
     ? "text-[14px] text-left font-press"
     : "text-[25px] font-crux";
@@ -36,7 +36,7 @@ function setClasses({
     ? "bg-black text-white"
     : "bg-white text-black";
   const disabledColorClasses =
-    "bg-black text-white opacity-50 hover:bg-black hover:text-white opacity-50";
+    "bg-white text-black opacity-50 cursor-not-allowed hover:bg-white hover:text-black";
 
   return `
       flex items-center justify-center py-2 px-4 border-2 border-black rounded-md transition-colors

@@ -30,7 +30,7 @@ export default function Index() {
 
   return (
     <>
-      <Card title="Seu QR Code" className="mb-7">
+      <Card title="Seu QR Code">
         <div className="flex items-center justify-center">
           <QRCode value={`${url}/profiles/${profile.id!}`} />
         </div>
