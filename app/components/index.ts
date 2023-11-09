@@ -1,5 +1,6 @@
 export { Button } from "./Button";
 export { Card } from "./Card";
+export * from "./Chips";
 export { Image } from "./Image";
 export * from "./Input";
 export * from "./InputGroup";
