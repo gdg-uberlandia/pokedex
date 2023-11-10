@@ -3,4 +3,5 @@ export interface User {
   email: string;
   photoUrl: string | null;
   name: string;
+  isAdmin?: boolean;
 }
