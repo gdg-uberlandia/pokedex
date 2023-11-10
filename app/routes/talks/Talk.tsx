@@ -1,57 +1,48 @@
-import { Link } from "@remix-run/react";
-import { Button, Chip, Profile } from "~/components";
+import { Chip, Profile } from "~/components";
 
 interface Props {
-  id: string;
-  trailName: string;
+  trailName?: string;
   trailColor: string;
   trailBgColor: string;
   image: string;
   title: string;
   speaker: string;
-  canBeEvaluated: boolean;
+  children?: React.ReactNode;
 }
 
-export default function Talk({
-  id,
-  trailName,
+function Talk({
+  trailName = "",
   trailBgColor,
   trailColor,
   image,
   title,
   speaker,
-  canBeEvaluated,
+  children,
 }: Props) {
   return (
     <section className="[&:not(:last-child)]:mb-6">
-      <Chip
-        content={trailName}
-        className={`mb-3 ${trailColor} ${trailBgColor}`}
-      />
+      {trailName && (
+        <Chip
+          content={trailName}
+          className={`mb-3 ${trailColor} ${trailBgColor}`}
+        />
+      )}
 
       <div className="flex items-start gap-4">
         <Profile className="shrink-0" image={image} isAvatar />
         <div>
-          <h2 className="mb-2 font-crux text-3xl font-semibold  leading-5 text-black">
+          <h2 className="mb-1 font-sans text-base leading-4 text-black">
             {title}
           </h2>
-          <h3 className="mb-5 block w-full font-crux text-[24px] leading-3">
+          <h3 className="mb-5 block w-full font-sans text-sm font-medium text-stone-400">
             {speaker}
           </h3>
         </div>
       </div>
 
-      <Link to={`/talks/${id}`}>
-        <Button
-          className="font-crux text-[22px]"
-          disabled={!canBeEvaluated}
-          full
-          primary
-          small
-        >
-          {canBeEvaluated ? "Avaliar" : "Não disponível"}
-        </Button>
-      </Link>
+      {children}
     </section>
   );
 }
+
+export { Talk };
