@@ -39,9 +39,9 @@ function setClasses({
     "bg-white text-black opacity-50 cursor-not-allowed hover:bg-white hover:text-black";
 
   return `
-      flex items-center justify-center py-2 px-4 border-2 border-black rounded-md transition-colors
+      flex items-center justify-center py-2 px-4 border-2 border-black rounded-[10px] transition-colors
       ${full && "w-full"}
-      ${small ? "h-[30px]" : "h-[45px]"}
+      ${small ? "h-[30px] text-[25px] font-crux" : "h-[45px]"}
       ${textClasses}
       ${
         disabled

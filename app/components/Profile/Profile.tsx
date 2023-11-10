@@ -4,14 +4,14 @@ interface Props {
   className?: string;
   image?: string;
   isAvatar?: boolean;
-  name: string;
+  name?: string;
 }
 
 export function Profile({
   className = "",
   image = "",
   isAvatar = false,
-  name,
+  name = "",
 }: Props) {
   return (
     <figure
@@ -23,11 +23,13 @@ export function Profile({
         alt={name}
       />
 
-      <figcaption className="w-full">
-        <h1 className="text-center font-press text-xs font-normal text-black">
-          {name}
-        </h1>
-      </figcaption>
+      {name && (
+        <figcaption className="w-full">
+          <h1 className="text-center font-press text-xs font-normal text-black">
+            {name}
+          </h1>
+        </figcaption>
+      )}
     </figure>
   );
 }
