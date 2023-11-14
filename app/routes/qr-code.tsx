@@ -7,24 +7,27 @@ import { Button, Card } from "~/components";
 import { ROUTES } from "~/utils/routes";
 import QRCode from "react-qr-code";
 import { getProfileByEmail } from "~/features/profiles/profile.server";
+import { generateQrcode } from "~/features/qrcode/qrcode.server";
 
 type LoaderData = {
-  data: Awaited<ReturnType<typeof getUser>>;
-  profile: Awaited<ReturnType<typeof getProfileByEmail>>;
-  url: string;
+  qrcodeUrl?: string;
 };
 
 export async function loader({ request }: LoaderArgs) {
   const data = await getUser(request);
   const profile = await getProfileByEmail(data.email || "");
-  const url = process.env.URL!;
-  return json<LoaderData>({ data, profile, url });
+  let qrcodeUrl;
+  if (profile?.id) {
+    qrcodeUrl = generateQrcode(request, profile.id);
+  }
+
+  return json<LoaderData>({ qrcodeUrl });
 }
 
 export default function Index() {
-  const { profile, url } = useLoaderData<typeof loader>();
+  const { qrcodeUrl } = useLoaderData<typeof loader>();
 
-  if (!profile) {
+  if (!qrcodeUrl) {
     throw redirect(ROUTES.LOGIN);
   }
 
@@ -32,7 +35,7 @@ export default function Index() {
     <>
       <Card title="Seu QR Code">
         <div className="flex items-center justify-center">
-          <QRCode value={`${url}/profiles/${profile.id!}`} />
+          <QRCode value={qrcodeUrl} />
         </div>
       </Card>
 
