@@ -9,6 +9,7 @@ import { Profile } from "~/components/Profile";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import ShowableError from "~/utils/errors";
+import { validateQrCode } from "~/features/qrcode/qrcode.server";
 
 type LoaderData = {
   user: Awaited<ReturnType<typeof getUser>>;
@@ -18,6 +19,9 @@ type LoaderData = {
 };
 
 export async function loader({ request, params }: LoaderArgs) {
+  // TODO: move to try..catch
+  validateQrCode(request.url);
+
   const user = await getUser(request);
   const profile = await getProfileById(params.id || "");
 
@@ -33,6 +37,7 @@ export async function loader({ request, params }: LoaderArgs) {
         errorMessage: "Houve um erro ao adicionar perfil",
       });
   }
+
   return json<LoaderData>({
     user,
     profile,
