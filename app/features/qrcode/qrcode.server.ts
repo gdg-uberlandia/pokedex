@@ -30,6 +30,12 @@ export function validateQrCode(qrCodeUrl: string) {
     throw new Error("Invalid key");
   }
 
+  const maybeNumber = Number(exp);
+  if (!maybeNumber || isNaN(maybeNumber)) {
+    // TODO: move to errors
+    throw new Error("Invalid exp");
+  }
+
   const qrcodeExpired = Date.now() > Number(exp);
   if (qrcodeExpired) {
     // TODO: move to errors
