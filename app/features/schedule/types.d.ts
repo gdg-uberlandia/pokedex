@@ -6,7 +6,7 @@ export interface Schedule {
     speeches: Array<Speech>;
 }
 
-export interface Speech {
+interface Speech {
     duration?: number;
     path?: string;
     speakerSlug?: string;

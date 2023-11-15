@@ -1,5 +1,5 @@
 import { COLLECTIONS } from "~/utils/collections";
-import type { Schedule, Speech } from "./types";
+import type { Schedule } from "./types";
 import { db } from "~/services/firebase.server";
 import {getSpeakers} from "../speakers/speakers.schedule.server"
 
