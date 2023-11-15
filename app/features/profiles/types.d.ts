@@ -31,5 +31,11 @@ export interface Profile {
     profiles: Array<Partial<Profile>>;
     tags: Array<Tag>;
     awards: Array<Award>;
+    evaluations: Array<EvaluationIds>;
   };
+}
+
+export interface EvaluationIds {
+  speakerSlug: string;
+  scheduleId: string;
 }

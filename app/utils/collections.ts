@@ -4,5 +4,6 @@ export const COLLECTIONS = {
   COMPANIES: "companies",
   TAGS: "tags",
   SCHEDULE: "schedule",
-  SPEAKERS: "speakers"
+  SPEAKERS: "speakers",
+  EVALUATION: "evaluation"
 };
