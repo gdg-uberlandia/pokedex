@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
@@ -12,6 +11,13 @@ module.exports = {
       },
       backgroundImage: {
         "game-pattern": "url('/images/background.svg')",
+      },
+      colors: {
+        devfest: {
+          blue: "#3270eb",
+          red: "#cb4538",
+          orange: "#e59f38",
+        },
       },
     },
   },

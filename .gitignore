@@ -11,3 +11,5 @@ ui-debug.log
 /cypress/videos
 
 /app/styles/tailwind.css
+
+*:Zone.Identifier
