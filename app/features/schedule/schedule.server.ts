@@ -8,7 +8,7 @@ export const getSchedule = async (): Promise<Array<Schedule>> => {
     const speakers = await getSpeakers();
     const schedule: Array<Schedule> = scheduleQuerySnapshot.docs.map(doc => 
         {
-            const schedule = {...doc.data()} as Schedule
+            const schedule = {...doc.data(), id: doc.id} as Schedule
             schedule.speeches = schedule.speeches.map(scheduleDoc => {
                 if(scheduleDoc.speakerSlug){
                     const speaker = speakers.find(speaker => speaker.speakerSlug === scheduleDoc.speakerSlug);
