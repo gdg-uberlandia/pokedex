@@ -3,4 +3,6 @@ export const COLLECTIONS = {
   AWARDS: "awards",
   COMPANIES: "companies",
   TAGS: "tags",
+  SCHEDULE: "schedule",
+  SPEAKERS: "speakers"
 };
