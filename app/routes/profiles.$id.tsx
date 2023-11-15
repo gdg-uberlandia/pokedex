@@ -19,13 +19,11 @@ type LoaderData = {
 };
 
 export async function loader({ request, params }: LoaderArgs) {
-  // TODO: move to try..catch
-  validateQrCode(request.url);
-
   const user = await getUser(request);
   const profile = await getProfileById(params.id || "");
 
   try {
+    validateQrCode(request.url);
     await addProfile(user.email!, profile);
   } catch (error) {
     if (error instanceof ShowableError)
