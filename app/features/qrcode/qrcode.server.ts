@@ -2,16 +2,13 @@ import { createHmac, validateHmac } from "~/utils/hmac";
 import { logout } from "../users/user.server";
 import ShowableError from "~/utils/errors";
 
-const QRCODE_DURATION_IN_MS = 300 * 1000;
+const QRCODE_DURATION_IN_MS = 30 * 1000;
 
 export function generateQrcode(req: Request, profileId: string) {
   const expiresIn = Date.now() + QRCODE_DURATION_IN_MS;
   const expiresInHmac = createHmac(
     process.env.PRIVATE_KEY!,
-    expiresIn.toString(),
-    {
-      encoding: "base64url",
-    }
+    expiresIn.toString()
   );
   const url = process.env.URL!;
 
@@ -29,9 +26,7 @@ export function validateQrCode(qrCodeUrl: string) {
 
   const maybeNumber = Number(exp);
   const isValidSearchParams = maybeNumber && !isNaN(maybeNumber) && exp;
-  const isValidKey = validateHmac(process.env.PRIVATE_KEY!, key, exp, {
-    encoding: "base64url",
-  });
+  const isValidKey = validateHmac(process.env.PRIVATE_KEY!, key, exp);
   if (!isValidKey || !isValidSearchParams) {
     console.error("invalid qrcode");
     throw new ShowableError("Qrcode inválido ");

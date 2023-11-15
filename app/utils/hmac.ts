@@ -7,18 +7,18 @@ interface HmacOpts {
 export const createHmac = (
   privateKey: string,
   data: string,
-  opts: HmacOpts
+  opts?: HmacOpts
 ) => {
   const hmac = crypto.createHmac("sha256", privateKey);
-  return hmac.update(data).digest(opts.encoding);
+  return hmac.update(data).digest(opts?.encoding ?? "hex");
 };
 
 export const validateHmac = (
   privateKey: string,
   hmacToValidate: string,
   data: string,
-  opts: HmacOpts
+  opts?: HmacOpts
 ) => {
   const hmac = crypto.createHmac("sha256", privateKey);
-  return hmac.update(data).digest(opts.encoding) === hmacToValidate;
+  return hmac.update(data).digest(opts?.encoding ?? "hex") === hmacToValidate;
 };
