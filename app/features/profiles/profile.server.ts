@@ -6,8 +6,6 @@ import { LEVELS } from "~/utils/levels";
 import type { Award, Company, Profile, Tag } from "./types";
 import ShowableError from "~/utils/errors";
 
-export const getAllProfiles = () => {};
-
 export const getProfileById = async (id?: string): Promise<Profile | null> => {
   if (!id) {
     return null;

@@ -4,4 +4,5 @@ export const ROUTES = {
   POKEDEX_PEOPLE: "/pokedex/people",
   QR_CODE: "/qr-code",
   UPDATE_PROFILE: "/update",
+  PROFILE: "/profile",
 };
