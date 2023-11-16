@@ -3,4 +3,5 @@ export const SCORES = {
   PROFILE_SHINE: 150,
   COMPANY: 500,
   TAG: 175,
+  EVALUATION: 200
 };

@@ -103,7 +103,7 @@ export const registerProfile = async (profile: Profile) => {
   }
 };
 
-const getAndCheckProfileByEmail = async (email?: string): Promise<Profile> => {
+export const getAndCheckProfileByEmail = async (email?: string): Promise<Profile> => {
   if (!email) {
     throw new ShowableError(
       "Perfil não associado. Logue novamente para conseguir adicionar"
