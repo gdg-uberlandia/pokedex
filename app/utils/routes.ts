@@ -5,4 +5,5 @@ export const ROUTES = {
   QR_CODE: "/qr-code",
   UPDATE_PROFILE: "/update",
   PROFILE: "/profile",
+  SCHEDULE: "/schedule",
 };

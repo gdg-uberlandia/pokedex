@@ -31,7 +31,7 @@ export default function Schedule() {
     <Card title="Palestras">
       {talks.map((talk, key) => (
         <TalkComponent key={key} {...talk}>
-          <Link to={`/schedule/${talk.id}`}>
+          <Link to={`/schedule/${talk.sectionId}/talk/${talk.id}`}>
             <EvaluationButton
               canBeEvaluated={talk.canBeEvaluated}
               isAdmin={profile?.user?.isAdmin ?? false}

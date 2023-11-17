@@ -1,22 +1,43 @@
 import { Button } from "~/components";
-import { evaluationsHoverBgColor, evaluations } from "./constants";
+import { evaluationsColors, evaluations } from "./constants";
 
-export default function Evaluation() {
+function Evaluation({
+  data: { scheduleId, userEmail, ...rest },
+}: {
+  data: {
+    scheduleId?: string;
+    speakerSlug: string;
+    evaluatedBy?: string;
+    userEmail?: string;
+  };
+}) {
   const evaluationsWithColor = () =>
     evaluations.map((evaluation, index) => ({
       ...evaluation,
-      hoverBg: evaluationsHoverBgColor[index],
+      hoverBg: evaluationsColors[index],
     }));
+
+  const getEvaluationData = (score: number) =>
+    JSON.stringify({
+      scheduleId,
+      evaluation: {
+        ...rest,
+        score,
+      },
+      userEmail,
+    });
 
   return (
     <>
-      {evaluationsWithColor().map(({ id, value, label, hoverBg }) => (
+      {evaluationsWithColor().map(({ score, label, hoverBg }) => (
         <Button
-          key={id}
+          key={score}
           full
           primary
           small
-          onClick={() => console.log(value)}
+          type="submit"
+          name="_form"
+          value={getEvaluationData(score)}
           className={`${hoverBg} [&:not(:last-child)]:mb-2`}
         >
           {label}
@@ -25,3 +46,5 @@ export default function Evaluation() {
     </>
   );
 }
+
+export { Evaluation };
