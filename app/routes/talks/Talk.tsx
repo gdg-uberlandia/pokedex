@@ -1,41 +1,36 @@
 import { Chip, Profile } from "~/components";
 
 interface Props {
-  trailName?: string;
-  trailColor: string;
-  trailBgColor: string;
-  image: string;
-  title: string;
-  speaker: string;
   children?: React.ReactNode;
+  name?: string;
+  path: {
+    label?: string;
+    bgColor?: string;
+    color?: string;
+  };
+  photo?: string;
+  topic: string;
 }
 
 function Talk({
-  trailName = "",
-  trailBgColor,
-  trailColor,
-  image,
-  title,
-  speaker,
   children,
+  name = "",
+  path: { label = "", bgColor = "", color = "" },
+  photo = "",
+  topic,
 }: Props) {
   return (
     <section className="[&:not(:last-child)]:mb-6">
-      {trailName && (
-        <Chip
-          content={trailName}
-          className={`mb-3 ${trailColor} ${trailBgColor}`}
-        />
-      )}
+      {label && <Chip content={label} className={`mb-3 ${color} ${bgColor}`} />}
 
       <div className="flex items-start gap-4">
-        <Profile className="shrink-0" image={image} isAvatar />
-        <div>
+        <Profile className="w-1/3" image={photo} isAvatar />
+        <div className="w-2/3">
           <h2 className="mb-1 font-sans text-base leading-4 text-black">
-            {title}
+            {topic}
           </h2>
           <h3 className="mb-5 block w-full font-sans text-sm font-medium text-black/40">
-            {speaker}
+            {name}
           </h3>
         </div>
       </div>

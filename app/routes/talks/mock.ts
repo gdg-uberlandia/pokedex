@@ -24,7 +24,6 @@ const talks = [
   },
   {
     id: "3",
-
     trailName: "Trilha 3",
     trailBgColor: "bg-devfest-orange",
     trailColor: "text-white",
