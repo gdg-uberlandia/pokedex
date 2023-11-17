@@ -28,4 +28,27 @@ const evaluations = [
   },
 ];
 
-export { evaluationsHoverBgColor, evaluations };
+const paths = {
+  minas: {
+    label: "Minas",
+    bgColor: "bg-devfest-blue",
+    color: "text-white",
+  },
+  curado: {
+    label: "Curado",
+    bgColor: "bg-devfest-red",
+    color: "text-white",
+  },
+  canastra: {
+    label: "Canastra",
+    bgColor: "bg-devfest-orange",
+    color: "text-white",
+  },
+  comunidade: {
+    label: "Comunidade",
+    bgColor: "bg-black",
+    color: "text-white",
+  },
+};
+
+export { evaluationsHoverBgColor, evaluations, paths };

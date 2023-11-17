@@ -1,22 +1,33 @@
 import { COLLECTIONS } from "~/utils/collections";
-import type { Schedule } from "./types";
+import { get } from "lodash";
+import type { Schedule, Speech } from "./types";
 import { db } from "~/services/firebase.server";
-import {getSpeakers} from "../speakers/speakers.schedule.server"
+import { getSpeakers } from "~/features/speakers/speakers.schedule.server";
+import { mapSpeakersById } from "./utils";
 
-export const getSchedule = async (): Promise<Array<Schedule>> => {
-    const scheduleQuerySnapshot = await db.collection(COLLECTIONS.SCHEDULE).get();
-    const speakers = await getSpeakers();
-    const schedule: Array<Schedule> = scheduleQuerySnapshot.docs.map(doc => 
-        {
-            const schedule = {...doc.data(), id: doc.id} as Schedule
-            schedule.speeches = schedule.speeches.map(scheduleDoc => {
-                if(scheduleDoc.speakerSlug){
-                    const speaker = speakers.find(speaker => speaker.speakerSlug === scheduleDoc.speakerSlug);
-                    return {...scheduleDoc, speaker}
-                }
-                return {...scheduleDoc}
-            });
-            return schedule;
-        });
-    return schedule;
-}
+const getSchedule = async (): Promise<Array<Schedule>> => {
+  const scheduleQuerySnapshot = await db.collection(COLLECTIONS.SCHEDULE).get();
+  const speakers = await getSpeakers();
+
+  return scheduleQuerySnapshot.docs.map((doc) => {
+    const schedule = { ...doc.data(), id: doc.id } as Schedule;
+
+    return {
+      ...schedule,
+      speeches: schedule.speeches.reduce((acc, scheduleDoc) => {
+        if (scheduleDoc.speaker_id) {
+          const speaker = get(
+            mapSpeakersById(speakers),
+            scheduleDoc.speaker_id
+          );
+
+          return [...acc, { ...scheduleDoc, ...speaker }];
+        }
+
+        return acc;
+      }, [] as Speech[]),
+    };
+  });
+};
+
+export { getSchedule };
