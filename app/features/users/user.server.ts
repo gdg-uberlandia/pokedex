@@ -1,7 +1,9 @@
 import { redirect } from "@remix-run/node";
 import firebaseAdmin from "firebase-admin";
-import { destroySession } from "~/features/users/session.server";
-import { getUserSession } from "~/features/users/session.server";
+import {
+  getUserSession,
+  destroySession,
+} from "~/features/users/session.server";
 import { ROUTES } from "~/utils/routes";
 
 export async function getUser(request: Request) {

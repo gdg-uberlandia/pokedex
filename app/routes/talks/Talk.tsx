@@ -34,7 +34,7 @@ function Talk({
           <h2 className="mb-1 font-sans text-base leading-4 text-black">
             {title}
           </h2>
-          <h3 className="mb-5 block w-full font-sans text-sm font-medium text-stone-400">
+          <h3 className="mb-5 block w-full font-sans text-sm font-medium text-black/40">
             {speaker}
           </h3>
         </div>
