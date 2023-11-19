@@ -6,13 +6,13 @@ import { Talk as TalkComponent } from "./Talk";
 import { getUser } from "~/features/users/user.server";
 import { getProfileByEmail } from "~/features/profiles/profile.server";
 import { getSchedule } from "~/features/schedule/schedule.server";
-import type { Schedule } from "~/features/schedule/types";
+import type { Schedule as ScheduleType } from "~/features/schedule/types";
 import { EvaluationButton } from "./EvaluationButton";
 import { convertScheduleToTalks } from "./utils";
 
 type LoaderData = {
   profile: Awaited<ReturnType<typeof getProfileByEmail>>;
-  schedule: Schedule[];
+  schedule: ScheduleType[];
 };
 
 export async function loader({ request }: LoaderArgs) {
@@ -23,7 +23,7 @@ export async function loader({ request }: LoaderArgs) {
   return json<LoaderData>({ profile, schedule });
 }
 
-export default function Talks() {
+export default function Schedule() {
   const { profile, schedule } = useLoaderData<typeof loader>();
   const talks = convertScheduleToTalks(schedule);
 
@@ -31,7 +31,7 @@ export default function Talks() {
     <Card title="Palestras">
       {talks.map((talk, key) => (
         <TalkComponent key={key} {...talk}>
-          <Link to={`/talks/${talk.id}`}>
+          <Link to={`/schedule/${talk.sectionId}/talk/${talk.id}`}>
             <EvaluationButton
               canBeEvaluated={talk.canBeEvaluated}
               isAdmin={profile?.user?.isAdmin ?? false}

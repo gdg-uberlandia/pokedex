@@ -38,6 +38,7 @@ export default function Profile() {
 
   const { awards } = profile?.contents;
   const consumed = awards?.[0]?.consumed;
+  const hasAwardsToRetrieve = awards && !consumed;
 
   return (
     <>
@@ -63,8 +64,8 @@ export default function Profile() {
           <figcaption className="font-press">{profile.score} pontos</figcaption>
         </figure>
 
-        {!consumed && (
-          <Link to={`/awards/${profile?.contents?.awards[0].id}`}>
+        {hasAwardsToRetrieve && (
+          <Link to={`/awards/${profile?.contents?.awards?.[0].id}`}>
             <Button
               img={
                 <Image

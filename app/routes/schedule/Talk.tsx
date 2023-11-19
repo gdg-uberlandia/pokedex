@@ -3,7 +3,7 @@ import { Chip, Profile } from "~/components";
 interface Props {
   children?: React.ReactNode;
   name?: string;
-  path: {
+  path?: {
     label?: string;
     bgColor?: string;
     color?: string;
@@ -12,13 +12,9 @@ interface Props {
   topic: string;
 }
 
-function Talk({
-  children,
-  name = "",
-  path: { label = "", bgColor = "", color = "" },
-  photo = "",
-  topic,
-}: Props) {
+function Talk({ children, name = "", path = {}, photo = "", topic }: Props) {
+  const { label = "", bgColor = "", color = "" } = path;
+
   return (
     <section className="[&:not(:last-child)]:mb-6">
       {label && <Chip content={label} className={`mb-3 ${color} ${bgColor}`} />}

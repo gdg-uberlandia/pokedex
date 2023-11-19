@@ -1,4 +1,4 @@
-const evaluationsHoverBgColor = [
+const evaluationsColors = [
   "hover:bg-devfest-blue",
   "hover:bg-devfest-red",
   "hover:bg-devfest-orange",
@@ -7,23 +7,19 @@ const evaluationsHoverBgColor = [
 
 const evaluations = [
   {
-    id: "1",
-    value: "0",
+    score: 0,
     label: "Ruim",
   },
   {
-    id: "2",
-    value: "1",
+    score: 1,
     label: "Regular",
   },
   {
-    id: "3",
-    value: "2",
+    score: 2,
     label: "Bom",
   },
   {
-    id: "4",
-    value: "3",
+    score: 3,
     label: "Excelente",
   },
 ];
@@ -51,4 +47,4 @@ const paths = {
   },
 };
 
-export { evaluationsHoverBgColor, evaluations, paths };
+export { evaluationsColors, evaluations, paths };
