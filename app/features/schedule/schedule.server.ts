@@ -1,19 +1,14 @@
 import { COLLECTIONS } from "~/utils/collections";
+import { TIME_TO_EXPIRE_EVALUATION } from "~/utils/config";
 import { get } from "lodash";
 import type { Schedule, Speech } from "./types";
 import { db } from "~/services/firebase.server";
 import { getSpeakers } from "~/features/speakers/speakers.schedule.server";
-import { mapSpeakersById } from "./utils";
-
-const getMinutesBetweenDates = (startDate: Date, endDate: Date) => {
-  const diff = endDate.getTime() - startDate.getTime();
-
-  return diff / 60000;
-};
+import { mapSpeakersById, getMinutesBetweenDates } from "./utils";
 
 const getScheduleById = async (id: string): Promise<Schedule> => {
   const docSnapshot = await db.collection(COLLECTIONS.SCHEDULE).doc(id).get();
-  
+
   if (!docSnapshot.exists) {
     throw Error("No such document exists");
   } else {
@@ -35,7 +30,7 @@ const getSchedule = async (): Promise<Array<Schedule>> => {
       getMinutesBetweenDates(
         new Date(speaker.evaluationStartTime),
         new Date()
-      ) > 10
+      ) > TIME_TO_EXPIRE_EVALUATION
     ) {
       return false;
     }

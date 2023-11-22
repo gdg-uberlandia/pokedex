@@ -38,4 +38,5 @@ export interface Profile {
 export interface EvaluationIds {
   speakerSlug: string;
   scheduleId: string;
+  path?: string;
 }
