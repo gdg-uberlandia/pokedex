@@ -9,4 +9,10 @@ const mapSpeakersById = (speakers: Speaker[]) =>
     {}
   );
 
-export { mapSpeakersById };
+const getMinutesBetweenDates = (startDate: Date, endDate: Date) => {
+  const diff = endDate.getTime() - startDate.getTime();
+
+  return diff / 60000;
+};
+
+export { mapSpeakersById, getMinutesBetweenDates };
