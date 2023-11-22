@@ -5,5 +5,5 @@ export const COLLECTIONS = {
   TAGS: "tags",
   SCHEDULE: "schedule",
   SPEAKERS: "speakers",
-  EVALUATION: "evaluation"
+  EVALUATIONS: "evaluations",
 };

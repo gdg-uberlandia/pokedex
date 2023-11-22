@@ -13,6 +13,7 @@ interface Props {
   type?: "submit" | "reset" | "button";
   value?: string;
   small?: boolean;
+  style?: React.CSSProperties;
 }
 
 function setClasses({
@@ -68,6 +69,7 @@ export function Button({
   small = false,
   type = "button",
   value,
+  style,
 }: Props) {
   return (
     <button
@@ -85,6 +87,7 @@ export function Button({
       onClick={onClick}
       type={type}
       value={value}
+      style={{ ...style }}
     >
       {children}
       {img}
