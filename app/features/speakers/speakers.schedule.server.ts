@@ -32,4 +32,23 @@ const getSpeakerById = async (id?: string): Promise<Speaker> => {
   };
 };
 
-export { getSpeakers, getSpeakerById };
+const allowSpeakerEvaluation = async (speakerSlug: string) => {
+  const docRef = await db.collection(COLLECTIONS.SPEAKERS).doc(speakerSlug);
+  const speakerQuerySnapshot = await docRef.get();
+
+  if (!speakerQuerySnapshot.exists) {
+    throw Error("Palestrante não encontrado");
+  }
+
+  const speaker: Speaker = {
+    ...(speakerQuerySnapshot.data() as Speaker),
+    speakerSlug: speakerQuerySnapshot.id,
+  };
+
+  speaker.canBeEvaluated = true;
+  speaker.evaluationStartTime = new Date().toISOString();
+
+  await docRef.update({ ...speaker });
+};
+
+export { getSpeakers, getSpeakerById, allowSpeakerEvaluation };

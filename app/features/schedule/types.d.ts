@@ -11,8 +11,8 @@ interface Speech {
   id: string;
   duration?: number;
   path?: string;
-  speaker_id?: string;
-  speaker?: Speaker;
+  speakerSlugs?: Array<string>;
+  speakers?: Array<Speaker>;
   topic?: string;
   canBeEvaluated?: boolean;
 }

@@ -10,6 +10,8 @@ export interface Speaker {
   topic: string;
   speakerSlug: string;
   id: string;
+  canBeEvaluated: boolean;
+  evaluationStartTime: string;
 }
 
 interface SocialMedia {

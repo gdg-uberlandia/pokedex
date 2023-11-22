@@ -9,6 +9,7 @@ import { getSchedule } from "~/features/schedule/schedule.server";
 import type { Schedule as ScheduleType } from "~/features/schedule/types";
 import { EvaluationButton } from "./EvaluationButton";
 import { convertScheduleToTalks } from "./utils";
+import { find } from "lodash";
 
 type LoaderData = {
   profile: Awaited<ReturnType<typeof getProfileByEmail>>;
@@ -31,12 +32,30 @@ export default function Schedule() {
     <Card title="Palestras">
       {talks.map((talk, key) => (
         <TalkComponent key={key} {...talk}>
-          <Link to={`/schedule/${talk.sectionId}/talk/${talk.id}`}>
+          {profile?.user?.isAdmin ? (
             <EvaluationButton
               canBeEvaluated={talk.canBeEvaluated}
-              isAdmin={profile?.user?.isAdmin ?? false}
+              isDisabled={talk.canBeEvaluated}
+              isAdmin={true}
+              onClick={() => {
+                // TODO: add call to allowSpeakerEvaluation
+              }}
             />
-          </Link>
+          ) : (
+            <Link to={`/schedule/${talk.sectionId}/talk/${talk.id}`}>
+              <EvaluationButton
+                canBeEvaluated={talk.canBeEvaluated}
+                isDisabled={!talk.canBeEvaluated}
+                isAdmin={false}
+                wasEvaluated={
+                  !!find(profile?.contents?.evaluations, [
+                    "speakerSlug",
+                    talk.id,
+                  ])
+                }
+              />
+            </Link>
+          )}
         </TalkComponent>
       ))}
     </Card>
