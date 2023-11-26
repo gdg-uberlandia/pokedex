@@ -14,6 +14,7 @@ interface Props {
   value?: string;
   small?: boolean;
   style?: React.CSSProperties;
+  variant?: "success" | "";
 }
 
 function setClasses({
@@ -24,6 +25,7 @@ function setClasses({
   hasImg,
   primary,
   small,
+  variant,
 }: Omit<Props, "children" | "onClick"> & {
   hasImg: boolean;
 }) {
@@ -36,6 +38,10 @@ function setClasses({
   const activeColorClasses = primary
     ? "bg-black text-white"
     : "bg-white text-black";
+  const variantColorClasses =
+    variant === "success"
+      ? "bg-white text-green-500 border-green-500 hover:text-green-500"
+      : "";
   const disabledColorClasses =
     "bg-white text-black opacity-50 cursor-not-allowed hover:bg-white hover:text-black";
 
@@ -51,6 +57,7 @@ function setClasses({
           ? activeColorClasses
           : colorClasses
       }
+      ${variantColorClasses}
       ${hasImg && "justify-between"}
       ${className}
     `;
@@ -70,6 +77,7 @@ export function Button({
   type = "button",
   value,
   style,
+  variant,
 }: Props) {
   return (
     <button
@@ -81,6 +89,7 @@ export function Button({
         hasImg: !!img,
         primary,
         small,
+        variant,
       })}
       disabled={disabled}
       name={name}

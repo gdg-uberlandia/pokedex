@@ -1,39 +1,91 @@
-import { Button } from "~/components";
+import { Link, Form } from "@remix-run/react";
+import { some } from "lodash";
+import { Button as ButtonComponent } from "~/components";
+import type { Profile } from "~/features/profiles/types";
 
-function EvaluationButton({
-  canBeEvaluated = false,
-  isAdmin,
-  isDisabled,
-  wasEvaluated = false,
-  onClick,
-}: {
+type Props = {
   canBeEvaluated?: boolean;
+  evaluations?: Profile["contents"]["evaluations"];
+  isAdmin?: boolean;
+  speakerSlug: string;
+  sectionId: string;
+};
+
+const canTalkBeEvaluated = ({
+  canBeEvaluated,
+  isAdmin,
+  isAlreadyEvaluated,
+}: any) => {
+  if (isAdmin) {
+    return canBeEvaluated;
+  }
+
+  return !canBeEvaluated || isAlreadyEvaluated;
+};
+
+function Button({
+  canBeEvaluated,
+  isAdmin,
+  isAlreadyEvaluated,
+  speakerSlug,
+}: {
+  canBeEvaluated: boolean;
   isAdmin: boolean;
-  isDisabled: boolean;
-  wasEvaluated?: boolean;
-  onClick?: () => void;
+  isAlreadyEvaluated: boolean;
+  speakerSlug: string;
 }) {
   const getLabel = () => {
     if (isAdmin) {
-      return isDisabled ? "Avaliação liberada" : "Liberar avaliação";
+      return canBeEvaluated ? "Avaliação liberada" : "Liberar avaliação";
     }
 
-    if (wasEvaluated) return "Avaliado";
+    if (isAlreadyEvaluated) return "Avaliado";
 
     return canBeEvaluated ? "Avaliar" : "Não disponível";
   };
 
   return (
-    <Button
-      disabled={isDisabled || wasEvaluated}
-      onClick={onClick}
+    <ButtonComponent
+      disabled={canTalkBeEvaluated({
+        canBeEvaluated,
+        isAdmin,
+        isAlreadyEvaluated,
+      })}
+      value={speakerSlug}
+      type="submit"
+      name="_speakerSlug"
       full
       primary
       small
-      style={wasEvaluated ? { color: "green", borderColor: "green" } : {}}
+      variant={isAlreadyEvaluated ? "success" : ""}
     >
       {getLabel()}
-    </Button>
+    </ButtonComponent>
+  );
+}
+
+function EvaluationButton({
+  canBeEvaluated = false,
+  evaluations = [],
+  isAdmin = false,
+  speakerSlug,
+  sectionId,
+}: Props) {
+  const isAlreadyEvaluated = some(evaluations, ["speakerSlug", speakerSlug]);
+
+  const children = (
+    <Button
+      canBeEvaluated={canBeEvaluated}
+      isAdmin={isAdmin}
+      isAlreadyEvaluated={isAlreadyEvaluated}
+      speakerSlug={speakerSlug}
+    />
+  );
+
+  if (isAdmin) return <Form method="post">{children}</Form>;
+
+  return (
+    <Link to={`/schedule/${sectionId}/talk/${speakerSlug}`}>{children}</Link>
   );
 }
 
