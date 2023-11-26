@@ -42,20 +42,10 @@ export async function action({ request }: { request: Request }) {
 
   try {
     const _profile: any = await registerProfile({
-      user: {
-        userId: user.uid,
-        email: user.email!,
-        photoUrl: user.photoURL,
-        name: user.displayName!,
-      },
-      shine: false,
-      contents: {
-        companies: [],
-        profiles: [],
-        tags: [],
-      },
-      skills: [],
-      url: "",
+      userId: user.uid,
+      email: user.email!,
+      photoUrl: user.photoURL,
+      name: user.displayName!,
     });
 
     return createUserSession({

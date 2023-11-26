@@ -1,10 +1,11 @@
-import { find, random } from "lodash";
+import { find, merge } from "lodash";
 import { db } from "~/services/firebase.server";
 import { COLLECTIONS } from "~/utils/collections";
 import { SCORES } from "~/utils/scores";
 import { LEVELS } from "~/utils/levels";
 import type { Award, Company, Profile, Tag } from "./types";
 import ShowableError from "~/utils/errors";
+import { createBrandNewProfile } from "~/utils/profile";
 
 export const getProfileById = async (id?: string): Promise<Profile | null> => {
   if (!id) {
@@ -76,30 +77,26 @@ export const updateProfile = async (
   return getProfileById(id);
 };
 
-export const createProfile = async (profile: Profile) => {
+export const createProfile = async (profile: Partial<Profile>) => {
   const profileRef = await db.collection(COLLECTIONS.PROFILES).add(profile);
   const _profile = await profileRef.get();
+
   return {
     ..._profile.data(),
     key: profile.id,
   };
 };
 
-export const registerProfile = async (profile: Profile) => {
-  const _existedProfile = await getProfileByEmail(profile.user.email);
+export const registerProfile = async (user: Profile["user"]) => {
+  const _existedProfile = await getProfileByEmail(user.email);
+
   if (_existedProfile) {
-    return await updateProfile(_existedProfile.id!, profile);
+    return await updateProfile(
+      _existedProfile.id!,
+      merge(_existedProfile, { user })
+    );
   } else {
-    const _randomProbabilityShine = random(0, 1000);
-    profile.score = 0;
-    profile.shine = _randomProbabilityShine < 150;
-    profile.contents = {
-      profiles: [],
-      companies: [],
-      tags: [],
-      awards: [],
-    };
-    return createProfile(profile);
+    return createProfile(createBrandNewProfile(user));
   }
 };
 
