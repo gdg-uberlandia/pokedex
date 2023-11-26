@@ -1,4 +1,5 @@
-import { find } from "lodash";
+import { find, filter } from "lodash";
+
 import { COLLECTIONS } from "~/utils/collections";
 import { SCORES } from "~/utils/scores";
 import { TIME_TO_EXPIRE_EVALUATION } from "~/utils/config";
@@ -35,7 +36,8 @@ export const addEvaluation = async (
     obj?.speakerSlugs?.includes(evaluation.speakerSlug)
   );
   const isCommunity = speech[0]?.path?.toUpperCase() === "COMUNIDADE";
-  let evaluations = _profile.contents?.evaluations.filter(
+  let evaluations = filter(
+    _profile.contents?.evaluations,
     (evaluation) => evaluation.scheduleId === scheduleId
   );
   if (evaluations.length) {
