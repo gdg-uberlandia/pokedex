@@ -3,6 +3,7 @@ import { redirect } from "@remix-run/node";
 import { ROUTES } from "~/utils/routes";
 import { getProfileByEmail } from "~/features/profiles/profile.server";
 import { getUser } from "~/features/users/user.server";
+
 export async function loader({ request }: LoaderArgs) {
   const data = await getUser(request);
   const profile = await getProfileByEmail(data.email || "");

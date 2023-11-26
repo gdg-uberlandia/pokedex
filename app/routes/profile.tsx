@@ -38,7 +38,7 @@ export default function Profile() {
 
   const { awards } = profile?.contents;
   const consumed = awards?.[0]?.consumed;
-  const hasAwardsToRetrieve = awards && !consumed;
+  const hasAwardsToRetrieve = !!awards.length && !consumed;
 
   return (
     <>
