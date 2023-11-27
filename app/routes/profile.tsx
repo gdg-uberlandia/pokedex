@@ -104,6 +104,12 @@ export default function Profile() {
         </Button>
       </Link>
 
+      <Link to={ROUTES.SCHEDULE}>
+        <Button className="mb-4" full>
+          Avalie as palestras
+        </Button>
+      </Link>
+
       <Link to={ROUTES.UPDATE_PROFILE}>
         <Button full>Atualizar perfil</Button>
       </Link>

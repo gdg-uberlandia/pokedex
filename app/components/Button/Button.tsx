@@ -25,7 +25,7 @@ function setClasses({
   hasImg,
   primary,
   small,
-  variant,
+  variant, // TODO: remove primary prop and use variant instead
 }: Omit<Props, "children" | "onClick"> & {
   hasImg: boolean;
 }) {
@@ -39,9 +39,7 @@ function setClasses({
     ? "bg-black text-white"
     : "bg-white text-black";
   const variantColorClasses =
-    variant === "success"
-      ? "bg-white text-green-500 border-green-500 hover:text-green-500"
-      : "";
+    variant === "success" ? "bg-white text-green-500 hover:text-green-500" : "";
   const disabledColorClasses =
     "bg-white text-black opacity-50 cursor-not-allowed hover:bg-white hover:text-black";
 

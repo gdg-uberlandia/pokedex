@@ -9,7 +9,7 @@ import { getSchedule } from "~/features/schedule/schedule.server";
 import { allowSpeakerEvaluation } from "~/features/speakers/speakers.schedule.server";
 import type { Schedule as ScheduleType } from "~/features/schedule/types";
 import { EvaluationButton } from "./EvaluationButton";
-import { convertScheduleToTalks } from "./utils";
+import { convertScheduleToSections } from "./utils";
 import { ROUTES } from "~/utils/routes";
 
 type LoaderData = {
@@ -36,21 +36,33 @@ export async function action({ request }: { request: Request }) {
 
 export default function Schedule() {
   const { profile, schedule } = useLoaderData<typeof loader>();
-  const talks = convertScheduleToTalks(schedule);
+  const sections = convertScheduleToSections(schedule);
 
   return (
-    <Card title="Palestras">
-      {talks.map((talk, key) => (
-        <TalkComponent key={key} {...talk}>
-          <EvaluationButton
-            canBeEvaluated={talk.canBeEvaluated}
-            isAdmin={profile?.user.isAdmin}
-            evaluations={profile?.contents.evaluations}
-            speakerSlug={talk.id}
-            sectionId={talk.sectionId}
-          />
-        </TalkComponent>
-      ))}
-    </Card>
+    <>
+      {sections.map(
+        (
+          section: any // TODO: remove any
+        ) => (
+          <Card title={`${section.start} - ${section.end}`} key={section.id}>
+            {section.speeches.map(
+              (
+                speech: any // TODO: remove any
+              ) => (
+                <TalkComponent key={speech.id} {...speech}>
+                  <EvaluationButton
+                    canBeEvaluated={speech.canBeEvaluated}
+                    isAdmin={profile?.user.isAdmin}
+                    evaluations={profile?.contents.evaluations}
+                    speakerSlug={speech.id}
+                    sectionId={speech.sectionId}
+                  />
+                </TalkComponent>
+              )
+            )}
+          </Card>
+        )
+      )}
+    </>
   );
 }

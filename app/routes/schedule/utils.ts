@@ -1,7 +1,6 @@
 import { get, pick } from "lodash";
 import type { Schedule, Speech } from "~/features/schedule/types";
 import { paths } from "./constants";
-import type { Talk } from "./types";
 
 const addPathInfoToSpeeches = ({
   speeches,
@@ -17,17 +16,22 @@ const addPathInfoToSpeeches = ({
   }));
 };
 
-const convertScheduleToTalks = (schedule: Schedule[]) => {
-  return schedule.reduce(
+const convertScheduleToSections = (schedule: Schedule[]) => {
+  const sectionsWithTalks = schedule.filter(({ speeches }) => speeches.length);
+
+  return sectionsWithTalks.reduce(
     (acc, section) => [
       ...acc,
-      ...addPathInfoToSpeeches({
-        speeches: section.speeches,
-        sectionId: section.id,
-      }),
+      {
+        ...section,
+        speeches: addPathInfoToSpeeches({
+          speeches: section.speeches,
+          sectionId: section.id,
+        }),
+      },
     ],
-    [] as Talk[]
+    [] as any // TODO: remove this any
   );
 };
 
-export { addPathInfoToSpeeches, convertScheduleToTalks };
+export { addPathInfoToSpeeches, convertScheduleToSections };

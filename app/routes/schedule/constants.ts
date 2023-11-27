@@ -25,22 +25,22 @@ const evaluations = [
 ];
 
 const paths = {
-  minas: {
+  MINAS: {
     label: "Minas",
     bgColor: "bg-devfest-blue",
     color: "text-white",
   },
-  curado: {
+  CURADO: {
     label: "Curado",
     bgColor: "bg-devfest-red",
     color: "text-white",
   },
-  canastra: {
+  CANASTRA: {
     label: "Canastra",
     bgColor: "bg-devfest-orange",
     color: "text-white",
   },
-  comunidade: {
+  COMUNIDADE: {
     label: "Comunidade",
     bgColor: "bg-black",
     color: "text-white",
