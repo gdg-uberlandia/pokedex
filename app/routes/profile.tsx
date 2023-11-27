@@ -55,15 +55,6 @@ export default function Profile() {
           className="[&:not(:last-child)]:mb-4"
         />
 
-        <figure className="flex w-full items-center gap-2 [&:not(:last-child)]:mb-4">
-          <Image
-            className="max-w-[25px]"
-            src={coin}
-            alt={`${profile.score} pontos`}
-          />
-          <figcaption className="font-press">{profile.score} pontos</figcaption>
-        </figure>
-
         {hasAwardsToRetrieve && (
           <Link to={`/awards/${profile?.contents?.awards?.[0].id}`}>
             <Button
