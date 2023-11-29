@@ -11,7 +11,6 @@ import {
 } from "~/components";
 import pokeball from "~/assets/images/pokeball.png";
 import trophy from "~/assets/images/trofeu-pixel.png";
-import coin from "~/assets/images/coin.png";
 import { ROUTES } from "~/utils/routes";
 import QrCodeImage from "~/assets/images/qr-code.svg";
 import { getUser } from "~/features/users/user.server";
