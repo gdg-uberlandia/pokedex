@@ -1,5 +1,6 @@
 import { json, redirect } from "@remix-run/node";
 import { Form, useSubmit } from "@remix-run/react";
+import { toast } from "react-toastify";
 import {
   signInWithGitHub,
   signInWithGoogle,
@@ -11,11 +12,11 @@ import {
   getSession,
   destroySession,
 } from "~/features/users/session.server";
-import { Button } from "~/components";
+import { Button, Image } from "~/components";
 import { ROUTES } from "~/utils/routes";
 import type { User } from "firebase/auth";
 import { registerProfile } from "~/features/profiles/profile.server";
-import { toast } from "react-toastify";
+import Ash from "~/assets/images/ash.gif";
 
 export async function loader({ request }: any) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -106,15 +107,25 @@ export default function Index() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center">
-      <div className="row-auto ">
+    <main className="flex flex-col items-center justify-center pt-12">
+      <div className="row-auto">
         <Form onSubmit={_signInWithGitHub}>
-          <Button type="submit">Entrar com Github</Button>
+          <Button type="submit" primary>
+            Entrar com Github
+          </Button>
         </Form>
         <Form onSubmit={_signInWithGoogle} style={{ marginTop: "10px" }}>
-          <Button type="submit">Entrar com Google</Button>
+          <Button type="submit" primary>
+            Entrar com Google
+          </Button>
         </Form>
       </div>
+
+      <Image
+        src={Ash}
+        alt="Ash e seus Pokémons"
+        className="fixed bottom-0 w-8/12"
+      />
     </main>
   );
 }
