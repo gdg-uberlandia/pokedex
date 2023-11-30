@@ -1,6 +1,7 @@
 import { json } from "@remix-run/node";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import { ToastContainer } from "react-toastify";
+import { getBgColor } from "~/utils/root";
 
 import {
   Links,
@@ -27,6 +28,7 @@ export async function loader() {
       FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
       FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
     },
+    bgColor: getBgColor(),
   });
 }
 
@@ -50,7 +52,8 @@ export const meta: MetaFunction = () => ({
 });
 
 export default function App() {
-  const data = useLoaderData();
+  const { ENV, bgColor } = useLoaderData();
+
   return (
     <html lang="en" className="h-full">
       <head>
@@ -60,10 +63,12 @@ export default function App() {
       <body>
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+            __html: `window.ENV = ${JSON.stringify(ENV)}`,
           }}
         />
-        <span className="fixed inset-0 z-[-1] bg-blue-800 bg-game-pattern mix-blend-multiply"></span>
+        <span
+          className={`fixed inset-0 z-[-1] bg-game-pattern ${bgColor}`}
+        ></span>
         <main className="relative m-auto min-h-screen max-w-[320px] pt-7">
           <ToastContainer />
           <Logo />
