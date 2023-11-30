@@ -1,8 +1,5 @@
 import { json } from "@remix-run/node";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
-import { ToastContainer } from "react-toastify";
-import { getBgColor } from "~/utils/root";
-
 import {
   Links,
   LiveReload,
@@ -12,11 +9,12 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-
+import { ToastContainer } from "react-toastify";
+import reactTostifyStylsheetUrl from "react-toastify/dist/ReactToastify.css";
 import tailwindStylesheetUrl from "~/styles/tailwind.css";
 import globalStylesheetUrl from "~/styles/globals.css";
-import reactTostifyStylsheetUrl from "react-toastify/dist/ReactToastify.css";
-import { Logo } from "./components";
+import { Logo } from "~/components";
+import { getBgColor } from "~/utils/root";
 
 // Explicacao transmissão variaveis para o FRONT
 //https://remix.run/docs/en/v1/guides/envvars
@@ -47,7 +45,7 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Pokédex",
+  title: "Devfest Triângulo 2023",
   viewport: "width=device-width,initial-scale=1",
 });
 
@@ -69,7 +67,7 @@ export default function App() {
         <span
           className={`fixed inset-0 z-[-1] bg-game-pattern ${bgColor}`}
         ></span>
-        <main className="relative m-auto min-h-screen max-w-[320px] pt-7">
+        <main className="relative m-auto min-h-screen max-w-[320px] p-1 pt-7">
           <ToastContainer />
           <Logo />
           <Outlet />
