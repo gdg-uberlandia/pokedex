@@ -109,7 +109,7 @@ export default function Profile() {
         className="absolute inset-x-0 bottom-4"
         method="post"
       >
-        <Button full type="submit">
+        <Button type="submit" full primary small>
           Sair
         </Button>
       </Form>

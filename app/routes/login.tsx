@@ -124,7 +124,7 @@ export default function Index() {
       <Image
         src={Ash}
         alt="Ash e seus Pokémons"
-        className="fixed bottom-0 w-8/12"
+        className="fixed bottom-0 w-8/12 max-w-[250px]"
       />
     </main>
   );
