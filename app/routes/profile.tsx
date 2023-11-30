@@ -113,7 +113,7 @@ export default function Profile() {
 
       <Form
         action="/logout"
-        className="absolute inset-x-0 bottom-4"
+        className="inset-x-0 bottom-4 short:absolute"
         method="post"
       >
         <Button type="submit" full primary small>

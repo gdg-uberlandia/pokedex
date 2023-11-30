@@ -19,6 +19,9 @@ module.exports = {
           orange: "#e59f38",
         },
       },
+      screens: {
+        'short': { 'raw': '(min-height: 640px)' },
+      }
     },
   },
   plugins: [],
