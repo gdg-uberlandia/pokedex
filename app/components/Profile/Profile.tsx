@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Image } from "~/components";
 
 interface Props {
@@ -5,6 +6,7 @@ interface Props {
   image?: string;
   isAvatar?: boolean;
   name?: string;
+  children?: ReactNode;
 }
 
 export function Profile({
@@ -12,6 +14,7 @@ export function Profile({
   image = "",
   isAvatar = false,
   name = "",
+  children,
 }: Props) {
   return (
     <figure
@@ -30,6 +33,8 @@ export function Profile({
           </h1>
         </figcaption>
       )}
+
+      {children}
     </figure>
   );
 }

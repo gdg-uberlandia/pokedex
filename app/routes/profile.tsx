@@ -13,6 +13,7 @@ import pokeball from "~/assets/images/pokeball.png";
 import trophy from "~/assets/images/trofeu-pixel.png";
 import { ROUTES } from "~/utils/routes";
 import QrCodeImage from "~/assets/images/qr-code.svg";
+import Gear from "~/assets/images/gear.png";
 import { getUser } from "~/features/users/user.server";
 import { getProfileByEmail } from "~/features/profiles/profile.server";
 
@@ -42,12 +43,22 @@ export default function Profile() {
   return (
     <>
       <Card className="mb-6" title="Seu perfil">
-        <ProfileComponent
-          className="mb-1"
-          image={profile.user.photoUrl ?? ""}
-          isAvatar
-          name={profile.user.name}
-        />
+        <Link to={ROUTES.UPDATE_PROFILE}>
+          <ProfileComponent
+            className="relative mb-1"
+            image={profile.user.photoUrl ?? ""}
+            isAvatar
+            name={profile.user.name}
+          >
+            <div className="absolute z-10 h-full w-[90px]">
+              <Image
+                src={Gear}
+                alt="Atualizar perfil"
+                className="absolute right-0 top-0 h-6 w-6"
+              />
+            </div>
+          </ProfileComponent>
+        </Link>
 
         <Skills
           content={profile.skills}
@@ -98,10 +109,6 @@ export default function Profile() {
         <Button className="mb-4" full>
           Avalie as palestras
         </Button>
-      </Link>
-
-      <Link to={ROUTES.UPDATE_PROFILE}>
-        <Button full>Atualizar perfil</Button>
       </Link>
 
       <Form
