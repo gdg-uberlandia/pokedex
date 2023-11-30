@@ -5,24 +5,13 @@ import { Image } from "~/components";
 import { ROUTES } from "~/utils/routes";
 
 export function Logo() {
-  const { pathname, ...location } = useLocation();
-  console.log("🚀 ~ Logo ~ location:", location);
+  const { pathname } = useLocation();
   const navigate = useNavigate();
-
-  // return (
-  //   <Link to="/">
-  //     <figure className="mx-auto mb-7 flex h-9 w-full max-w-[260px] justify-center gap-3 rounded-full bg-white py-3">
-  //       <Image src={Logotype} alt="Logotipo Devfest Triângulo 2023" />
-  //       <h3 className="whitespace-nowrap font-press text-[10px]">
-  //         devfest triângulo
-  //       </h3>
-  //     </figure>
-  //   </Link>
-  // );
+  const renderGoBackButton = ![ROUTES.LOGIN, ROUTES.PROFILE].includes(pathname);
 
   return (
     <nav className="mx-auto mb-7 flex h-9 w-full items-center justify-center gap-3">
-      {pathname !== ROUTES.PROFILE && (
+      {renderGoBackButton && (
         <button
           onClick={() => navigate(-1)}
           className="flex h-full w-12 items-center justify-center rounded-full bg-white"
