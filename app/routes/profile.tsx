@@ -10,7 +10,7 @@ import {
   Skills,
 } from "~/components";
 import pokeball from "~/assets/images/pokeball.png";
-import trophy from "~/assets/images/trofeu-pixel.png";
+import trophy from "~/assets/images/trophy.png";
 import { ROUTES } from "~/utils/routes";
 import QrCodeImage from "~/assets/images/qr-code.svg";
 import Gear from "~/assets/images/gear.png";
