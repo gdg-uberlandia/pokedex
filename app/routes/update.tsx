@@ -1,4 +1,4 @@
-import type { LoaderArgs, Request } from "@remix-run/node";
+import type { LoaderArgs, ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
@@ -19,7 +19,7 @@ export async function loader({ request }: LoaderArgs) {
   return json(profile);
 }
 
-export async function action({ request }: { request: Request }) {
+export async function action({ request }: ActionArgs) {
   const user = await getUser(request);
   const profile = await getProfileByEmail(user.email || "");
   const formData = await request.formData();
