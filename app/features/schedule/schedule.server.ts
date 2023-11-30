@@ -23,7 +23,6 @@ const getScheduleById = async (id: string): Promise<Schedule> => {
 const getSchedule = async (): Promise<Array<Schedule>> => {
   const scheduleQuerySnapshot = await db.collection(COLLECTIONS.SCHEDULE).get();
   const speakers = await getSpeakers();
-  // filter Speakers with evaluation time finished
   const filteredSpeakers = speakers.filter((speaker) => {
     if (
       speaker.evaluationStartTime &&
@@ -44,28 +43,16 @@ const getSchedule = async (): Promise<Array<Schedule>> => {
       ...schedule,
       speeches: schedule.speeches.reduce((acc, scheduleDoc) => {
         if (scheduleDoc.speakerSlugs) {
-          if (scheduleDoc.speakerSlugs.length === 1) {
-            const speaker = get(
-              mapSpeakersById(filteredSpeakers),
-              scheduleDoc.speakerSlugs
-            );
-            if (!speaker) {
-              // if can't find speaker (probably speaker's evaluation time is over)
-              return acc;
-            }
+          const speaker = get(
+            mapSpeakersById(filteredSpeakers),
+            scheduleDoc.speakerSlugs[0]
+          );
 
-            return [...acc, { ...scheduleDoc, ...speaker }];
-          } else {
-            for (var i = 0; i < scheduleDoc.speakerSlugs.length; i++) {
-              const speaker = get(
-                mapSpeakersById(filteredSpeakers),
-                scheduleDoc.speakerSlugs[i]
-              );
-              if (speaker) {
-                acc = [...acc, { ...scheduleDoc, ...speaker }];
-              }
-            }
+          if (!speaker) {
+            return acc;
           }
+
+          return [...acc, { ...scheduleDoc, ...speaker }];
         }
 
         return acc;
