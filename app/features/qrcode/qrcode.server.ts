@@ -2,7 +2,7 @@ import { createHmac, validateHmac } from "~/utils/hmac";
 import { logout } from "../users/user.server";
 import ShowableError from "~/utils/errors";
 
-const QRCODE_DURATION_IN_MS = 30 * 1000;
+const QRCODE_DURATION_IN_MS = 60 * 1000;
 
 export function generateQrcode(req: Request, profileId: string) {
   const expiresIn = String(Date.now() + QRCODE_DURATION_IN_MS);
