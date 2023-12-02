@@ -208,7 +208,7 @@ export const addTag = async (email?: string, tagToAdd?: Tag | null) => {
 export const checkAndCreateAwards = async (profile: Profile) => {
   if (
     profile &&
-    profile.score >= LEVELS[3] &&
+    profile.score >= LEVELS[2] &&
     (!profile.contents.awards || profile.contents.awards?.length <= 0)
   ) {
     const award = { consumed: false, user_id: profile.id };
