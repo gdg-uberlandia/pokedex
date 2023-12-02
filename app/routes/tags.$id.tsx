@@ -51,7 +51,7 @@ export default function OtherTag() {
   return (
     <>
       <Card title={`Tag ${successMessage ? "adicionada" : ""}`}>
-        <div className="flex justify-center">
+        <div className="flex flex-col justify-center">
           <img src={tag!.image} width="200" alt={tag!.name} />
           <br />
           {successMessage ? (
