@@ -16,7 +16,7 @@ import { Button, Image, Loader } from "~/components";
 import { ROUTES } from "~/utils/routes";
 import type { User } from "firebase/auth";
 import { registerProfile } from "~/features/profiles/profile.server";
-import Ash from "~/assets/images/ash.gif";
+import Android from "~/assets/images/android.png";
 
 export async function loader({ request }: any) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -125,9 +125,9 @@ export default function Index() {
       </div>
 
       <Image
-        src={Ash}
+        src={Android}
         alt="Ash e seus Pokémons"
-        className="fixed bottom-0 w-8/12 max-w-[250px]"
+        className="fixed bottom-0 w-8/12 max-w-[200px]"
       />
     </main>
   );
