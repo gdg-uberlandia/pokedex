@@ -172,7 +172,7 @@ export const addCompany = async (
 
   const _result = find(_profile.contents?.companies, ["id", companyToAdd.id]);
   if (_result) {
-    throw new ShowableError("Empresa já adicionado!");
+    throw new ShowableError("Empresa já adicionada!");
   }
 
   _profile.contents.companies = [..._profile.contents.companies, companyToAdd];

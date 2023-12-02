@@ -3,6 +3,7 @@ import { Image } from "~/components";
 
 interface Props {
   className?: string;
+  imgClassName?: string;
   image?: string;
   isAvatar?: boolean;
   name?: string;
@@ -11,6 +12,7 @@ interface Props {
 
 export function Profile({
   className = "",
+  imgClassName = "",
   image = "",
   isAvatar = false,
   name = "",
@@ -21,7 +23,9 @@ export function Profile({
       className={`flex grow flex-wrap items-end justify-center ${className}`}
     >
       <Image
-        className={`mb-2 w-[90px] ${isAvatar && "rounded-full"}`}
+        className={`mb-2 w-[90px] ${
+          isAvatar && "rounded-full"
+        } ${imgClassName}`}
         src={image}
         alt={name}
       />

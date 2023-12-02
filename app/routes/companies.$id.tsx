@@ -53,7 +53,12 @@ export default function OtherCompanyProfile() {
   return (
     <>
       <Card title={`Empresa ${successMessage ? "adicionada" : ""}`}>
-        <Profile image={company!.image} name={company!.name} isAvatar />
+        <Profile
+          image={company!.image}
+          imgClassName="h-16 object-contain"
+          name={company!.name}
+          isAvatar
+        />
       </Card>
 
       <Link to={ROUTES.HOME}>
