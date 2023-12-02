@@ -1,7 +1,7 @@
 export const SCORES = {
   PROFILE: 30,
   PROFILE_SHINE: 150,
-  COMPANY: 500,
+  COMPANY: 200,
   TAG: 175,
   EVALUATION: 200,
 };

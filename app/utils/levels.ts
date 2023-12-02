@@ -1,10 +1,10 @@
 export const LEVELS = {
   1: 700,
-  2: 3200,
-  3: 4400,
-  4: 7400,
-  5: 11900,
-  6: 10000000,
+  2: 1400,
+  3: 2100,
+  4: 2800,
+  5: 3500,
+  6: 4200,
 };
 
 export const getLevelByScore = (score: number): number => {
