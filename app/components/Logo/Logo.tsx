@@ -1,23 +1,24 @@
-import { Link, useLocation, useNavigate } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
+import { get } from "lodash";
 import Logotype from "~/assets/images/logo.svg";
 import Back from "~/assets/images/back.svg";
 import { Image } from "~/components";
 import { ROUTES } from "~/utils/routes";
 
 export function Logo() {
-  const { pathname } = useLocation();
-  const navigate = useNavigate();
+  const { pathname, ...location } = useLocation();
+  const backTo = get(location, "state.backTo", "/");
   const renderGoBackButton = ![ROUTES.LOGIN, ROUTES.PROFILE].includes(pathname);
 
   return (
     <nav className="mx-auto mb-7 flex h-9 w-full items-center justify-center gap-3">
       {renderGoBackButton && (
-        <button
-          onClick={() => navigate(-1)}
+        <Link
+          to={backTo}
           className="flex h-full w-12 items-center justify-center rounded-full bg-white"
         >
           <Image className="h-7" src={Back} alt="Voltar para página anterior" />
-        </button>
+        </Link>
       )}
 
       <Link
