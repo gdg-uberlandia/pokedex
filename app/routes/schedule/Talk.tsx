@@ -20,7 +20,12 @@ function Talk({ children, name = "", path = {}, photo = "", topic }: Props) {
       {label && <Chip content={label} className={`mb-3 ${color} ${bgColor}`} />}
 
       <div className="flex items-start gap-4">
-        <Profile className="w-1/3" image={photo} isAvatar />
+        <Profile
+          className="w-1/3"
+          image={photo}
+          isAvatar
+          imgClassName="w-[88px] h-[88px]"
+        />
         <div className="w-2/3">
           <h2 className="mb-1 font-sans text-base leading-4 text-black">
             {topic}
