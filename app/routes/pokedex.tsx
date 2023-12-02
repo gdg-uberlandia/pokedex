@@ -1,10 +1,13 @@
-import { Link, NavLink, Outlet } from "@remix-run/react";
-import { Button, Card } from "~/components";
-import { ROUTES } from "~/utils/routes";
+import { NavLink, Outlet, useTransition } from "@remix-run/react";
+import { Button, Card, Loader } from "~/components";
 
 export default function Pokedex() {
+  const { state } = useTransition();
+
   return (
     <>
+      {state === "loading" && <Loader />}
+
       <Card className="mb-16" title="Pokédex">
         <div className="mb-4 flex w-full">
           <NavLink className="w-full" to="/pokedex/people">
@@ -35,12 +38,6 @@ export default function Pokedex() {
 
         <Outlet />
       </Card>
-
-      <Link to={ROUTES.HOME}>
-        <Button className="mb-4" primary full>
-          Ir para Home
-        </Button>
-      </Link>
     </>
   );
 }
