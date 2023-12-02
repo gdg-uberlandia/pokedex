@@ -10,9 +10,9 @@ export default function Pokedex() {
           <NavLink className="w-full" to="/pokedex/people">
             {({ isActive }) => (
               <Button
-                active={isActive}
-                className="rounded-r-none border-r-[1px]"
-                disabled={isActive}
+                className={`rounded-r-none border-r-[1px] ${
+                  isActive ? "!bg-black !text-white" : "!bg-white !text-black"
+                }`}
                 full
               >
                 Pessoas
@@ -22,9 +22,9 @@ export default function Pokedex() {
           <NavLink className="w-full" to="/pokedex/companies">
             {({ isActive }) => (
               <Button
-                active={isActive}
-                className="rounded-l-none border-l-[1px]"
-                disabled={isActive}
+                className={`rounded-l-none border-l-[1px] ${
+                  isActive ? "!bg-black !text-white" : "!bg-white !text-black"
+                }`}
                 full
               >
                 Empresas
