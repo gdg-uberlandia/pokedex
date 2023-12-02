@@ -1,5 +1,5 @@
 import { json, redirect } from "@remix-run/node";
-import { Form, useSubmit } from "@remix-run/react";
+import { Form, useSubmit, useTransition } from "@remix-run/react";
 import { toast } from "react-toastify";
 import {
   signInWithGitHub,
@@ -12,7 +12,7 @@ import {
   getSession,
   destroySession,
 } from "~/features/users/session.server";
-import { Button, Image } from "~/components";
+import { Button, Image, Loader } from "~/components";
 import { ROUTES } from "~/utils/routes";
 import type { User } from "firebase/auth";
 import { registerProfile } from "~/features/profiles/profile.server";
@@ -68,6 +68,7 @@ export async function action({ request }: { request: Request }) {
 
 export default function Index() {
   const submit = useSubmit();
+  const { state } = useTransition();
 
   const _signInWithGitHub = async () => {
     try {
@@ -108,6 +109,8 @@ export default function Index() {
 
   return (
     <main className="flex flex-col items-center justify-center pt-12">
+      {state === "loading" && <Loader />}
+
       <div className="row-auto">
         <Form onSubmit={_signInWithGitHub}>
           <Button type="submit" primary>

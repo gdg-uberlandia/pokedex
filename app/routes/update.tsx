@@ -1,14 +1,14 @@
 import type { LoaderArgs, ActionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { Form, useLoaderData, useTransition } from "@remix-run/react";
 import { useRef, useEffect, useState } from "react";
 
 import {
   getProfileByEmail,
   updateProfile,
 } from "~/features/profiles/profile.server";
-import { Button, Card, Input, Label, InputGroup } from "~/components";
+import { Button, Card, Input, Label, InputGroup, Loader } from "~/components";
 import { ROUTES } from "~/utils/routes";
 import { getUser } from "~/features/users/user.server";
 
@@ -36,6 +36,7 @@ export async function action({ request }: ActionArgs) {
 
 export default function Profile() {
   const { skills: skillsFromAPI, url } = useLoaderData();
+  const { state } = useTransition();
 
   useEffect(() => {
     setSkills(skillsFromAPI);
@@ -58,44 +59,48 @@ export default function Profile() {
   };
 
   return (
-    <Card title="Sobre você">
-      <Label>Sua habilidades</Label>
-      <ul className="mb-2">
-        {skills?.map((skill: string, key: number) => (
-          <li className="mb-2 flex justify-between gap-2" key={key}>
-            <Input defaultValue={skill} disabled />
-            <input name="skillToRemove" type="hidden" value={skill} />
-            <Button onClick={() => removeSkill(skill)} small>
-              x
-            </Button>
-          </li>
-        ))}
-      </ul>
+    <>
+      {["submitting", "loading"].includes(state) && <Loader />}
 
-      <InputGroup className="mb-2">
-        <Input
-          onChange={(event) => setCurrentSkill(event.currentTarget.value)}
-          placeholder="Adicione uma habilidade"
-          type="text"
-          value={currentSkill}
-        />
-        <Button disabled={!currentSkill} onClick={addCurrentSkill} small>
-          <span className="rotate-45">x</span>
-        </Button>
-      </InputGroup>
+      <Card title="Sobre você">
+        <Label>Sua habilidades</Label>
+        <ul className="mb-2">
+          {skills?.map((skill: string, key: number) => (
+            <li className="mb-2 flex justify-between gap-2" key={key}>
+              <Input defaultValue={skill} disabled />
+              <input name="skillToRemove" type="hidden" value={skill} />
+              <Button onClick={() => removeSkill(skill)} small>
+                x
+              </Button>
+            </li>
+          ))}
+        </ul>
 
-      <Form method="post" ref={formRef}>
-        <input name="skills" type="hidden" value={skills} />
+        <InputGroup className="mb-2">
+          <Input
+            onChange={(event) => setCurrentSkill(event.currentTarget.value)}
+            placeholder="Adicione uma habilidade"
+            type="text"
+            value={currentSkill}
+          />
+          <Button disabled={!currentSkill} onClick={addCurrentSkill} small>
+            <span className="rotate-45">x</span>
+          </Button>
+        </InputGroup>
 
-        <Label className="mb-8">
-          Adicione uma rede social
-          <Input defaultValue={url} name="url" type="text" />
-        </Label>
+        <Form method="post" ref={formRef}>
+          <input name="skills" type="hidden" value={skills} />
 
-        <Button full type="submit">
-          Salvar
-        </Button>
-      </Form>
-    </Card>
+          <Label className="mb-8">
+            Adicione uma rede social
+            <Input defaultValue={url} name="url" type="text" />
+          </Label>
+
+          <Button full type="submit">
+            Salvar
+          </Button>
+        </Form>
+      </Card>
+    </>
   );
 }
