@@ -8,3 +8,4 @@ export * from "./Label";
 export { Logo } from "./Logo";
 export { Profile } from "./Profile";
 export * from "./Skills";
+export { Loader } from "./Loader";

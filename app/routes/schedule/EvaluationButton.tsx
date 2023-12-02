@@ -85,7 +85,12 @@ function EvaluationButton({
   if (isAdmin) return <Form method="post">{children}</Form>;
 
   return (
-    <Link to={`/schedule/${sectionId}/talk/${speakerSlug}`}>{children}</Link>
+    <Link
+      to={`/schedule/${sectionId}/talk/${speakerSlug}`}
+      state={{ backTo: "/schedule" }}
+    >
+      {children}
+    </Link>
   );
 }
 

@@ -1,11 +1,11 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { useLoaderData, Form } from "@remix-run/react";
+import { useLoaderData, Form, useTransition } from "@remix-run/react";
 import { getSpeakerById } from "~/features/speakers/speakers.schedule.server";
 import { getUser } from "~/features/users/user.server";
 import { addEvaluation } from "~/features/evaluation/evaluation.server";
 import { getProfileByEmail } from "~/features/profiles/profile.server";
-import { Card } from "~/components";
+import { Card, Loader } from "~/components";
 import { Talk as TalkComponent } from "./Talk";
 import { Evaluation as EvaluationComponent } from "./Evaluation";
 import { ROUTES } from "~/utils/routes";
@@ -40,6 +40,7 @@ export async function action({ request }: ActionArgs) {
 
 export default function Talk() {
   const { speaker, profile, sectionId } = useLoaderData<typeof loader>();
+  const { state } = useTransition();
 
   const evaluationData = {
     scheduleId: sectionId,
@@ -49,17 +50,21 @@ export default function Talk() {
   };
 
   return (
-    <Card title="Feedback">
-      <h2 className="mb-8 text-center font-press text-[12px] text-black">
-        Qual a sua avaliação para a palestra abaixo?
-      </h2>
+    <>
+      {["submitting", "loading"].includes(state) && <Loader />}
 
-      <TalkComponent {...speaker}>
-        <Form method="post">
-          <EvaluationComponent data={evaluationData} />
-        </Form>
-      </TalkComponent>
-    </Card>
+      <Card title="Feedback">
+        <h2 className="mb-8 text-center font-press text-[12px] text-black">
+          Qual a sua avaliação para a palestra abaixo?
+        </h2>
+
+        <TalkComponent {...speaker}>
+          <Form method="post">
+            <EvaluationComponent data={evaluationData} />
+          </Form>
+        </TalkComponent>
+      </Card>
+    </>
   );
 }
 

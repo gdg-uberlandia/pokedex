@@ -11,7 +11,7 @@ export async function getUser(request: Request) {
   const token = session.get("token");
 
   try {
-    return await firebaseAdmin.auth().verifySessionCookie(token, true);
+    return await firebaseAdmin.auth().verifySessionCookie(token);
   } catch (error) {
     throw logout(request);
   }

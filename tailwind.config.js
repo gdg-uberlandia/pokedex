@@ -21,6 +21,9 @@ module.exports = {
       },
       screens: {
         'tall': { 'raw': '(min-height: 640px)' },
+      },
+      animation: {
+        'spin-slow': 'spin 2s linear infinite',
       }
     },
   },
