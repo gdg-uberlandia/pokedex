@@ -38,12 +38,6 @@ export default function Index() {
           <QRCode value={qrcodeUrl} />
         </div>
       </Card>
-
-      <Link to={ROUTES.HOME}>
-        <Button className="mb-4" primary full>
-          Voltar
-        </Button>
-      </Link>
     </>
   );
 }
