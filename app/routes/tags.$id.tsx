@@ -59,12 +59,6 @@ export default function OtherTag() {
           ) : null}
         </div>
       </Card>
-
-      <Link to={ROUTES.HOME}>
-        <Button className="mb-4" primary full>
-          Ir para home
-        </Button>
-      </Link>
     </>
   );
 }
