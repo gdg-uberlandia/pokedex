@@ -10,7 +10,7 @@ import {
   Skills,
 } from "~/components";
 import pokeball from "~/assets/images/pokeball.png";
-import trophy from "~/assets/images/trophy.png";
+import cheese from "~/assets/images/cheese.svg";
 import { ROUTES } from "~/utils/routes";
 import QrCodeImage from "~/assets/images/qr-code.svg";
 import Gear from "~/assets/images/gear.png";
@@ -70,7 +70,7 @@ export default function Profile() {
             <Button
               img={
                 <Image
-                  src={trophy}
+                  src={"/images/trophy.png"}
                   alt="Resgate seu prêmio"
                   className="h-full"
                 />
@@ -81,6 +81,23 @@ export default function Profile() {
             </Button>
           </Link>
         )}
+
+        <Link to="/missions">
+          <Button
+            full
+            primary={hasAwardsToRetrieve}
+            className="mt-2 !font-crux !text-[25px]"
+            img={
+              <Image
+                src={cheese}
+                alt="Confira suas missões"
+                className="h-full"
+              />
+            }
+          >
+            Ver missoes
+          </Button>
+        </Link>
       </Card>
 
       <Link to={ROUTES.POKEDEX_PEOPLE}>

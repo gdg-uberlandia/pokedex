@@ -32,7 +32,16 @@ export interface Profile {
     tags: Array<Tag>;
     awards: Array<Award>;
     evaluations: Array<EvaluationIds>;
+    /* 
+      This stamps are the missions that the profile has completed.
+    */
+    stamps: Array<Stamp>;
   };
+}
+
+export interface Stamp {
+  id: number;
+  name: string;
 }
 
 export interface EvaluationIds {
