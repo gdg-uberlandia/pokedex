@@ -41,7 +41,6 @@ export interface Profile {
 
 export interface Stamp {
   id: number;
-  name: string;
 }
 
 export interface EvaluationIds {

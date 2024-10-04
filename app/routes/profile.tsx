@@ -16,6 +16,7 @@ import QrCodeImage from "~/assets/images/qr-code.svg";
 import Gear from "~/assets/images/gear.png";
 import { getUser } from "~/features/users/user.server";
 import { getProfileByEmail } from "~/features/profiles/profile.server";
+import { MissionsCarrousel } from "~/components/MissionsCarrousel";
 
 type LoaderData = {
   data: Awaited<ReturnType<typeof getUser>>;
@@ -42,62 +43,74 @@ export default function Profile() {
 
   return (
     <>
-      <Card className="mb-6" title="Seu perfil">
-        <Link to={ROUTES.UPDATE_PROFILE}>
-          <ProfileComponent
-            className="relative mb-1"
-            image={profile.user.photoUrl ?? ""}
-            isAvatar
-            name={profile.user.name}
-          >
-            <div className="absolute z-10 h-full w-[90px]">
-              <Image
-                src={Gear}
-                alt="Atualizar perfil"
-                className="absolute right-0 top-0 h-6 w-6"
-              />
-            </div>
-          </ProfileComponent>
-        </Link>
+      <Card
+        className="mb-6"
+        articleProps={{
+          className: "px-0",
+        }}
+        title="Seu perfil"
+      >
+        <section className="px-2">
+          <Link to={ROUTES.UPDATE_PROFILE}>
+            <ProfileComponent
+              className="relative mb-1"
+              image={profile.user.photoUrl ?? ""}
+              isAvatar
+              name={profile.user.name}
+            >
+              <div className="absolute z-10 h-full w-[90px]">
+                <Image
+                  src={Gear}
+                  alt="Atualizar perfil"
+                  className="absolute right-0 top-0 h-6 w-6"
+                />
+              </div>
+            </ProfileComponent>
+          </Link>
 
-        <Skills
-          content={profile.skills}
-          className="[&:not(:last-child)]:mb-4"
-        />
+          <Skills
+            content={profile.skills}
+            className="[&:not(:last-child)]:mb-4"
+          />
 
-        {hasAwardsToRetrieve && (
-          <Link to={`/awards/${profile?.contents?.awards?.[0].id}`}>
+          {hasAwardsToRetrieve && (
+            <Link to={`/awards/${profile?.contents?.awards?.[0].id}`}>
+              <Button
+                img={
+                  <Image
+                    src={"/images/trophy.png"}
+                    alt="Resgate seu prêmio"
+                    className="h-full"
+                  />
+                }
+                full
+              >
+                Resgate seu prêmio
+              </Button>
+            </Link>
+          )}
+        </section>
+
+        <MissionsCarrousel stamps={profile.contents.stamps} />
+
+        <section className="px-2">
+          <Link to="/missions">
             <Button
+              full
+              primary={hasAwardsToRetrieve}
+              className="mt-2 !font-crux !text-[25px]"
               img={
                 <Image
-                  src={"/images/trophy.png"}
-                  alt="Resgate seu prêmio"
+                  src={cheese}
+                  alt="Confira suas missões"
                   className="h-full"
                 />
               }
-              full
             >
-              Resgate seu prêmio
+              Ver missoes
             </Button>
           </Link>
-        )}
-
-        <Link to="/missions">
-          <Button
-            full
-            primary={hasAwardsToRetrieve}
-            className="mt-2 !font-crux !text-[25px]"
-            img={
-              <Image
-                src={cheese}
-                alt="Confira suas missões"
-                className="h-full"
-              />
-            }
-          >
-            Ver missoes
-          </Button>
-        </Link>
+        </section>
       </Card>
 
       <Link to={ROUTES.POKEDEX_PEOPLE}>
