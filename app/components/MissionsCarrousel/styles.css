@@ -1,0 +1,9 @@
+.stamps__container {
+  scroll-snap-type: x mandatory;
+  --webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.stamps__item {
+  scroll-snap-align: center;
+}

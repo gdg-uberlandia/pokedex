@@ -1,35 +1,32 @@
 import { Stamp } from "~/features/profiles/types";
 import { Image } from "../Image";
 import { MISSIONS_LIST } from "~/features/missions/missions";
+import { LinksFunction } from "@remix-run/server-runtime";
+
+import styles from "./styles.css";
 
 interface Props {
   stamps: Array<Stamp>;
 }
 
-const ITEM_WIDTH = 118;
-
-// overflow-x: auto; */
-//     /* scroll-snap-type: x mandatory; */
-//     /* scroll-behavior: smooth; */
-//     -webkit-overflow-scrolling: touch;
+export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 export const MissionsCarrousel = ({ stamps }: Props) => {
   const missionsMapById = new Map(
     MISSIONS_LIST.map((mission) => [mission.id, mission])
   );
 
-  const initialTranslateX = (3 * ITEM_WIDTH) / 4 + 12;
+  const stampsOverflow = stamps.length > 2;
 
   return (
     <section className="my-3 text-center">
       <h3 className="font-crux text-xl leading-5">Seus selos</h3>
 
-      <article className="relative my-3 h-28 w-full">
+      <article className="my-3 h-32 overflow-hidden">
         <div
-          className="absolute flex h-full gap-3"
-          style={{
-            transform: `translateX(-${initialTranslateX}px)`,
-          }}
+          className={`stamps__container flex gap-3 overflow-x-auto px-3 pb-[26px] ${
+            stampsOverflow ? "justify-start" : "justify-center"
+          }`}
         >
           {stamps.map((stamp) => {
             const mission = missionsMapById.get(stamp.id);
@@ -41,7 +38,7 @@ export const MissionsCarrousel = ({ stamps }: Props) => {
             return (
               <div
                 key={stamp.id}
-                className={`flex h-full w-[${ITEM_WIDTH}px] flex-col items-center justify-center gap-3 rounded-lg border-2 border-black`}
+                className={`stamps__item flex h-28 w-[118px] flex-none flex-col items-center justify-center gap-3 rounded-lg border-2 border-black`}
               >
                 <Image
                   src={`images/${mission.icon.src}`}

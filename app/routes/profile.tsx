@@ -1,4 +1,4 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LinksFunction, LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, useLoaderData, Link } from "@remix-run/react";
@@ -16,11 +16,18 @@ import QrCodeImage from "~/assets/images/qr-code.svg";
 import Gear from "~/assets/images/gear.png";
 import { getUser } from "~/features/users/user.server";
 import { getProfileByEmail } from "~/features/profiles/profile.server";
-import { MissionsCarrousel } from "~/components/MissionsCarrousel";
+import {
+  MissionsCarrousel,
+  links as missionsLinks,
+} from "~/components/MissionsCarrousel";
 
 type LoaderData = {
   data: Awaited<ReturnType<typeof getUser>>;
   profile: Awaited<ReturnType<typeof getProfileByEmail>>;
+};
+
+export const links: LinksFunction = () => {
+  return [...missionsLinks()];
 };
 
 export async function loader({ request }: LoaderArgs) {
