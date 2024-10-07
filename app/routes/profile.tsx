@@ -98,7 +98,7 @@ export default function Profile() {
           )}
         </section>
 
-        <MissionsCarrousel stamps={profile.contents.stamps} />
+        <MissionsCarrousel missions={profile.contents.missions} />
 
         <section className="px-2">
           <Link to="/missions">

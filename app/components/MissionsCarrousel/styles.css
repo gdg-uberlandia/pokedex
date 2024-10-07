@@ -1,9 +1,9 @@
-.stamps__container {
+.missions__container {
   scroll-snap-type: x mandatory;
   --webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
 }
 
-.stamps__item {
+.missions__item {
   scroll-snap-align: center;
 }

@@ -1,4 +1,6 @@
-export const MISSIONS_LIST = [
+import { Profile } from "../profiles/types";
+
+export const MISSIONS_LIST: Array<StoredMission> = [
   {
     id: 1,
     title: "Missão 1",
@@ -27,3 +29,17 @@ export const MISSIONS_LIST = [
     },
   },
 ];
+
+interface StoredMission {
+  id: number;
+  title: string;
+  description: string;
+  icon: {
+    src: string;
+    alt: string;
+  };
+  /**
+   * This function should return true if the mission is completed
+   */
+  evaluate?: (profile: Profile, profileToAdd: Profile) => boolean;
+}

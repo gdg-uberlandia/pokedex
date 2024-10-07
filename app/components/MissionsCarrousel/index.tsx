@@ -1,4 +1,4 @@
-import { Stamp } from "~/features/profiles/types";
+import { Mission } from "~/features/profiles/types";
 import { Image } from "../Image";
 import { MISSIONS_LIST } from "~/features/missions/missions";
 import { LinksFunction } from "@remix-run/server-runtime";
@@ -6,17 +6,17 @@ import { LinksFunction } from "@remix-run/server-runtime";
 import styles from "./styles.css";
 
 interface Props {
-  stamps: Array<Stamp>;
+  missions: Array<Mission>;
 }
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
-export const MissionsCarrousel = ({ stamps }: Props) => {
+export const MissionsCarrousel = ({ missions }: Props) => {
   const missionsMapById = new Map(
     MISSIONS_LIST.map((mission) => [mission.id, mission])
   );
 
-  const stampsOverflow = stamps.length > 2;
+  const missionsOverflow = missions.length > 2;
 
   return (
     <section className="my-3 text-center">
@@ -24,11 +24,11 @@ export const MissionsCarrousel = ({ stamps }: Props) => {
 
       <article className="my-3 h-32 overflow-hidden">
         <div
-          className={`stamps__container flex gap-3 overflow-x-auto px-3 pb-[26px] ${
-            stampsOverflow ? "justify-start" : "justify-center"
+          className={`missions__container flex gap-3 overflow-x-auto px-3 pb-[26px] ${
+            missionsOverflow ? "justify-start" : "justify-center"
           }`}
         >
-          {stamps.map((stamp) => {
+          {missions.map((stamp) => {
             const mission = missionsMapById.get(stamp.id);
 
             if (!mission) {
@@ -38,7 +38,7 @@ export const MissionsCarrousel = ({ stamps }: Props) => {
             return (
               <div
                 key={stamp.id}
-                className={`stamps__item flex h-28 w-[118px] flex-none flex-col items-center justify-center gap-3 rounded-lg border-2 border-black`}
+                className={`missions__item flex h-28 w-[118px] flex-none flex-col items-center justify-center gap-3 rounded-lg border-2 border-black`}
               >
                 <Image
                   src={`images/${mission.icon.src}`}
@@ -55,7 +55,7 @@ export const MissionsCarrousel = ({ stamps }: Props) => {
         </div>
       </article>
 
-      <div className="mx-auto flex w-fit gap-2">
+      <div className="mx-auto -mt-2 flex w-fit gap-1">
         <span className="flex h-[5px] w-[5px] bg-black" />
         <span className="flex h-[5px] w-[5px] bg-gray" />
       </div>

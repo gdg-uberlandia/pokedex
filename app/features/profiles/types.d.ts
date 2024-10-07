@@ -33,13 +33,13 @@ export interface Profile {
     awards: Array<Award>;
     evaluations: Array<EvaluationIds>;
     /* 
-      This stamps are the missions that the profile has completed.
+      This missions are the ones that the user has completed
     */
-    stamps: Array<Stamp>;
+    missions: Array<Mission>;
   };
 }
 
-export interface Stamp {
+export interface Mission {
   id: number;
 }
 
