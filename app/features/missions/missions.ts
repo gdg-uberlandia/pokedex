@@ -50,7 +50,7 @@ export const MISSIONS_LIST: Array<StoredMission> = [
     title: "Aliança de Especialistas",
     description: `Você precisa escanear QR codes de pelo menos ${COMMON_SKILLS_QUANTITY} outras pessoas com uma habilidades em comum.`,
     icon: {
-      src: "cheese-android.svg",
+      src: "cheese-android.png",
       alt: "Um android feito de queijo",
     },
     evaluate: async (profile) => {
