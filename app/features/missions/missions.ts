@@ -15,7 +15,7 @@ export const MISSIONS_LIST: Array<StoredMission> = [
       alt: "Uma moeda de ouro pixelada",
     },
     evaluate: async (profile) => {
-      return profile.contents.profiles.length === PROFILES_QUANTITY;
+      return profile.contents.profiles.length >= PROFILES_QUANTITY;
     },
   },
   {
@@ -28,7 +28,7 @@ export const MISSIONS_LIST: Array<StoredMission> = [
     },
 
     evaluate: async (profile) => {
-      return profile.contents.companies.length === COMPANIES_QUANTITY;
+      return profile.contents.companies.length >= COMPANIES_QUANTITY;
     },
   },
   {
@@ -42,7 +42,7 @@ export const MISSIONS_LIST: Array<StoredMission> = [
     },
     evaluate: async (profile) => {
       const tags = await getAllTags();
-      return profile.contents.tags.length === tags.length;
+      return profile.contents.tags.length >= tags.length;
     },
   },
   {
@@ -57,13 +57,19 @@ export const MISSIONS_LIST: Array<StoredMission> = [
       const mySkills = profile.skills ?? [];
       const profileWithCommonSkills = profile.contents.profiles.filter(
         ({ skills = [] }) => {
-          return skills.some((skill) => mySkills.includes(skill));
+          return compareSkill(mySkills, skills);
         }
       );
       return profileWithCommonSkills.length >= COMMON_SKILLS_QUANTITY;
     },
   },
 ];
+
+const compareSkill = (mySkills: string[], otherSkills: string[]) => {
+  return otherSkills.some((skill) =>
+    mySkills.map((s) => s.includes(skill) || skill.includes(s))
+  );
+};
 
 interface StoredMission {
   id: number;

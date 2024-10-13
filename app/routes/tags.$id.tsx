@@ -8,18 +8,18 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import ShowableError from "~/utils/errors";
-import { getAllTags } from "~/features/tags/tags.server";
+import { getTagById } from "~/features/tags/tags.server";
 
 type LoaderData = {
   user: Awaited<ReturnType<typeof getUser>>;
-  tag?: Awaited<ReturnType<typeof getAllTags>>;
+  tag?: Awaited<ReturnType<typeof getTagById>>;
   errorMessage?: string;
   successMessage?: string;
 };
 
 export async function loader({ request, params }: LoaderArgs) {
   const user = await getUser(request);
-  const tag = await getAllTags(params.id || "");
+  const tag = await getTagById(params.id || "");
 
   try {
     await addTag(user.email!, tag);

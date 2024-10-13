@@ -52,7 +52,7 @@ export const ListItem = ({
             generateColor()
           )}
         >
-          Completada
+          Cumprida
         </p>
       )}
     </section>
