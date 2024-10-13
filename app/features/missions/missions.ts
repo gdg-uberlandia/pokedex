@@ -1,4 +1,4 @@
-import { Company, Profile, Tag } from "../profiles/types";
+import { Profile } from "../profiles/types";
 import { getAllTags } from "../tags/tags.server";
 
 export const PROFILES_QUANTITY = 30;
@@ -21,7 +21,7 @@ export const MISSIONS_LIST: Array<StoredMission> = [
   {
     id: 2,
     title: "Caçador de Oportunidades",
-    description: `Encontre e escaneie QR codes de pelo menos ${COMPANIES_QUANTITY} empresas diferentes que estão participando do DevFest.`,
+    description: `Encontre QR codes de pelo menos ${COMPANIES_QUANTITY} empresas diferentes que estão participando do DevFest.`,
     icon: {
       src: "gold-crown.png",
       alt: "Uma coroa de ouro",
@@ -48,7 +48,7 @@ export const MISSIONS_LIST: Array<StoredMission> = [
   {
     id: 4,
     title: "Aliança de Especialistas",
-    description: `Você precisa escanear QR codes de pelo menos ${COMMON_SKILLS_QUANTITY} outras pessoas com uma habilidades em comum.`,
+    description: `Você precisa escanear QR codes de pelo menos ${COMMON_SKILLS_QUANTITY} outras pessoas com uma habilidade em comum.`,
     icon: {
       src: "cheese-android.png",
       alt: "Um android feito de queijo",

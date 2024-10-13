@@ -21,10 +21,18 @@ export default function Missions() {
 
   const missionsMap = new Map(missions.map(({ id }) => [id, id]));
 
+  // to change indexes of the list items
+  const rnd = Math.floor(Math.random() * 10);
+
   return (
-    <Card title="Confira sua missões">
+    <Card
+      title="Confira sua missões"
+      articleProps={{
+        className: "!p-0",
+      }}
+    >
       <List.Root>
-        {MISSIONS_LIST.map(({ title, description, icon, id }) => (
+        {MISSIONS_LIST.map(({ title, description, icon, id }, index) => (
           <List.Item
             key={id}
             title={title}
@@ -37,6 +45,7 @@ export default function Missions() {
                 className="h-11 w-11 object-contain"
               />
             }
+            index={index + rnd}
           />
         ))}
       </List.Root>

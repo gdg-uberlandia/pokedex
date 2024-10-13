@@ -11,7 +11,7 @@ interface Props {
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
-export const MissionsCarrousel = ({ missions }: Props) => {
+export const MissionsCarrousel = ({ missions = [] }: Props) => {
   const missionsMapById = new Map(
     MISSIONS_LIST.map((mission) => [mission.id, mission])
   );
