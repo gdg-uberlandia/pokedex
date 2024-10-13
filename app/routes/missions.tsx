@@ -11,20 +11,25 @@ export async function loader({ request }: LoaderArgs) {
   const data = await getUser(request);
   const profile = await getProfileByEmail(data.email || "");
 
-  return json(profile);
+  return json(profile!);
 }
 
 export default function Missions() {
-  const { skills: skillsFromAPI } = useLoaderData();
+  const {
+    contents: { missions = [] },
+  } = useLoaderData<typeof loader>();
+
+  const missionsMap = new Map(missions.map(({ id }) => [id, id]));
 
   return (
     <Card title="Confira sua missões">
       <List.Root>
-        {MISSIONS_LIST.map(({ title, description, icon }) => (
+        {MISSIONS_LIST.map(({ title, description, icon, id }) => (
           <List.Item
-            key={title}
+            key={id}
             title={title}
             description={description}
+            selected={!!missionsMap.get(id)}
             Icon={
               <Image
                 src={`/images/${icon.src}`}

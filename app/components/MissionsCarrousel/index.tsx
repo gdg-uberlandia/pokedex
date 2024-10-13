@@ -18,6 +18,8 @@ export const MissionsCarrousel = ({ missions }: Props) => {
 
   const missionsOverflow = missions.length > 2;
 
+  if (!missions.length) return null;
+
   return (
     <section className="my-3 text-center">
       <h3 className="font-crux text-xl leading-5">Seus selos</h3>
@@ -38,7 +40,7 @@ export const MissionsCarrousel = ({ missions }: Props) => {
             return (
               <div
                 key={stamp.id}
-                className={`missions__item flex h-28 w-[118px] flex-none flex-col items-center justify-center gap-3 rounded-lg border-2 border-black`}
+                className={`missions__item flex h-28 w-[118px] flex-none flex-col items-center justify-center gap-1 rounded-lg border-2 border-black p-1`}
               >
                 <Image
                   src={`images/${mission.icon.src}`}
@@ -46,7 +48,7 @@ export const MissionsCarrousel = ({ missions }: Props) => {
                   className="h-12 w-12 object-contain"
                 />
 
-                <p className="font-crux text-[22px] leading-[22px]">
+                <p className="font-crux text-lg leading-[22px]">
                   {mission.title}
                 </p>
               </div>
@@ -57,7 +59,7 @@ export const MissionsCarrousel = ({ missions }: Props) => {
 
       <div className="mx-auto -mt-2 flex w-fit gap-1">
         <span className="flex h-[5px] w-[5px] bg-black" />
-        <span className="flex h-[5px] w-[5px] bg-gray" />
+        {missionsOverflow && <span className="flex h-[5px] w-[5px] bg-gray" />}
       </div>
     </section>
   );

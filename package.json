@@ -39,6 +39,7 @@
     "@remix-run/server-runtime": "^1.19.3",
     "@types/react-notifications-component": "^3.1.1",
     "bcryptjs": "^2.4.3",
+    "clsx": "^2.1.1",
     "firebase": "^9.12.1",
     "firebase-admin": "^11.2.0",
     "isbot": "^3.5.3",

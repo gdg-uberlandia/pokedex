@@ -35,7 +35,7 @@ export interface Profile {
     /* 
       This missions are the ones that the user has completed
     */
-    missions: Array<Mission>;
+    missions?: Array<Mission>;
   };
 }
 
