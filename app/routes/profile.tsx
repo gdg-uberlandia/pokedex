@@ -105,6 +105,23 @@ export default function Profile() {
         </Button>
       </Link>
 
+      <Link to={ROUTES.MY_SCORE}>
+        <Button
+          className="mb-4"
+          img={
+            <Image
+              src={"/images/trophy.png"}
+              alt="Ver meus pontos"
+              className="h-full"
+            />
+          }
+          full
+          primary
+        >
+          Ver meus pontos
+        </Button>
+      </Link>
+
       <Link to={ROUTES.SCHEDULE}>
         <Button className="mb-4" full>
           Avalie as palestras
