@@ -101,7 +101,7 @@ export default function Profile() {
         <MissionsCarrousel missions={profile.contents.missions} />
 
         <section className="px-2">
-          <Link to="/missions">
+          <Link to={ROUTES.MISSIONS}>
             <Button
               full
               primary={hasAwardsToRetrieve}

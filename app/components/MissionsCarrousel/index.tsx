@@ -6,7 +6,7 @@ import { LinksFunction } from "@remix-run/server-runtime";
 import styles from "./styles.css";
 
 interface Props {
-  missions: Array<Mission>;
+  missions?: Array<Mission>;
 }
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
