@@ -17,3 +17,14 @@ export const getTagById = async (id: string): Promise<Tag> => {
     return company;
   }
 };
+
+export const getAllTags = async (): Promise<Array<Tag>> => {
+  const docSnapshot = await db.collection(COLLECTIONS.TAGS).get();
+
+  if (docSnapshot.empty) {
+    return [];
+  }
+
+  const tags = docSnapshot.docs.map((doc) => doc.data() as Tag);
+  return tags;
+};

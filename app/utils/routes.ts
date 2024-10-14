@@ -6,4 +6,5 @@ export const ROUTES = {
   UPDATE_PROFILE: "/update",
   PROFILE: "/profile",
   SCHEDULE: "/schedule",
+  MISSIONS: "/missions",
 };
