@@ -7,6 +7,11 @@ export const LEVELS = {
   6: 4200,
 };
 
+/**
+ * The threshold to start earning awards
+ */
+export const LEVEL_THRESHOLD = 4;
+
 export const getLevelByScore = (score: number): number => {
   for (const [key, value] of Object.entries(LEVELS)) {
     if (value == score) {
