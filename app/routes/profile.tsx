@@ -13,6 +13,7 @@ import pokeball from "~/assets/images/pokeball.png";
 import trophy from "~/assets/images/trophy.png";
 import { ROUTES } from "~/utils/routes";
 import QrCodeImage from "~/assets/images/qr-code.svg";
+import Star from "~/assets/images/star.png";
 import Gear from "~/assets/images/gear.png";
 import { getUser } from "~/features/users/user.server";
 import { getProfileByEmail } from "~/features/profiles/profile.server";
@@ -102,6 +103,17 @@ export default function Profile() {
           full
         >
           Abrir meu QR code
+        </Button>
+      </Link>
+
+      <Link to={ROUTES.RANKING}>
+        <Button
+          className="mb-4"
+          img={<Image src={Star} alt="Abrir ranking" />}
+          primary
+          full
+        >
+          Ver ranking
         </Button>
       </Link>
 
