@@ -115,7 +115,7 @@ export default function Profile() {
                 />
               }
             >
-              Ver missoes
+              Ver missões
             </Button>
           </Link>
         </section>
