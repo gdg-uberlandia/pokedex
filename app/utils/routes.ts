@@ -6,9 +6,7 @@ export const ROUTES = {
   UPDATE_PROFILE: "/update",
   PROFILE: "/profile",
   SCHEDULE: "/schedule",
-<<<<<<< Updated upstream
-=======
   MISSIONS: "/missions",
   MY_SCORE: "/my-score",
->>>>>>> Stashed changes
+  RANKING: "/ranking"
 };
