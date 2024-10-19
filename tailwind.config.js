@@ -18,13 +18,14 @@ module.exports = {
           red: "#cb4538",
           orange: "#e59f38",
         },
+        gray: "#D9D9D9",
       },
       screens: {
-        'tall': { 'raw': '(min-height: 640px)' },
+        tall: { raw: "(min-height: 640px)" },
       },
       animation: {
-        'spin-slow': 'spin 2s linear infinite',
-      }
+        "spin-slow": "spin 2s linear infinite",
+      },
     },
   },
   plugins: [],

@@ -6,6 +6,7 @@ import { LEVELS, LEVEL_THRESHOLD } from "~/utils/levels";
 import type { Award, Company, Profile, Tag } from "./types";
 import ShowableError from "~/utils/errors";
 import { createBrandNewProfile } from "~/utils/profile";
+import { checkAndCreateMissions } from "../missions/missions.server";
 
 export const getProfileById = async (id?: string): Promise<Profile | null> => {
   if (!id) {
@@ -43,25 +44,6 @@ export const getProfileByEmail = async (
   if (data.length < 0) {
     return null;
   }
-
-  return data[0];
-};
-
-//https://github.com/ianlenehan/my-remix-app/blob/master/app/post.js
-export const getProfileByCode = async (
-  code: string
-): Promise<Profile | null> => {
-  const querySnapshot = await db
-    .collection(COLLECTIONS.PROFILES)
-    .where("code", "==", code)
-    .get();
-
-  const data: Array<Profile> = [];
-  querySnapshot.forEach((doc: any) => {
-    data.push({ ...doc.data(), id: doc.id });
-  });
-
-  if (data.length < 0) return null;
 
   return data[0];
 };
@@ -139,12 +121,16 @@ export const addProfile = async (
     throw new ShowableError("Perfil já adicionado!");
   }
 
-  profileToAdd.contents = [];
-
   _profile.contents.profiles = [..._profile.contents.profiles, profileToAdd];
 
   const scoreToAdd = profileToAdd.shine ? SCORES.PROFILE_SHINE : SCORES.PROFILE;
   _profile.score = _profile.score! + scoreToAdd;
+
+  try {
+    await checkAndCreateMissions(_profile);
+  } catch (error) {
+    throw new ShowableError("checkAndCreateMissions: " + JSON.stringify(error));
+  }
 
   try {
     await checkAndCreateAwards(_profile);
@@ -179,6 +165,12 @@ export const addCompany = async (
 
   _profile.score = _profile.score! + SCORES.COMPANY;
 
+  try {
+    await checkAndCreateMissions(_profile);
+  } catch (error) {
+    throw new ShowableError("checkAndCreateMissions: " + JSON.stringify(error));
+  }
+
   await checkAndCreateAwards(_profile);
 
   return await updateProfile(_profile.id!, _profile);
@@ -198,6 +190,12 @@ export const addTag = async (email?: string, tagToAdd?: Tag | null) => {
 
   _profile.contents.tags = [..._profile.contents.tags, tagToAdd];
 
+  try {
+    await checkAndCreateMissions(_profile);
+  } catch (error) {
+    throw new ShowableError("checkAndCreateMissions: " + JSON.stringify(error));
+  }
+
   _profile.score = _profile.score! + SCORES.TAG;
 
   await checkAndCreateAwards(_profile);
@@ -207,13 +205,9 @@ export const addTag = async (email?: string, tagToAdd?: Tag | null) => {
 
 export const checkAndCreateAwards = async (profile: Profile) => {
   if (
-<<<<<<< Updated upstream
     profile &&
-    profile.score >= LEVELS[4] &&
-=======
     profile?.score &&
     profile.score >= LEVELS[LEVEL_THRESHOLD] &&
->>>>>>> Stashed changes
     (!profile.contents.awards || profile.contents.awards?.length <= 0)
   ) {
     const award = { consumed: false, user_id: profile.id };

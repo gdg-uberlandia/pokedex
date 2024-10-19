@@ -32,7 +32,15 @@ export interface Profile {
     tags: Array<Tag>;
     awards: Array<Award>;
     evaluations: Array<EvaluationIds>;
+    /* 
+      This missions are the ones that the user has completed
+    */
+    missions?: Array<Mission>;
   };
+}
+
+export interface Mission {
+  id: number;
 }
 
 export interface EvaluationIds {

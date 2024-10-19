@@ -56,7 +56,7 @@ function setClasses({
           : colorClasses
       }
       ${variantColorClasses}
-      ${hasImg && "justify-between"}
+      ${hasImg ? "justify-between" : ""}
       ${className}
     `;
 }
