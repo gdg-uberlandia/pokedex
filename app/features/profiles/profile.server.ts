@@ -2,7 +2,7 @@ import { find, merge } from "lodash";
 import { db } from "~/services/firebase.server";
 import { COLLECTIONS } from "~/utils/collections";
 import { SCORES } from "~/utils/scores";
-import { LEVELS } from "~/utils/levels";
+import { LEVELS, LEVEL_THRESHOLD } from "~/utils/levels";
 import type { Award, Company, Profile, Tag } from "./types";
 import ShowableError from "~/utils/errors";
 import { createBrandNewProfile } from "~/utils/profile";
@@ -207,8 +207,13 @@ export const addTag = async (email?: string, tagToAdd?: Tag | null) => {
 
 export const checkAndCreateAwards = async (profile: Profile) => {
   if (
+<<<<<<< Updated upstream
     profile &&
     profile.score >= LEVELS[4] &&
+=======
+    profile?.score &&
+    profile.score >= LEVELS[LEVEL_THRESHOLD] &&
+>>>>>>> Stashed changes
     (!profile.contents.awards || profile.contents.awards?.length <= 0)
   ) {
     const award = { consumed: false, user_id: profile.id };
