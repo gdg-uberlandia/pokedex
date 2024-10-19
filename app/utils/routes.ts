@@ -7,4 +7,6 @@ export const ROUTES = {
   PROFILE: "/profile",
   SCHEDULE: "/schedule",
   MISSIONS: "/missions",
+  MY_SCORE: "/my-score",
+  RANKING: "/ranking"
 };
