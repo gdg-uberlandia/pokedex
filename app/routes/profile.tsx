@@ -49,10 +49,24 @@ export default function Profile() {
   const consumed = awards?.[0]?.consumed;
   const hasAwardsToRetrieve = !!awards.length && !consumed;
 
+  const AdminButtons = () => {
+
+    if (profile.user.isAdmin) {
+      return (
+        <Link to={ROUTES.CONSUME_AWARD}>
+          <Button className="mb-4" full>
+            Consumir premio
+          </Button>
+        </Link>
+      )
+    }
+  }
+
+
   return (
     <>
       <Card
-        className="mb-6"
+        className="mb-2"
         articleProps={{
           className: "px-0",
         }}
@@ -176,12 +190,14 @@ export default function Profile() {
         </Button>
       </Link>
 
+      {AdminButtons()}
+
       <Form
         action="/logout"
-        className="inset-x-0 bottom-4 tall:absolute tall:mx-1"
+        className="inset-x-0 tall:absolute tall:mx-2 pb-4"
         method="post"
       >
-        <Button type="submit" full primary small>
+        <Button type="submit" full primary>
           Sair
         </Button>
       </Form>

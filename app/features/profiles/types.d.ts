@@ -26,6 +26,7 @@ export interface Profile {
   shine: boolean;
   skills?: Array<string>;
   score?: number;
+  isAdmin?: boolean;
   contents: {
     companies: Array<Company>;
     profiles: Array<Partial<Profile>>;

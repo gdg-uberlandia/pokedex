@@ -16,7 +16,7 @@ import { Button, Image, Loader } from "~/components";
 import { ROUTES } from "~/utils/routes";
 import type { User } from "firebase/auth";
 import { registerProfile } from "~/features/profiles/profile.server";
-import Android from "~/assets/images/android.png";
+import Android from "~/assets/images/abductted-dino.png";
 
 export async function loader({ request }: any) {
   const session = await getSession(request.headers.get("Cookie"));
@@ -25,8 +25,10 @@ export async function loader({ request }: any) {
     return redirect(ROUTES.HOME);
   }
 
+
+  const error = session.get("error");
   return json(
-    { error: session.get("error") },
+    { error, },
     {
       headers: {
         "Set-Cookie": await destroySession(session),
