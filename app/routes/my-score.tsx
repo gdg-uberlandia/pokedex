@@ -1,25 +1,12 @@
 import type { LinksFunction, LoaderArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, useLoaderData, Link } from "@remix-run/react";
-import {
-  Button,
-  Card,
-  Image,
-  Profile as ProfileComponent,
-  Skills,
-} from "~/components";
-import pokeball from "~/assets/images/pokeball.png";
-import cheese from "~/assets/images/cheese.svg";
+import { useLoaderData, Link } from "@remix-run/react";
+import { Card, Profile as ProfileComponent, Image } from "~/components";
 import { ROUTES } from "~/utils/routes";
-import QrCodeImage from "~/assets/images/qr-code.svg";
-import Gear from "~/assets/images/gear.png";
 import { getUser } from "~/features/users/user.server";
 import { getProfileByEmail } from "~/features/profiles/profile.server";
-import {
-  MissionsCarrousel,
-  links as missionsLinks,
-} from "~/components/MissionsCarrousel";
+import { links as missionsLinks } from "~/components/MissionsCarrousel";
 import { LEVELS, LEVEL_THRESHOLD } from "~/utils/levels";
 import clsx from "clsx";
 
@@ -62,11 +49,14 @@ export default function Profile() {
           </Link>
         </section>
 
-        <section className="flex h-72 flex-col items-center justify-around gap-2">
+        <section className="mx-auto flex h-96 w-fit flex-col gap-2">
           {levels.map(([key, value], i) => {
-            const showScore = i + 1 >= LEVEL_THRESHOLD;
+            const score = profile?.score ?? 0;
+            const alreadyAchieved = score >= value;
+            const isYourLevel =
+              score >= levels[i][1] && score < levels[i + 1][1];
 
-            if (!showScore) return null;
+            const isThreshold = Number(key) === LEVEL_THRESHOLD;
 
             return (
               <span
@@ -75,20 +65,53 @@ export default function Profile() {
                   i < levels.length - 1 && "flex-1"
                 )}
               >
-                <div key={key} className="flex w-fit items-center gap-2">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-devfest-orange">
+                <div
+                  key={key}
+                  className="relative flex w-fit items-center gap-2"
+                >
+                  {isThreshold && (
+                    <div className="absolute -left-12 flex items-center">
+                      <Image
+                        src={"/images/trophy.png"}
+                        alt="Seu prêmio"
+                        className="h-6"
+                      />
+
+                      <span className="ml-2 flex h-2 w-2 border-y-8 border-r-0 border-l-8 border-solid border-y-transparent border-l-devfest-orange" />
+                    </div>
+                  )}
+
+                  <span
+                    className={clsx(
+                      "flex h-8 w-8 items-center justify-center rounded-full",
+                      alreadyAchieved ? "bg-devfest-orange" : "bg-gray"
+                    )}
+                  >
                     <div className="h-3 w-3 rounded-full bg-white" />
                   </span>
                 </div>
 
                 <span
                   className={clsx(
-                    "absolute left-[calc(1rem-1.5px)] top-9 h-[calc(100%-2rem)] w-[3px] bg-devfest-orange",
-                    i === levels.length - 1 && "hidden"
+                    "absolute left-[calc(1rem-1.5px)] top-9 h-[calc(100%-2rem)] w-[3px]",
+                    i === levels.length - 1 && "hidden",
+                    alreadyAchieved ? "bg-devfest-orange" : "bg-gray"
                   )}
-                />
+                >
+                  {isYourLevel && (
+                    <article className="absolute flex items-center gap-1">
+                      <span className="ml-2 flex h-2 w-2 border-y-8 border-r-8 border-l-0 border-solid border-y-transparent border-r-devfest-orange" />
 
-                <p className="font-crux text-2xl">{value}</p>
+                      <ProfileComponent
+                        className="h-6 w-6"
+                        image={profile.user.photoUrl ?? ""}
+                        isAvatar
+                      />
+                    </article>
+                  )}
+                </span>
+
+                <p className="font-crux text-xl">{value}</p>
               </span>
             );
           })}
